@@ -3,8 +3,10 @@ import { motion, type Variants } from 'framer-motion';
 import { ArrowUpRight, ChevronDown } from 'lucide-react';
 import { HeroBackgroundCanvas } from './HeroBackgroundCanvas';
 import { MagneticButton } from './MagneticButton';
+import { useSoundscape } from '../context/SoundscapeContext';
 
 export const Hero: React.FC = () => {
+  const { activateSoundscape, playTick } = useSoundscape();
   const headlineWords = [
     'Diseñamos',
     'experiencias',
@@ -42,6 +44,8 @@ export const Hero: React.FC = () => {
   return (
     <section
       id="hero"
+      onPointerDown={activateSoundscape}
+      onClick={activateSoundscape}
       className="relative min-h-[100dvh] w-full flex flex-col justify-between items-center pt-32 pb-12 px-6 overflow-hidden select-none"
     >
       {/* Background Interactive Particle Mesh */}
@@ -120,6 +124,11 @@ export const Hero: React.FC = () => {
             <a
               href="#contacto"
               data-interactive="true"
+              onMouseEnter={playTick}
+              onClick={() => {
+                activateSoundscape();
+                playTick();
+              }}
               className="relative inline-flex items-center justify-center gap-3 w-full sm:w-auto px-7 sm:px-8 py-3.5 sm:py-4 rounded-full text-xs uppercase tracking-[0.25em] font-extrabold bg-white text-black hover:bg-[#00e5ff] transition-all duration-300 shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:shadow-[0_0_40px_rgba(0,229,255,0.5)] group min-w-[200px]"
             >
               <span>Crear mi proyecto</span>
@@ -132,6 +141,11 @@ export const Hero: React.FC = () => {
             <a
               href="#portafolio"
               data-interactive="true"
+              onMouseEnter={playTick}
+              onClick={() => {
+                activateSoundscape();
+                playTick();
+              }}
               className="inline-flex items-center justify-center gap-3 w-full sm:w-auto px-7 sm:px-8 py-3.5 sm:py-4 rounded-full text-xs uppercase tracking-[0.25em] font-semibold text-zinc-300 hover:text-white border border-white/[0.12] hover:border-cyan-400/50 bg-white/[0.02] hover:bg-white/[0.05] transition-all duration-300 backdrop-blur-sm min-w-[200px]"
             >
               <span>Ver nuestro trabajo</span>

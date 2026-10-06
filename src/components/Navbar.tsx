@@ -3,8 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { WeboraLogo } from './WeboraLogo';
 import { MagneticButton } from './MagneticButton';
+import { useSoundscape } from '../context/SoundscapeContext';
 
 export const Navbar: React.FC = () => {
+  const { activateSoundscape, playTick } = useSoundscape();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -54,6 +56,11 @@ export const Navbar: React.FC = () => {
                 key={link.name}
                 href={link.href}
                 data-interactive="true"
+                onMouseEnter={playTick}
+                onClick={() => {
+                  activateSoundscape();
+                  playTick();
+                }}
                 className="text-[11px] xl:text-xs uppercase tracking-[0.2em] font-medium text-zinc-400 hover:text-white transition-colors duration-200 relative group py-1"
               >
                 <span>{link.name}</span>
@@ -68,6 +75,11 @@ export const Navbar: React.FC = () => {
               <a
                 href="#contacto"
                 data-interactive="true"
+                onMouseEnter={playTick}
+                onClick={() => {
+                  activateSoundscape();
+                  playTick();
+                }}
                 className="relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs uppercase tracking-widest font-bold bg-white text-black hover:bg-cyan-300 transition-colors duration-300 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_25px_rgba(0,229,255,0.5)] group"
               >
                 <span>Crear Proyecto</span>
@@ -78,7 +90,11 @@ export const Navbar: React.FC = () => {
 
           {/* Mobile & Tablet Menu Toggle Button */}
           <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            onClick={() => {
+              activateSoundscape();
+              playTick();
+              setMobileMenuOpen(!mobileMenuOpen);
+            }}
             aria-label={mobileMenuOpen ? 'Cerrar navegación' : 'Abrir navegación'}
             className="lg:hidden p-2 text-zinc-300 hover:text-white focus:outline-none rounded-lg border border-white/10 bg-white/[0.03] cursor-pointer"
           >

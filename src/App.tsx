@@ -15,6 +15,7 @@ import { Footer } from './components/Footer';
 import { CinematicTransitionLayer } from './components/CinematicTransitionLayer';
 import { CinematicSectionMask } from './components/CinematicSectionMask';
 import { CinematicChapterHUD } from './components/CinematicChapterHUD';
+import { SoundscapeProvider } from './context/SoundscapeContext';
 
 export default function App() {
   const [preloaderFinished, setPreloaderFinished] = useState(false);
@@ -28,82 +29,84 @@ export default function App() {
   });
 
   return (
-    <CinematicTransitionLayer>
-      <div className="min-h-screen bg-[#050608] text-[#f8fafc] selection:bg-[#00e5ff] selection:text-[#050608] font-sans relative overflow-x-hidden">
-        
-        {/* 1. Preloader (max 1.4s, unmounts automatically) */}
-        <AnimatePresence>
-          {!preloaderFinished && (
-            <Preloader onComplete={() => setPreloaderFinished(true)} />
-          )}
-        </AnimatePresence>
+    <SoundscapeProvider>
+      <CinematicTransitionLayer>
+        <div className="min-h-screen bg-[#050608] text-[#f8fafc] selection:bg-[#00e5ff] selection:text-[#050608] font-sans relative overflow-x-hidden">
+          
+          {/* 1. Preloader (max 1.4s, unmounts automatically) */}
+          <AnimatePresence>
+            {!preloaderFinished && (
+              <Preloader onComplete={() => setPreloaderFinished(true)} />
+            )}
+          </AnimatePresence>
 
-        {/* 2. Minimalist Desktop Custom Cursor */}
-        <CustomCursor />
+          {/* 2. Minimalist Desktop Custom Cursor */}
+          <CustomCursor />
 
-        {/* 3. Floating Cinematic HUD Chapter Navigator */}
-        <CinematicChapterHUD />
+          {/* 3. Floating Cinematic HUD Chapter Navigator */}
+          <CinematicChapterHUD />
 
-        {/* 4. Top Scroll Progress Indicator */}
-        <motion.div
-          className="fixed top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#00e5ff] via-[#38bdf8] to-[#0088ff] z-[70] origin-left shadow-[0_0_12px_rgba(0,229,255,0.6)]"
-          style={{ scaleX }}
-        />
-
-        {/* 5. Glassmorphic Sticky Navbar */}
-        <Navbar />
-
-        {/* Main Experience */}
-        <main className="relative z-10">
-          {/* Chapter 01: Hero Section */}
-          <Hero />
-
-          {/* Cinematic Mask Transition: 01 -> 02 */}
-          <CinematicSectionMask
-            fromChapter="01"
-            toChapter="02"
-            title="MANIFIESTO // VISIÓN"
+          {/* 4. Top Scroll Progress Indicator */}
+          <motion.div
+            className="fixed top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#00e5ff] via-[#38bdf8] to-[#0088ff] z-[70] origin-left shadow-[0_0_12px_rgba(0,229,255,0.6)]"
+            style={{ scaleX }}
           />
 
-          {/* Chapter 02: Big Line-by-Line Kinetic Manifesto */}
-          <AnimatedManifesto />
+          {/* 5. Glassmorphic Sticky Navbar */}
+          <Navbar />
 
-          {/* Chapter 03: Services: 3 Large 3D Tilt Cards with Spotlight */}
-          <ServicesSection />
+          {/* Main Experience */}
+          <main className="relative z-10">
+            {/* Chapter 01: Hero Section */}
+            <Hero />
 
-          {/* Cinematic Mask Transition: 03 -> 04 */}
-          <CinematicSectionMask
-            fromChapter="03"
-            toChapter="04"
-            title="OBRAS SELECTAS"
-          />
+            {/* Cinematic Mask Transition: 01 -> 02 */}
+            <CinematicSectionMask
+              fromChapter="01"
+              toChapter="02"
+              title="MANIFIESTO // VISIÓN"
+            />
 
-          {/* Chapter 04: Portfolio: Cinematic Large Cards with Hover Zoom & Specs */}
-          <PortfolioSection />
+            {/* Chapter 02: Big Line-by-Line Kinetic Manifesto */}
+            <AnimatedManifesto />
 
-          {/* Chapter 05: Testimonials: Infinite Horizontal Outcome Carousel */}
-          <TestimonialsCarousel />
+            {/* Chapter 03: Services: 3 Large 3D Tilt Cards with Spotlight */}
+            <ServicesSection />
 
-          {/* Chapter 06: Work Process Methodology */}
-          <WorkProcess />
+            {/* Cinematic Mask Transition: 03 -> 04 */}
+            <CinematicSectionMask
+              fromChapter="03"
+              toChapter="04"
+              title="OBRAS SELECTAS"
+            />
 
-          {/* Cinematic Mask Transition: 06 -> 07 */}
-          <CinematicSectionMask
-            fromChapter="06"
-            toChapter="07"
-            title="ALCANCE & COTIZADOR"
-          />
+            {/* Chapter 04: Portfolio: Cinematic Large Cards with Hover Zoom & Specs */}
+            <PortfolioSection />
 
-          {/* Chapter 07: Real-time Project Budget Calculator */}
-          <BudgetCalculator />
+            {/* Chapter 05: Testimonials: Infinite Horizontal Outcome Carousel */}
+            <TestimonialsCarousel />
 
-          {/* Chapter 08: Contact & WhatsApp Connection */}
-          <ContactSection />
-        </main>
+            {/* Chapter 06: Work Process Methodology */}
+            <WorkProcess />
 
-        {/* Footer */}
-        <Footer />
-      </div>
-    </CinematicTransitionLayer>
+            {/* Cinematic Mask Transition: 06 -> 07 */}
+            <CinematicSectionMask
+              fromChapter="06"
+              toChapter="07"
+              title="ALCANCE & COTIZADOR"
+            />
+
+            {/* Chapter 07: Real-time Project Budget Calculator */}
+            <BudgetCalculator />
+
+            {/* Chapter 08: Contact & WhatsApp Connection */}
+            <ContactSection />
+          </main>
+
+          {/* Footer */}
+          <Footer />
+        </div>
+      </CinematicTransitionLayer>
+    </SoundscapeProvider>
   );
 }

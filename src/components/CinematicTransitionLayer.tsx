@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { WeboraLogo } from './WeboraLogo';
+import { useSoundscape } from '../context/SoundscapeContext';
 
 interface CinematicTransitionContextType {
   navigateToSection: (targetId: string, label?: string) => void;
@@ -20,6 +21,7 @@ interface CinematicTransitionLayerProps {
 
 export const CinematicTransitionLayer: React.FC<CinematicTransitionLayerProps> = ({ children }) => {
   const shouldReduceMotion = useReducedMotion();
+  const { playWhoosh } = useSoundscape();
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [targetLabel, setTargetLabel] = useState<string>('');
   const [targetCoords, setTargetCoords] = useState<string>('00° 00\'');
@@ -55,6 +57,7 @@ export const CinematicTransitionLayer: React.FC<CinematicTransitionLayerProps> =
     };
     setTargetLabel(meta.label);
     setTargetCoords(meta.coords);
+    playWhoosh();
     setIsTransitioning(true);
 
     // Sequence:
