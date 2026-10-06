@@ -61,7 +61,7 @@ const SERVICES: ServiceData[] = [
   }
 ];
 
-// 3D Tilt Card with Cursor-following Spotlight Illumination
+// 3D Tilt Card with Cursor-following and Touch-following Spotlight Illumination
 const SpotlightCard: React.FC<{ service: ServiceData; index: number }> = ({ service, index }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [spotlightPos, setSpotlightPos] = useState({ x: 0, y: 0, opacity: 0 });
@@ -69,18 +69,16 @@ const SpotlightCard: React.FC<{ service: ServiceData; index: number }> = ({ serv
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  // Gentle physical tilt (max ±5 degrees)
-  const springConfig = { damping: 20, stiffness: 200, mass: 0.1 };
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [6, -6]), springConfig);
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-6, 6]), springConfig);
+  // Gentle physical tilt (max ±5 degrees) with spring recovery
+  const springConfig = { damping: 24, stiffness: 220, mass: 0.1 };
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [5, -5]), springConfig);
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-5, 5]), springConfig);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Only apply 3D tilt on devices that support hover (not touchscreens)
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  const updateCoordinates = (clientX: number, clientY: number) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
 
     setSpotlightPos({ x, y, opacity: 1 });
 
@@ -90,7 +88,23 @@ const SpotlightCard: React.FC<{ service: ServiceData; index: number }> = ({ serv
     mouseY.set(normalizedY);
   };
 
-  const handleMouseLeave = () => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    updateCoordinates(e.clientX, e.clientY);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (e.touches.length > 0) {
+      updateCoordinates(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (e.touches.length > 0) {
+      updateCoordinates(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  };
+
+  const handleInteractionEnd = () => {
     setSpotlightPos(prev => ({ ...prev, opacity: 0 }));
     mouseX.set(0);
     mouseY.set(0);
@@ -112,9 +126,13 @@ const SpotlightCard: React.FC<{ service: ServiceData; index: number }> = ({ serv
       <motion.div
         ref={cardRef}
         onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
+        onMouseLeave={handleInteractionEnd}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleInteractionEnd}
+        onTouchCancel={handleInteractionEnd}
         style={{ rotateX, rotateY }}
-        className="relative rounded-3xl bg-[#090b10] border border-white/[0.08] hover:border-cyan-400/40 p-6 sm:p-8 lg:p-10 transition-colors duration-500 overflow-hidden flex flex-col justify-between min-h-[460px] sm:min-h-[500px] group shadow-[0_20px_50px_-20px_rgba(0,0,0,0.8)]"
+        className="relative rounded-3xl bg-[#090b10] border border-white/[0.08] hover:border-cyan-400/40 p-6 sm:p-8 lg:p-10 transition-colors duration-300 overflow-hidden flex flex-col justify-between min-h-[460px] sm:min-h-[500px] group shadow-[0_20px_50px_-20px_rgba(0,0,0,0.8)] touch-pan-y"
       >
         {/* Dynamic Cursor Spotlight Overlay */}
         <div

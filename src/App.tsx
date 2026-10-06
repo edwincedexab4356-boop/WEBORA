@@ -14,7 +14,7 @@ import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { CinematicTransitionLayer } from './components/CinematicTransitionLayer';
 import { CinematicSectionMask } from './components/CinematicSectionMask';
-import { CinematicChapterHUD } from './components/CinematicChapterHUD';
+import { DotNavigationSidebar } from './components/DotNavigationSidebar';
 import { SoundscapeProvider } from './context/SoundscapeContext';
 
 export default function App() {
@@ -43,8 +43,8 @@ export default function App() {
           {/* 2. Minimalist Desktop Custom Cursor */}
           <CustomCursor />
 
-          {/* 3. Floating Cinematic HUD Chapter Navigator */}
-          <CinematicChapterHUD />
+          {/* 3. Persistent Minimalist Dot-Navigation Sidebar */}
+          <DotNavigationSidebar />
 
           {/* 4. Top Scroll Progress Indicator */}
           <motion.div

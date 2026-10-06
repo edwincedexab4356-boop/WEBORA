@@ -71,8 +71,8 @@ const OUTCOMES: TestimonialOutcome[] = [
   }
 ];
 
-// Quadruple items to provide a robust seamless infinite buffer in both directions
-const QUAD_OUTCOMES = [...OUTCOMES, ...OUTCOMES, ...OUTCOMES, ...OUTCOMES];
+// Tripled items is lightweight and provides seamless buffer
+const DISPLAY_OUTCOMES = [...OUTCOMES, ...OUTCOMES, ...OUTCOMES];
 
 export const TestimonialsCarousel: React.FC = () => {
   const [isPaused, setIsPaused] = useState(false);
@@ -89,21 +89,22 @@ export const TestimonialsCarousel: React.FC = () => {
   const isPausedRef = useRef(false);
   const singleSetWidthRef = useRef(0);
   const cardStepRef = useRef(0);
+  const activeCardIndexRef = useRef(0);
+  const isVisibleRef = useRef(false);
 
   // Drag interaction tracking
   const dragStartXRef = useRef(0);
   const dragStartPosRef = useRef(0);
   const lastPointerXRef = useRef(0);
   const velocityRef = useRef(0);
-  const hasDraggedRef = useRef(false);
 
-  // Measure card sizes and set width dynamically
+  // Measure card sizes dynamically
   const measure = useCallback(() => {
     if (!trackRef.current) return;
     const cards = trackRef.current.children;
     if (cards.length >= 6) {
       const firstCard = cards[0] as HTMLElement;
-      const sixthCard = cards[OUTCOMES.length] as HTMLElement; // start of second set
+      const sixthCard = cards[OUTCOMES.length] as HTMLElement;
       const secondCard = cards[1] as HTMLElement;
 
       const setWidth = sixthCard.offsetLeft - firstCard.offsetLeft;
@@ -119,21 +120,27 @@ export const TestimonialsCarousel: React.FC = () => {
 
   useEffect(() => {
     measure();
-    window.addEventListener('resize', measure);
-    const timer = setTimeout(measure, 300);
+    window.addEventListener('resize', measure, { passive: true });
+    const timer = setTimeout(measure, 200);
     return () => {
       window.removeEventListener('resize', measure);
       clearTimeout(timer);
     };
   }, [measure]);
 
-  // Main high-performance Animation Frame Loop
+  // Main high-performance Animation Frame Loop with IntersectionObserver
   useEffect(() => {
     let animationFrameId: number;
     let lastTime = performance.now();
-    const cruiseSpeed = 28; // px/sec gentle gliding
+    const cruiseSpeed = 26; // px/sec gentle gliding
 
     const animate = (currentTime: number) => {
+      // If off-screen, skip execution to preserve CPU/GPU
+      if (!isVisibleRef.current) {
+        animationFrameId = requestAnimationFrame(animate);
+        return;
+      }
+
       const dt = Math.min((currentTime - lastTime) / 1000, 0.1);
       lastTime = currentTime;
 
@@ -143,21 +150,19 @@ export const TestimonialsCarousel: React.FC = () => {
         // Apply inertia after user releases swipe
         if (Math.abs(velocityRef.current) > 0.4) {
           targetXPosRef.current += velocityRef.current * dt * 50;
-          velocityRef.current *= Math.pow(0.92, dt * 60); // smooth decay
+          velocityRef.current *= Math.pow(0.92, dt * 60);
         } else {
           velocityRef.current = 0;
-          // Steady continuous auto-gliding if not paused
           if (!isPausedRef.current) {
             targetXPosRef.current -= cruiseSpeed * dt;
           }
         }
 
-        // Smooth physical lerp toward target
         const diff = targetXPosRef.current - xPosRef.current;
         xPosRef.current += diff * Math.min(1, 14 * dt);
       }
 
-      // Seamless infinite wrapping (zero jump or reset)
+      // Seamless infinite wrapping
       if (setWidth > 0) {
         while (xPosRef.current <= -setWidth) {
           xPosRef.current += setWidth;
@@ -171,33 +176,54 @@ export const TestimonialsCarousel: React.FC = () => {
         }
       }
 
-      // Apply transform directly to GPU
+      // Hardware-accelerated translate3d
       if (trackRef.current) {
         trackRef.current.style.transform = `translate3d(${xPosRef.current}px, 0, 0)`;
       }
 
-      // Update active card index for the indicator dots
+      // Update active card index ONLY when it actually changes (avoids 120 FPS re-renders)
       if (cardStepRef.current > 0) {
         const positiveOffset = Math.abs(xPosRef.current);
         const index = Math.round(positiveOffset / cardStepRef.current) % OUTCOMES.length;
-        setActiveCardIndex(index);
+        if (index !== activeCardIndexRef.current) {
+          activeCardIndexRef.current = index;
+          setActiveCardIndex(index);
+        }
       }
 
       animationFrameId = requestAnimationFrame(animate);
     };
 
+    // Observe visibility so we only animate when visible
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const isIntersecting = entries[0]?.isIntersecting ?? false;
+        isVisibleRef.current = isIntersecting;
+        if (isIntersecting) {
+          lastTime = performance.now();
+        }
+      },
+      { threshold: 0.05 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
     animationFrameId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationFrameId);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      observer.disconnect();
+    };
   }, []);
 
   // Pointer drag event handlers (desktop mouse + mobile touch)
   const handlePointerDown = (e: React.PointerEvent) => {
-    // Only primary button
     if (e.button !== 0 && e.pointerType === 'mouse') return;
 
     isDraggingRef.current = true;
     setIsDragging(true);
-    hasDraggedRef.current = false;
     dragStartXRef.current = e.clientX;
     lastPointerXRef.current = e.clientX;
     dragStartPosRef.current = xPosRef.current;
@@ -205,19 +231,13 @@ export const TestimonialsCarousel: React.FC = () => {
 
     try {
       (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-    } catch {
-      // safe fallback if pointer capture isn't supported
-    }
+    } catch {}
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
     if (!isDraggingRef.current) return;
 
     const deltaX = e.clientX - dragStartXRef.current;
-    if (Math.abs(deltaX) > 4) {
-      hasDraggedRef.current = true;
-    }
-
     const currentPointerX = e.clientX;
     const instantDx = currentPointerX - lastPointerXRef.current;
     lastPointerXRef.current = currentPointerX;
@@ -227,7 +247,7 @@ export const TestimonialsCarousel: React.FC = () => {
     xPosRef.current = newPos;
     targetXPosRef.current = newPos;
 
-    // Realtime wrap during active drag so you can drag forever in either direction
+    // Realtime wrap during active drag
     const setWidth = singleSetWidthRef.current;
     if (setWidth > 0) {
       if (xPosRef.current <= -setWidth) {
@@ -253,12 +273,9 @@ export const TestimonialsCarousel: React.FC = () => {
 
     try {
       (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
-    } catch {
-      // safe fallback
-    }
+    } catch {}
 
-    // Clamp velocity to smooth comfortable glide
-    velocityRef.current = Math.max(-28, Math.min(28, velocityRef.current));
+    velocityRef.current = Math.max(-25, Math.min(25, velocityRef.current));
   };
 
   // Previous & Next step navigation
@@ -284,7 +301,6 @@ export const TestimonialsCarousel: React.FC = () => {
     velocityRef.current = 0;
   };
 
-  // Hover state (pauses auto-cruise while reading, without jumping or restarting!)
   const handleMouseEnter = () => {
     isPausedRef.current = true;
   };
@@ -302,18 +318,18 @@ export const TestimonialsCarousel: React.FC = () => {
   };
 
   return (
-    <section id="impacto" className="py-28 md:py-36 relative bg-[#050608] border-t border-white/[0.05] overflow-hidden select-none">
+    <section id="impacto" className="py-24 md:py-32 relative bg-[#050608] border-t border-white/[0.05] overflow-hidden select-none">
       
       {/* Background ambient lighting */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[350px] bg-[radial-gradient(ellipse,rgba(0,229,255,0.05)_0%,transparent_70%)] blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] bg-[radial-gradient(ellipse,rgba(0,229,255,0.04)_0%,transparent_70%)] blur-[80px] pointer-events-none" />
 
-      <div className="max-w-[1240px] mx-auto px-6 sm:px-8 mb-12 sm:mb-16 relative z-10">
+      <div className="max-w-[1240px] mx-auto px-6 sm:px-8 mb-10 sm:mb-14 relative z-10">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <div className="flex items-center gap-2.5 mb-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
               <span className="text-[11px] font-mono-tech tracking-[0.3em] uppercase text-cyan-400">
                 RESULTADOS COMPROBADOS
               </span>
@@ -364,10 +380,10 @@ export const TestimonialsCarousel: React.FC = () => {
 
       </div>
 
-      {/* Infinite Horizontal Carousel Container with True Dragging and No Resets */}
+      {/* Infinite Horizontal Carousel Container */}
       <div
         ref={containerRef}
-        className="relative w-full overflow-hidden touch-pan-y cursor-grab active:cursor-grabbing py-4"
+        className="relative w-full overflow-hidden touch-pan-y cursor-grab active:cursor-grabbing py-3"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onPointerDown={handlePointerDown}
@@ -375,7 +391,7 @@ export const TestimonialsCarousel: React.FC = () => {
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
       >
-        {/* Left and Right Fade Edge Gradients for Cinematic Depth */}
+        {/* Left and Right Fade Edge Gradients */}
         <div className="pointer-events-none absolute top-0 bottom-0 left-0 w-10 sm:w-24 md:w-36 bg-gradient-to-r from-[#050608] via-[#050608]/90 to-transparent z-20" />
         <div className="pointer-events-none absolute top-0 bottom-0 right-0 w-10 sm:w-24 md:w-36 bg-gradient-to-l from-[#050608] via-[#050608]/90 to-transparent z-20" />
 
@@ -383,18 +399,17 @@ export const TestimonialsCarousel: React.FC = () => {
         <div
           ref={trackRef}
           className="flex gap-4 sm:gap-6 w-max pl-4 sm:pl-8 will-change-transform"
-          style={{ willChange: 'transform' }}
         >
-          {QUAD_OUTCOMES.map((item, index) => (
+          {DISPLAY_OUTCOMES.map((item, index) => (
             <div
               key={`${item.id}-${index}`}
-              className={`w-[290px] min-[420px]:w-[350px] sm:w-[420px] shrink-0 p-5 sm:p-8 rounded-3xl bg-[#090b10] border ${
+              className={`w-[290px] min-[420px]:w-[350px] sm:w-[420px] shrink-0 p-5 sm:p-7 rounded-3xl bg-[#090b10] border ${
                 isDragging ? 'border-white/[0.1]' : 'border-white/[0.08] hover:border-cyan-400/50'
-              } transition-colors duration-300 shadow-[0_15px_40px_-15px_rgba(0,0,0,0.8)] flex flex-col justify-between group select-none`}
+              } transition-colors duration-200 flex flex-col justify-between group select-none`}
             >
               <div>
                 {/* Metric Hero Block */}
-                <div className="flex items-start justify-between pb-4 sm:pb-6 border-b border-white/[0.06] mb-4 sm:mb-6 pointer-events-none">
+                <div className="flex items-start justify-between pb-4 sm:pb-5 border-b border-white/[0.06] mb-4 pointer-events-none">
                   <div>
                     <span className="text-2xl sm:text-4xl font-black font-display text-white tracking-tight group-hover:text-cyan-300 transition-colors block">
                       {item.metric}
@@ -410,7 +425,7 @@ export const TestimonialsCarousel: React.FC = () => {
                 </div>
 
                 {/* Service Tag */}
-                <div className="flex items-center gap-2 mb-3 sm:mb-4 pointer-events-none">
+                <div className="flex items-center gap-2 mb-3 pointer-events-none">
                   <span className="w-1.5 h-1.5 rounded-full bg-cyan-400/80" />
                   <span className="text-[9px] sm:text-[10px] font-mono-tech uppercase tracking-widest text-zinc-400">
                     {item.serviceType}
@@ -418,13 +433,13 @@ export const TestimonialsCarousel: React.FC = () => {
                 </div>
 
                 {/* Quote */}
-                <p className="text-zinc-300 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6 italic pointer-events-none">
+                <p className="text-zinc-300 text-xs sm:text-sm leading-relaxed mb-4 italic pointer-events-none">
                   "{item.quote}"
                 </p>
               </div>
 
               {/* Author & Company */}
-              <div className="pt-4 sm:pt-6 border-t border-white/[0.06] flex items-center justify-between pointer-events-none">
+              <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between pointer-events-none">
                 <div>
                   <h4 className="text-xs sm:text-sm font-bold font-display text-white group-hover:text-cyan-200 transition-colors">
                     {item.client}
@@ -434,7 +449,7 @@ export const TestimonialsCarousel: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-cyan-400/[0.06] border border-cyan-400/20 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-cyan-400/[0.06] border border-cyan-400/20 flex items-center justify-center text-cyan-400 group-hover:scale-105 transition-transform">
                   <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
               </div>
@@ -444,7 +459,7 @@ export const TestimonialsCarousel: React.FC = () => {
       </div>
 
       {/* Slide Indicators Dots */}
-      <div className="flex items-center justify-center gap-2 mt-8 z-10 relative">
+      <div className="flex items-center justify-center gap-2 mt-6 z-10 relative">
         {OUTCOMES.map((_, idx) => (
           <button
             key={idx}
@@ -460,7 +475,7 @@ export const TestimonialsCarousel: React.FC = () => {
       </div>
 
       {/* Bottom Proof Bar */}
-      <div className="max-w-[1240px] mx-auto px-6 sm:px-8 mt-8 sm:mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] sm:text-[11px] font-mono-tech text-zinc-500 border-t border-white/[0.04] pt-6 relative z-10">
+      <div className="max-w-[1240px] mx-auto px-6 sm:px-8 mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] sm:text-[11px] font-mono-tech text-zinc-500 border-t border-white/[0.04] pt-6 relative z-10">
         <div className="flex items-center gap-6">
           <span className="flex items-center gap-1.5">
             <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" />

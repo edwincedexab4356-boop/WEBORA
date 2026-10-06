@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { ArrowUpRight, Check, Clock, Shield } from 'lucide-react';
 import { MagneticButton } from './MagneticButton';
+import { useSoundscape } from '../context/SoundscapeContext';
 
 interface SolutionOption {
   id: string;
@@ -73,6 +74,7 @@ const ADDONS: AddonOption[] = [
 ];
 
 export const BudgetCalculator: React.FC = () => {
+  const { playTick } = useSoundscape();
   const [selectedSolution, setSelectedSolution] = useState<string>('website');
   const [selectedAddons, setSelectedAddons] = useState<string[]>(['cloud_infra', 'seo_engine']);
   const [clientName, setClientName] = useState('');
@@ -152,9 +154,12 @@ export const BudgetCalculator: React.FC = () => {
                   return (
                     <div
                       key={sol.id}
-                      onClick={() => setSelectedSolution(sol.id)}
+                      onClick={() => {
+                        playTick();
+                        setSelectedSolution(sol.id);
+                      }}
                       data-interactive="true"
-                      className={`p-4 sm:p-6 rounded-2xl border cursor-pointer transition-all duration-300 relative ${
+                      className={`p-4 sm:p-6 rounded-2xl border cursor-pointer transition-all duration-300 relative touch-pan-y active:scale-[0.985] ${
                         isSelected
                           ? 'bg-[#0d1017] border-cyan-400 shadow-[0_0_25px_rgba(0,229,255,0.12)]'
                           : 'bg-[#090b10] border-white/[0.08] hover:border-white/[0.2]'
@@ -198,9 +203,12 @@ export const BudgetCalculator: React.FC = () => {
                   return (
                     <div
                       key={addon.id}
-                      onClick={() => toggleAddon(addon.id)}
+                      onClick={() => {
+                        playTick();
+                        toggleAddon(addon.id);
+                      }}
                       data-interactive="true"
-                      className={`p-3.5 sm:p-4 rounded-xl border cursor-pointer transition-all duration-300 flex items-center justify-between gap-3 sm:gap-4 ${
+                      className={`p-3.5 sm:p-4 rounded-xl border cursor-pointer transition-all duration-300 flex items-center justify-between gap-3 sm:gap-4 touch-pan-y active:scale-[0.985] ${
                         isChecked
                           ? 'bg-[#0d1017] border-cyan-400/60'
                           : 'bg-[#090b10] border-white/[0.06] hover:border-white/[0.15]'

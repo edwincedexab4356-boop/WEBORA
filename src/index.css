@@ -65,6 +65,13 @@
   box-shadow: 0 0 25px -5px rgba(0, 229, 255, 0.12);
 }
 
+/* GPU hardware acceleration helper */
+.will-change-transform {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
 /* Custom cursor hide default only on desktop non-touch when desired */
 @media (hover: hover) and (pointer: fine) {
   .custom-cursor-active {

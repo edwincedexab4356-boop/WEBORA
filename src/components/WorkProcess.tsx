@@ -58,7 +58,7 @@ export const WorkProcess: React.FC = () => {
                 delay: idx * 0.18,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="relative p-6 sm:p-8 rounded-3xl bg-[#090b10] border border-white/[0.08] hover:border-cyan-400/40 transition-colors duration-300 flex flex-col justify-between min-h-[300px] sm:min-h-[340px] group"
+              className="relative p-6 sm:p-8 rounded-3xl bg-[#090b10] border border-white/[0.08] hover:border-cyan-400/40 active:border-cyan-400/50 active:scale-[0.985] transition-all duration-300 flex flex-col justify-between min-h-[300px] sm:min-h-[340px] group touch-pan-y cursor-pointer"
             >
               <div>
                 <div className="flex items-center justify-between pb-6 border-b border-white/[0.06] mb-6">
