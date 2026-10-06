@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg: #050608;
+    --panel: #090b10;
+    --panel-subtle: #0f121a;
+    --text: #f8fafc;
+    --muted: #8892a4;
+    --accent: #00e5ff;
+    --accent-electric: #0088ff;
+    --border: #161b26;
+    --border-highlight: rgba(0, 229, 255, 0.25);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #050608;
+    color: #f8fafc;
+    -webkit-tap-highlight-color: transparent;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+    background-color: #050608;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Custom subtle scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #050608;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #19202e;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2a3449;
+  }
+
+  /* Font utility aliases */
+  .font-display {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .font-mono-tech {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+/* Subtle glow effects */
+.glow-cyan-subtle {
+  box-shadow: 0 0 50px -10px rgba(0, 229, 255, 0.15);
+}
+
+.glow-border {
+  border-color: rgba(0, 229, 255, 0.3);
+  box-shadow: 0 0 25px -5px rgba(0, 229, 255, 0.12);
+}
+
+/* Custom cursor hide default only on desktop non-touch when desired */
+@media (hover: hover) and (pointer: fine) {
+  .custom-cursor-active {
+    cursor: none !important;
+  }
+  .custom-cursor-active a,
+  .custom-cursor-active button,
+  .custom-cursor-active input,
+  .custom-cursor-active select,
+  .custom-cursor-active textarea {
+    cursor: none !important;
+  }
+}
