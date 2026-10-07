@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowUpRight, MessageSquare, ShieldCheck, Clock, CheckCircle2 } from 'lucide-react';
 import { MagneticButton } from './MagneticButton';
+import { SectionProgressIndicator } from './SectionProgressIndicator';
 
 export const ContactSection: React.FC = () => {
   const [name, setName] = useState('');
@@ -33,18 +34,17 @@ export const ContactSection: React.FC = () => {
           {/* Left Column: Heading & Concept */}
           <div className="lg:col-span-6">
             <div className="flex items-center gap-2.5 mb-4">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-              <span className="text-[11px] font-mono-tech tracking-[0.3em] uppercase text-cyan-400">
-                INICIAR COLABORACIÓN
+              <span className="text-xs font-mono tracking-widest text-zinc-500 uppercase">
+                08 / Contacto
               </span>
             </div>
 
             <h2 className="text-3xl min-[380px]:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black font-display tracking-tight text-white leading-[1.04] mb-6">
-              Hablemos de tu próximo gran salto.
+              Conversemos sobre tu proyecto.
             </h2>
 
             <p className="text-zinc-400 text-sm sm:text-base md:text-lg leading-relaxed mb-8 max-w-lg">
-              Webora convierte ideas de negocios en experiencias digitales de alto impacto. Cuéntanos tu visión y definamos el camino técnico ideal.
+              Si tienes una idea en mente o quieres renovar la presencia digital de tu empresa, conversemos sin compromiso. Analizamos tus necesidades y te proponemos la mejor ruta técnica.
             </p>
 
             {/* Direct WhatsApp Callout with Magnetic button */}

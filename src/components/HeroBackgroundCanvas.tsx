@@ -14,8 +14,10 @@ export const HeroBackgroundCanvas: React.FC = () => {
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
-    // Check for reduced motion
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Check for reduced motion or hardware constraints
+    const nav = navigator as unknown as { hardwareConcurrency?: number; deviceMemory?: number };
+    const isLowPerf = (nav.deviceMemory && nav.deviceMemory < 4) || (nav.hardwareConcurrency && nav.hardwareConcurrency <= 4);
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches || isLowPerf;
 
     // Mouse coordinates with easing
     const mouse = {
@@ -43,9 +45,9 @@ export const HeroBackgroundCanvas: React.FC = () => {
     window.addEventListener('resize', handleResize, { passive: true });
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
-    // Lightweight particle count: 16 on mobile, 24 on desktop
+    // Lightweight particle count: 14 on mobile, 22 on desktop
     const isMobile = width < 768;
-    const particleCount = isMobile ? 14 : 22;
+    const particleCount = isMobile ? 12 : 20;
     const particles = Array.from({ length: particleCount }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
@@ -55,6 +57,23 @@ export const HeroBackgroundCanvas: React.FC = () => {
       alpha: Math.random() * 0.4 + 0.15,
       cyan: Math.random() > 0.4,
     }));
+
+    // If reduced motion is requested, render static constellation once and bypass continuous loop
+    if (prefersReducedMotion) {
+      ctx.clearRect(0, 0, width, height);
+      for (const p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.cyan
+          ? `rgba(0, 229, 255, ${p.alpha * 0.4})`
+          : `rgba(255, 255, 255, ${p.alpha * 0.25})`;
+        ctx.fill();
+      }
+      return () => {
+        window.removeEventListener('resize', handleResize);
+        window.removeEventListener('mousemove', handleMouseMove);
+      };
+    }
 
     const maxDistSq = 90 * 90; // squared distance to avoid Math.sqrt
 
@@ -104,18 +123,20 @@ export const HeroBackgroundCanvas: React.FC = () => {
           : `rgba(255, 255, 255, ${p.alpha * 0.35})`;
         ctx.fill();
 
-        // Connect nearby particles
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const distSq = (p.x - p2.x) * (p.x - p2.x) + (p.y - p2.y) * (p.y - p2.y);
-          if (distSq < maxDistSq) {
-            const lineAlpha = (1 - Math.sqrt(distSq) / 90) * 0.08;
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(0, 229, 255, ${lineAlpha})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
+        // Connect nearby particles (desktop only for max mobile fps)
+        if (!isMobile) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const distSq = (p.x - p2.x) * (p.x - p2.x) + (p.y - p2.y) * (p.y - p2.y);
+            if (distSq < maxDistSq) {
+              const lineAlpha = (1 - Math.sqrt(distSq) / 90) * 0.08;
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.strokeStyle = `rgba(0, 229, 255, ${lineAlpha})`;
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
           }
         }
       }

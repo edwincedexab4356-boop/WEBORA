@@ -15,6 +15,8 @@ import { Footer } from './components/Footer';
 import { CinematicTransitionLayer } from './components/CinematicTransitionLayer';
 import { CinematicSectionMask } from './components/CinematicSectionMask';
 import { DotNavigationSidebar } from './components/DotNavigationSidebar';
+import { KeyboardShortcutsManager } from './components/KeyboardShortcutsManager';
+import { StickyReadingProgressBar } from './components/StickyReadingProgressBar';
 import { SoundscapeProvider } from './context/SoundscapeContext';
 
 export default function App() {
@@ -43,7 +45,10 @@ export default function App() {
           {/* 2. Minimalist Desktop Custom Cursor */}
           <CustomCursor />
 
-          {/* 3. Persistent Minimalist Dot-Navigation Sidebar */}
+          {/* 3. Global Keyboard Shortcuts Manager */}
+          <KeyboardShortcutsManager />
+
+          {/* 4. Persistent Minimalist Dot-Navigation Sidebar */}
           <DotNavigationSidebar />
 
           {/* 4. Top Scroll Progress Indicator */}
@@ -55,16 +60,19 @@ export default function App() {
           {/* 5. Glassmorphic Sticky Navbar */}
           <Navbar />
 
+          {/* 6. Sticky Reading Progress Indicator Bar in Viewport */}
+          <StickyReadingProgressBar />
+
           {/* Main Experience */}
           <main className="relative z-10">
             {/* Chapter 01: Hero Section */}
             <Hero />
 
-            {/* Cinematic Mask Transition: 01 -> 02 */}
+            {/* Section Transition: 01 -> 02 */}
             <CinematicSectionMask
               fromChapter="01"
               toChapter="02"
-              title="MANIFIESTO // VISIÓN"
+              title="Manifiesto"
             />
 
             {/* Chapter 02: Big Line-by-Line Kinetic Manifesto */}
@@ -73,11 +81,11 @@ export default function App() {
             {/* Chapter 03: Services: 3 Large 3D Tilt Cards with Spotlight */}
             <ServicesSection />
 
-            {/* Cinematic Mask Transition: 03 -> 04 */}
+            {/* Section Transition: 03 -> 04 */}
             <CinematicSectionMask
               fromChapter="03"
               toChapter="04"
-              title="OBRAS SELECTAS"
+              title="Portafolio"
             />
 
             {/* Chapter 04: Portfolio: Cinematic Large Cards with Hover Zoom & Specs */}
@@ -89,11 +97,11 @@ export default function App() {
             {/* Chapter 06: Work Process Methodology */}
             <WorkProcess />
 
-            {/* Cinematic Mask Transition: 06 -> 07 */}
+            {/* Section Transition: 06 -> 07 */}
             <CinematicSectionMask
               fromChapter="06"
               toChapter="07"
-              title="ALCANCE & COTIZADOR"
+              title="Estimación"
             />
 
             {/* Chapter 07: Real-time Project Budget Calculator */}

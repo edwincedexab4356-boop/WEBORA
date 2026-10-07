@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { ArrowUpRight, Check, Clock, Shield } from 'lucide-react';
 import { MagneticButton } from './MagneticButton';
 import { useSoundscape } from '../context/SoundscapeContext';
+import { SectionProgressIndicator } from './SectionProgressIndicator';
 
 interface SolutionOption {
   id: string;
@@ -122,17 +123,17 @@ export const BudgetCalculator: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
           <div>
             <div className="flex items-center gap-2.5 mb-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-              <span className="text-[11px] font-mono-tech tracking-[0.3em] uppercase text-cyan-400">
-                TRANSPARENCIA & PLANIFICACIÓN
+              <span className="text-xs font-mono tracking-widest text-zinc-500 uppercase">
+                07 / Estimación
               </span>
             </div>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black font-display tracking-tight text-white leading-tight">
-              Calculadora de proyecto.
+              Calcula tu proyecto.
             </h2>
           </div>
+          
           <p className="text-zinc-400 text-sm sm:text-base max-w-[420px] leading-relaxed">
-            Obtén una estimación de tiempo y presupuesto con total claridad antes de comenzar.
+            Estimaciones claras de tiempo y presupuesto para planificar tu inversión con total tranquilidad.
           </p>
         </div>
 

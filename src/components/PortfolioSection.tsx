@@ -2,6 +2,8 @@ import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ArrowUpRight, X } from 'lucide-react';
 import { useSoundscape } from '../context/SoundscapeContext';
+import { useReducedMotion } from '../hooks/useReducedMotion';
+import { SectionProgressIndicator } from './SectionProgressIndicator';
 
 interface ProjectItem {
   id: string;
@@ -73,6 +75,7 @@ const InteractiveProjectCard: React.FC<{
   index: number;
   onSelect: (p: ProjectItem) => void;
 }> = ({ project, index, onSelect }) => {
+  const shouldReduceMotion = useReducedMotion();
   const cardRef = useRef<HTMLElement>(null);
   const [spotlightPos, setSpotlightPos] = useState({ x: 0, y: 0, opacity: 0 });
   const touchStartPosRef = useRef({ x: 0, y: 0 });
@@ -85,7 +88,7 @@ const InteractiveProjectCard: React.FC<{
   const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-4, 4]), springConfig);
 
   const updateCoordinates = (clientX: number, clientY: number) => {
-    if (!cardRef.current) return;
+    if (shouldReduceMotion || !cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const x = clientX - rect.left;
     const y = clientY - rect.top;
@@ -116,9 +119,11 @@ const InteractiveProjectCard: React.FC<{
   };
 
   const handleInteractionEnd = (e?: React.TouchEvent<HTMLElement>) => {
-    setSpotlightPos(prev => ({ ...prev, opacity: 0 }));
-    mouseX.set(0);
-    mouseY.set(0);
+    if (!shouldReduceMotion) {
+      setSpotlightPos(prev => ({ ...prev, opacity: 0 }));
+      mouseX.set(0);
+      mouseY.set(0);
+    }
 
     // If it was a clean tap without large scroll movement, trigger project modal
     if (e && e.changedTouches && e.changedTouches.length > 0) {
@@ -136,12 +141,12 @@ const InteractiveProjectCard: React.FC<{
     <motion.article
       ref={cardRef}
       layout
-      initial={{ opacity: 0, scale: 0.95 }}
+      initial={{ opacity: 0, scale: shouldReduceMotion ? 1 : 0.96 }}
       animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
+      exit={{ opacity: 0, scale: shouldReduceMotion ? 1 : 0.96 }}
       transition={{
-        duration: 0.45,
-        delay: index * 0.05,
+        duration: shouldReduceMotion ? 0.3 : 0.45,
+        delay: shouldReduceMotion ? index * 0.04 : index * 0.05,
         ease: [0.16, 1, 0.3, 1],
       }}
       onMouseMove={handleMouseMove}
@@ -151,9 +156,15 @@ const InteractiveProjectCard: React.FC<{
       onTouchEnd={handleInteractionEnd}
       onTouchCancel={() => handleInteractionEnd()}
       onClick={() => onSelect(project)}
-      style={{ rotateX, rotateY, perspective: 1000 }}
+      style={{
+        rotateX: shouldReduceMotion ? 0 : rotateX,
+        rotateY: shouldReduceMotion ? 0 : rotateY,
+        perspective: shouldReduceMotion ? undefined : 1000,
+      }}
       data-interactive="true"
-      className="group relative rounded-3xl bg-[#090b10] border border-white/[0.08] hover:border-cyan-400/60 overflow-hidden flex flex-col justify-between transition-colors duration-300 hover:shadow-[0_20px_50px_-15px_rgba(0,229,255,0.15)] cursor-pointer touch-pan-y will-change-transform"
+      className={`group relative rounded-3xl bg-[#090b10] border border-white/[0.08] hover:border-cyan-400/60 overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-[0_20px_50px_-15px_rgba(0,229,255,0.15)] cursor-pointer touch-pan-y will-change-transform ${
+        shouldReduceMotion ? 'hover:-translate-y-2' : ''
+      }`}
     >
       {/* Dynamic Cursor / Touch Spotlight Overlay */}
       <div
@@ -269,13 +280,12 @@ export const PortfolioSection: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
           <div>
             <div className="flex items-center gap-2.5 mb-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-              <span className="text-[11px] font-mono-tech tracking-[0.3em] uppercase text-cyan-400">
-                PROYECTOS SELECCIONADOS
+              <span className="text-xs font-mono tracking-widest text-zinc-500 uppercase">
+                04 / Portafolio
               </span>
             </div>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black font-display tracking-tight text-white leading-tight">
-              Portafolio.
+              Trabajo reciente.
             </h2>
           </div>
 
@@ -286,10 +296,10 @@ export const PortfolioSection: React.FC = () => {
                 key={cat}
                 onClick={() => handleFilterClick(cat)}
                 data-interactive="true"
-                className={`text-[11px] sm:text-xs uppercase tracking-wider font-semibold px-3 sm:px-4 py-1.5 sm:py-2 rounded-full transition-all duration-300 cursor-pointer ${
+                className={`text-xs uppercase tracking-wider font-medium px-3.5 py-1.5 rounded-full transition-all duration-200 cursor-pointer ${
                   filter === cat
-                    ? 'bg-white text-black font-bold shadow-[0_0_15px_rgba(255,255,255,0.2)]'
-                    : 'bg-white/[0.03] hover:bg-white/[0.08] text-zinc-400 hover:text-white border border-white/[0.06]'
+                    ? 'bg-white text-black font-semibold'
+                    : 'bg-white/[0.04] hover:bg-white/[0.08] text-zinc-400 hover:text-white border border-white/[0.06]'
                 }`}
               >
                 {cat}

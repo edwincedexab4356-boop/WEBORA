@@ -1,24 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useCinematicTransition } from './CinematicTransitionLayer';
 import { useSoundscape } from '../context/SoundscapeContext';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 interface NavSection {
   id: string;
   number: string;
   name: string;
   label: string;
+  readTime: string;
 }
 
 const SECTIONS: NavSection[] = [
-  { id: '#hero', number: '01', name: 'Inicio', label: 'Portada Principal' },
-  { id: '#manifiesto', number: '02', name: 'Manifiesto', label: 'Filosofía Webora' },
-  { id: '#servicios', number: '03', name: 'Servicios', label: 'Capacidades Digitales' },
-  { id: '#portafolio', number: '04', name: 'Portafolio', label: 'Proyectos Selectos' },
-  { id: '#impacto', number: '05', name: 'Resultados', label: 'Métricas Reales' },
-  { id: '#proceso', number: '06', name: 'Proceso', label: 'Metodología Ágil' },
-  { id: '#cotizador', number: '07', name: 'Cotizador', label: 'Simulador de Costos' },
-  { id: '#contacto', number: '08', name: 'Contacto', label: 'Iniciar Proyecto' },
+  { id: '#hero', number: '01', name: 'Inicio', label: 'Portada Principal', readTime: '~30s' },
+  { id: '#manifiesto', number: '02', name: 'Manifiesto', label: 'Filosofía Webora', readTime: '~1.5m' },
+  { id: '#servicios', number: '03', name: 'Servicios', label: 'Capacidades Digitales', readTime: '~2m' },
+  { id: '#portafolio', number: '04', name: 'Portafolio', label: 'Proyectos Selectos', readTime: '~2.5m' },
+  { id: '#impacto', number: '05', name: 'Resultados', label: 'Métricas Reales', readTime: '~1.5m' },
+  { id: '#proceso', number: '06', name: 'Proceso', label: 'Metodología Ágil', readTime: '~1.5m' },
+  { id: '#cotizador', number: '07', name: 'Cotizador', label: 'Simulador de Costos', readTime: '~1.5m' },
+  { id: '#contacto', number: '08', name: 'Contacto', label: 'Iniciar Proyecto', readTime: '~45s' },
 ];
 
 export const DotNavigationSidebar: React.FC = () => {
@@ -132,9 +134,14 @@ export const DotNavigationSidebar: React.FC = () => {
                       </span>
                       <div className="h-2.5 w-[1px] bg-white/10" />
                       <div className="flex flex-col text-left">
-                        <span className="text-[11px] font-display font-bold text-white tracking-wide">
-                          {sec.name}
-                        </span>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[11px] font-display font-bold text-white tracking-wide">
+                            {sec.name}
+                          </span>
+                          <span className="text-[9px] font-mono-tech text-cyan-400 font-normal">
+                            {sec.readTime}
+                          </span>
+                        </div>
                         <span className="text-[9px] font-mono-tech text-zinc-400 uppercase tracking-widest hidden sm:inline-block">
                           {sec.label}
                         </span>

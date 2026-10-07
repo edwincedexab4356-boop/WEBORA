@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { SectionProgressIndicator } from './SectionProgressIndicator';
 
 export const WorkProcess: React.FC = () => {
   const steps = [
@@ -31,17 +32,17 @@ export const WorkProcess: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16 md:mb-20">
           <div>
             <div className="flex items-center gap-2.5 mb-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-              <span className="text-[11px] font-mono-tech tracking-[0.3em] uppercase text-cyan-400">
-                METODOLOGÍA
+              <span className="text-xs font-mono tracking-widest text-zinc-500 uppercase">
+                06 / Metodología
               </span>
             </div>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black font-display tracking-tight text-white leading-tight">
-              Proceso de ingeniería.
+              Cómo trabajamos.
             </h2>
           </div>
+          
           <p className="text-zinc-400 text-sm sm:text-base max-w-[420px] leading-relaxed">
-            Un marco de ejecución estructurado y transparente sin improvisaciones ni retrasos innecesarios.
+            Un proceso estructurado y transparente para entregar resultados impecables sin sorpresas.
           </p>
         </div>
 

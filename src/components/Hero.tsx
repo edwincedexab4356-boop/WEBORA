@@ -4,6 +4,7 @@ import { ArrowUpRight, ChevronDown } from 'lucide-react';
 import { HeroBackgroundCanvas } from './HeroBackgroundCanvas';
 import { MagneticButton } from './MagneticButton';
 import { useSoundscape } from '../context/SoundscapeContext';
+import { SectionProgressIndicator } from './SectionProgressIndicator';
 
 export const Hero: React.FC = () => {
   const { activateSoundscape, playTick } = useSoundscape();
@@ -65,11 +66,11 @@ export const Hero: React.FC = () => {
           initial={{ opacity: 0, y: -16, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-white/[0.08] bg-white/[0.02] backdrop-blur-md mb-8 group"
+          className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-white/[0.08] bg-white/[0.02] backdrop-blur-md mb-8"
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-[#00e5ff] shadow-[0_0_8px_#00e5ff] animate-pulse" />
-          <span className="text-[11px] font-mono-tech tracking-[0.3em] uppercase text-zinc-300 font-medium">
-            WEBORA • ESTUDIO DE INGENIERÍA DIGITAL
+          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+          <span className="text-xs text-zinc-300 font-medium tracking-wide">
+            Estudio de Diseño y Desarrollo Web
           </span>
         </motion.div>
 
@@ -109,7 +110,7 @@ export const Hero: React.FC = () => {
           transition={{ duration: 0.7, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
           className="text-zinc-400 text-sm sm:text-base md:text-lg lg:text-xl font-normal leading-relaxed max-w-[680px] mb-8 sm:mb-12 text-balance px-2"
         >
-          Webora convierte ideas de negocios en experiencias digitales de alto impacto. Creamos sitios web de clase mundial, catálogos interactivos y sistemas a medida.
+          Diseñamos y desarrollamos sitios web, catálogos interactivos y sistemas a medida para marcas que buscan diferenciarse con diseño de autor y tecnología de alto rendimiento.
         </motion.p>
 
         {/* Magnetic Buttons appearing at the end */}
@@ -155,33 +156,33 @@ export const Hero: React.FC = () => {
 
       </div>
 
-      {/* Bottom Scroll Indicator & Studio Metrics */}
+      {/* Bottom Studio Standards */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 1.2 }}
         className="w-full max-w-[1180px] pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 border-t border-white/[0.05] relative z-10"
       >
-        <div className="flex flex-wrap justify-center sm:justify-start items-center gap-4 sm:gap-6 md:gap-8 text-[10px] sm:text-[11px] font-mono-tech text-zinc-500 tracking-widest uppercase">
-          <span className="flex items-center gap-1.5 sm:gap-2">
-            <span className="w-1 h-1 rounded-full bg-cyan-400" />
-            100% CÓDIGO A MEDIDA
+        <div className="flex flex-wrap justify-center sm:justify-start items-center gap-4 sm:gap-6 md:gap-8 text-xs font-mono text-zinc-500">
+          <span className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+            Código artesanal
           </span>
           <span className="hidden md:inline-flex items-center gap-2">
-            <span className="w-1 h-1 rounded-full bg-cyan-400" />
-            RENDIMIENTO &lt; 1s
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+            Carga sub-segundo
           </span>
-          <span className="inline-flex items-center gap-1.5 sm:gap-2">
-            <span className="w-1 h-1 rounded-full bg-cyan-400" />
-            CERO PLANTILLAS
+          <span className="inline-flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+            Diseño a medida
           </span>
         </div>
 
         <a
           href="#manifiesto"
-          className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-zinc-400 hover:text-cyan-400 transition-colors group"
+          className="inline-flex items-center gap-2 text-xs font-mono text-zinc-400 hover:text-white transition-colors group"
         >
-          <span>EXPLORAR</span>
+          <span>Conocer estudio</span>
           <ChevronDown className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-y-0.5 text-cyan-400" />
         </a>
       </motion.div>

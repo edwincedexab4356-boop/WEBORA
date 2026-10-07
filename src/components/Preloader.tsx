@@ -11,16 +11,16 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
 
   useEffect(() => {
     // Stage 1: Symbol appears (0ms)
-    // Stage 2: Typography reveals (350ms)
-    const t1 = setTimeout(() => setStage('text'), 350);
-    // Stage 3: Light beam sweeps across (700ms)
-    const t2 = setTimeout(() => setStage('beam'), 680);
-    // Stage 4: Exit sequence (1150ms)
-    const t3 = setTimeout(() => setStage('exit'), 1150);
-    // Complete callback (1400ms)
+    // Stage 2: Typography reveals (280ms)
+    const t1 = setTimeout(() => setStage('text'), 280);
+    // Stage 3: Light beam sweeps across (550ms)
+    const t2 = setTimeout(() => setStage('beam'), 550);
+    // Stage 4: Exit sequence (920ms)
+    const t3 = setTimeout(() => setStage('exit'), 920);
+    // Complete callback (1150ms)
     const t4 = setTimeout(() => {
       if (onComplete) onComplete();
-    }, 1450);
+    }, 1150);
 
     return () => {
       clearTimeout(t1);

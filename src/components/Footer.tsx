@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUp, ArrowUpRight, Volume2, VolumeX } from 'lucide-react';
+import { ArrowUp, ArrowUpRight, Volume2, VolumeX, Command } from 'lucide-react';
 import { WeboraLogo } from './WeboraLogo';
 import { useSoundscape } from '../context/SoundscapeContext';
 
@@ -71,8 +71,8 @@ export const Footer: React.FC = () => {
         <div className="pt-6 sm:pt-8 flex flex-col md:flex-row items-center justify-between gap-5 text-[10px] sm:text-[11px] font-mono-tech text-zinc-500 text-center sm:text-left">
           <p>© {currentYear} WEBORA. Todos los derechos reservados.</p>
           
-          {/* Ambient Soundscape Toggle Controller */}
-          <div className="flex items-center gap-3">
+          {/* Ambient Soundscape Toggle Controller & Shortcuts Button */}
+          <div className="flex flex-wrap items-center justify-center gap-2.5">
             <button
               onClick={handleSoundToggle}
               aria-label={isMuted ? 'Activar paisaje sonoro ambiental' : 'Silenciar paisaje sonoro ambiental'}
@@ -102,6 +102,21 @@ export const Footer: React.FC = () => {
               <span className="uppercase tracking-wider text-[10px]">
                 {!isMuted && isPlaying ? 'AUDIO ESPACIAL: ACTIVO' : 'AUDIO ESPACIAL: SILENCIADO'}
               </span>
+            </button>
+
+            {/* Quick Keyboard Shortcuts Trigger */}
+            <button
+              onClick={() => {
+                playTick();
+                window.dispatchEvent(new KeyboardEvent('keydown', { key: '?' }));
+              }}
+              aria-label="Ver atajos de teclado"
+              title="Atajos de teclado rápidos (Presiona ?)"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.08] hover:border-cyan-400/30 text-zinc-400 hover:text-white transition-all cursor-pointer text-[10px] font-mono-tech"
+            >
+              <Command className="w-3 h-3 text-cyan-400" />
+              <span className="uppercase tracking-wider">ATAJOS</span>
+              <kbd className="px-1.5 py-0.2 rounded bg-white/[0.06] text-zinc-300 text-[9px]">?</kbd>
             </button>
           </div>
 

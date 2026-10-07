@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ArrowUpRight, Globe, Layers, Cpu } from 'lucide-react';
+import { useReducedMotion } from '../hooks/useReducedMotion';
+import { SectionProgressIndicator } from './SectionProgressIndicator';
 
 interface ServiceData {
   id: string;
@@ -63,6 +65,7 @@ const SERVICES: ServiceData[] = [
 
 // 3D Tilt Card with Cursor-following and Touch-following Spotlight Illumination
 const SpotlightCard: React.FC<{ service: ServiceData; index: number }> = ({ service, index }) => {
+  const shouldReduceMotion = useReducedMotion();
   const cardRef = useRef<HTMLDivElement>(null);
   const [spotlightPos, setSpotlightPos] = useState({ x: 0, y: 0, opacity: 0 });
 
@@ -75,7 +78,7 @@ const SpotlightCard: React.FC<{ service: ServiceData; index: number }> = ({ serv
   const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-5, 5]), springConfig);
 
   const updateCoordinates = (clientX: number, clientY: number) => {
-    if (!cardRef.current) return;
+    if (shouldReduceMotion || !cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const x = clientX - rect.left;
     const y = clientY - rect.top;
@@ -105,6 +108,7 @@ const SpotlightCard: React.FC<{ service: ServiceData; index: number }> = ({ serv
   };
 
   const handleInteractionEnd = () => {
+    if (shouldReduceMotion) return;
     setSpotlightPos(prev => ({ ...prev, opacity: 0 }));
     mouseX.set(0);
     mouseY.set(0);
@@ -112,15 +116,15 @@ const SpotlightCard: React.FC<{ service: ServiceData; index: number }> = ({ serv
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: shouldReduceMotion ? 12 : 35 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-70px' }}
+      viewport={{ once: true, margin: '-60px' }}
       transition={{
-        duration: 0.7,
-        delay: index * 0.18,
+        duration: shouldReduceMotion ? 0.35 : 0.65,
+        delay: shouldReduceMotion ? index * 0.08 : index * 0.16,
         ease: [0.16, 1, 0.3, 1],
       }}
-      style={{ perspective: 1000 }}
+      style={{ perspective: shouldReduceMotion ? undefined : 1000 }}
       className={`w-full ${index === 2 ? 'md:col-span-2 lg:col-span-1' : ''}`}
     >
       <motion.div
@@ -131,8 +135,13 @@ const SpotlightCard: React.FC<{ service: ServiceData; index: number }> = ({ serv
         onTouchMove={handleTouchMove}
         onTouchEnd={handleInteractionEnd}
         onTouchCancel={handleInteractionEnd}
-        style={{ rotateX, rotateY }}
-        className="relative rounded-3xl bg-[#090b10] border border-white/[0.08] hover:border-cyan-400/40 p-6 sm:p-8 lg:p-10 transition-colors duration-300 overflow-hidden flex flex-col justify-between min-h-[460px] sm:min-h-[500px] group shadow-[0_20px_50px_-20px_rgba(0,0,0,0.8)] touch-pan-y"
+        style={{
+          rotateX: shouldReduceMotion ? 0 : rotateX,
+          rotateY: shouldReduceMotion ? 0 : rotateY,
+        }}
+        className={`relative rounded-3xl bg-[#090b10] border border-white/[0.08] hover:border-cyan-400/40 p-6 sm:p-8 lg:p-10 transition-all duration-300 overflow-hidden flex flex-col justify-between min-h-[460px] sm:min-h-[500px] group shadow-[0_20px_50px_-20px_rgba(0,0,0,0.8)] touch-pan-y ${
+          shouldReduceMotion ? 'hover:-translate-y-2' : ''
+        }`}
       >
         {/* Dynamic Cursor Spotlight Overlay */}
         <div
@@ -216,9 +225,8 @@ export const ServicesSection: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
           <div>
             <div className="flex items-center gap-2.5 mb-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-              <span className="text-[11px] font-mono-tech tracking-[0.3em] uppercase text-cyan-400">
-                CAPACIDADES
+              <span className="text-xs font-mono tracking-widest text-zinc-500 uppercase">
+                03 / Servicios
               </span>
             </div>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black font-display tracking-tight text-white leading-tight">
@@ -227,7 +235,7 @@ export const ServicesSection: React.FC = () => {
           </div>
           
           <p className="text-zinc-400 text-sm sm:text-base max-w-[420px] leading-relaxed">
-            Ingeniería de software y diseño visual de alto calibre para negocios que no aceptan soluciones mediocres.
+            Desarrollo web y dirección visual pensados para marcas que no se conforman con soluciones genéricas.
           </p>
         </div>
 

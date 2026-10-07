@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ArrowLeft, ArrowRight, ShieldCheck, Pause, Play, CheckCircle2, ArrowUpRight, MoveHorizontal } from 'lucide-react';
+import { SectionProgressIndicator } from './SectionProgressIndicator';
 
 interface TestimonialOutcome {
   id: string;
@@ -329,9 +330,8 @@ export const TestimonialsCarousel: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <div className="flex items-center gap-2.5 mb-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-              <span className="text-[11px] font-mono-tech tracking-[0.3em] uppercase text-cyan-400">
-                RESULTADOS COMPROBADOS
+              <span className="text-xs font-mono tracking-widest text-zinc-500 uppercase">
+                05 / Resultados
               </span>
             </div>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black font-display tracking-tight text-white leading-tight">
@@ -341,9 +341,9 @@ export const TestimonialsCarousel: React.FC = () => {
 
           {/* Interactive Navigation and Playback Controls */}
           <div className="flex flex-wrap items-center gap-3">
-            <div className="hidden lg:flex items-center gap-2 text-xs text-zinc-500 font-mono-tech mr-2">
+            <div className="hidden lg:flex items-center gap-2 text-xs text-zinc-500 font-mono mr-2">
               <MoveHorizontal className="w-3.5 h-3.5 text-cyan-400/80" />
-              <span>Arrastra para mover</span>
+              <span>Arrastra para navegar</span>
             </div>
 
             {/* Prev Button */}
@@ -377,7 +377,6 @@ export const TestimonialsCarousel: React.FC = () => {
             </button>
           </div>
         </div>
-
       </div>
 
       {/* Infinite Horizontal Carousel Container */}

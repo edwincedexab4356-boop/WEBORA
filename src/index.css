@@ -20,6 +20,8 @@
     color: #f8fafc;
     -webkit-tap-highlight-color: transparent;
     text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-overflow-scrolling: touch;
   }
 
   body {
@@ -29,6 +31,7 @@
     background-color: #050608;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    touch-action: pan-y;
   }
 
   /* Custom subtle scrollbar */

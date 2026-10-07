@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useSpring, useMotionValue } from 'framer-motion';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 interface MagneticButtonProps {
   children: React.ReactNode;
@@ -12,6 +13,7 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
   className = '',
   strength = 10,
 }) => {
+  const shouldReduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   
   const mouseX = useMotionValue(0);
@@ -23,7 +25,7 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
   const y = useSpring(mouseY, springConfig);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
+    if (shouldReduceMotion || !ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
@@ -36,9 +38,18 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
   };
 
   const handleMouseLeave = () => {
+    if (shouldReduceMotion) return;
     mouseX.set(0);
     mouseY.set(0);
   };
+
+  if (shouldReduceMotion) {
+    return (
+      <div className={`inline-block transition-transform duration-200 active:scale-95 ${className}`}>
+        {children}
+      </div>
+    );
+  }
 
   return (
     <motion.div
