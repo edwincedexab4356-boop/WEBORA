@@ -26,7 +26,7 @@ const SERVICES: ServiceData[] = [
       'Arquitectura de información y diseño visual exclusivo',
       'Desarrollo Mobile-First adaptativo a cualquier resolución',
       'Optimización de rendimiento Lighthouse 95+ en Google',
-      'Integración con dominio corporativo y analítica en tiempo real'
+      'Integración con dominio económico (.store, .site, .online) y analítica'
     ],
     techTags: ['React / Vite', 'Tailwind', 'Next-Gen SEO', 'Microinteracciones'],
     icon: <Globe className="w-6 h-6 text-cyan-400" />

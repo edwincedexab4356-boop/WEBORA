@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { ArrowUpRight, Check, Clock, Shield } from 'lucide-react';
+import { ArrowUpRight, Check, Clock, Shield, Globe, Sparkles, AlertCircle } from 'lucide-react';
 import { MagneticButton } from './MagneticButton';
 import { useSoundscape } from '../context/SoundscapeContext';
 import { SectionProgressIndicator } from './SectionProgressIndicator';
@@ -40,6 +40,26 @@ const SOLUTIONS: SolutionOption[] = [
   }
 ];
 
+export interface CheapDomain {
+  ext: string;
+  category: string;
+  badge: string;
+  desc: string;
+}
+
+export const CHEAP_DOMAINS: CheapDomain[] = [
+  { ext: '.store', category: 'Tiendas & Catálogos', badge: 'Ideal ventas', desc: 'Para catálogos, reposterías, moda y productos' },
+  { ext: '.site', category: 'Todo Negocio', badge: 'Ultra económico', desc: 'La extensión más versátil y barata para cualquier negocio' },
+  { ext: '.online', category: 'Presencia Activa', badge: 'Popular', desc: 'Indica presencia digital activa las 24 horas del día' },
+  { ext: '.shop', category: 'Comercio Directo', badge: 'Compras', desc: 'Orientado 100% a venta de artículos y pedidos' },
+  { ext: '.xyz', category: 'Moderna & Urbana', badge: 'Económico', desc: 'Corta, memorable y muy económica para marcas jóvenes' },
+  { ext: '.website', category: 'Página Oficial', badge: 'Directo', desc: 'Presentación formal para servicios y profesionales' },
+  { ext: '.space', category: 'Turismo & Espacios', badge: 'Boutique', desc: 'Para hospedajes, cabañas, turismo o fotografía' },
+  { ext: '.tech', category: 'Servicios Técnicos', badge: 'Técnico', desc: 'Para talleres, servicios de soporte y tecnología' },
+  { ext: '.club', category: 'Membresías', badge: 'Comunidad', desc: 'Para grupos deportivos, fitness o membresías' },
+  { ext: '.fun', category: 'Recreación', badge: 'Dinámico', desc: 'Para marcas lúdicas, entretenimiento y eventos' },
+];
+
 interface AddonOption {
   id: string;
   label: string;
@@ -47,39 +67,51 @@ interface AddonOption {
   description: string;
 }
 
-const ADDONS: AddonOption[] = [
-  {
-    id: 'cloud_infra',
-    label: 'Dominio .com y Alojamiento Rápido (1 año)',
-    price: 35,
-    description: 'Tu dominio propio (.com) con servidores en la nube de alta velocidad y certificado SSL seguro.'
-  },
-  {
-    id: 'corporate_mail',
-    label: 'Correo Corporativo Oficial',
-    price: 25,
-    description: 'Buzón profesional vinculado a tu web (ej. contacto@tunegocio.com) para máxima formalidad.'
-  },
-  {
-    id: 'seo_engine',
-    label: 'Posicionamiento en Google Maps & Búsquedas',
-    price: 40,
-    description: 'Configuración para que clientes locales encuentren tu negocio fácilmente en Google.'
-  },
-  {
-    id: 'payments',
-    label: 'Pasarela de Pagos con Tarjeta',
-    price: 50,
-    description: 'Integración para aceptar cobros en línea de forma segura con tarjeta de crédito o débito.'
-  }
-];
-
 export const BudgetCalculator: React.FC = () => {
   const { playTick } = useSoundscape();
   const [selectedSolution, setSelectedSolution] = useState<string>('website');
+  const [selectedDomainExt, setSelectedDomainExt] = useState<string>('.store');
   const [selectedAddons, setSelectedAddons] = useState<string[]>(['cloud_infra']);
   const [clientName, setClientName] = useState('');
   const [companyName, setCompanyName] = useState('');
+
+  const currentDomainInfo = useMemo(() => {
+    return CHEAP_DOMAINS.find(d => d.ext === selectedDomainExt) || CHEAP_DOMAINS[0];
+  }, [selectedDomainExt]);
+
+  const sanitizedBizName = useMemo(() => {
+    if (!companyName.trim()) return 'tunegocio';
+    return companyName.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+  }, [companyName]);
+
+  const previewDomain = `${sanitizedBizName}${selectedDomainExt}`;
+
+  const addons: AddonOption[] = useMemo(() => [
+    {
+      id: 'cloud_infra',
+      label: `Dominio Económico (${selectedDomainExt}) + Hosting Rápido (1 año)`,
+      price: 18,
+      description: `Tu dominio propio con extensión económica, servidores en la nube de alta velocidad y certificado SSL seguro.`
+    },
+    {
+      id: 'corporate_mail',
+      label: 'Correo Profesional Oficial',
+      price: 18,
+      description: `Buzón formal vinculado a tu web (ej. contacto@${previewDomain}).`
+    },
+    {
+      id: 'seo_engine',
+      label: 'Posicionamiento en Google Maps & Búsquedas',
+      price: 35,
+      description: 'Configuración para que clientes locales encuentren tu negocio fácilmente en Google.'
+    },
+    {
+      id: 'payments',
+      label: 'Pasarela de Pagos con Tarjeta',
+      price: 45,
+      description: 'Integración para aceptar cobros en línea de forma segura con tarjeta de crédito o débito.'
+    }
+  ], [selectedDomainExt, previewDomain]);
 
   const toggleAddon = (id: string) => {
     setSelectedAddons(prev =>
@@ -92,8 +124,8 @@ export const BudgetCalculator: React.FC = () => {
   }, [selectedSolution]);
 
   const currentAddonsList = useMemo(() => {
-    return ADDONS.filter(a => selectedAddons.includes(a.id));
-  }, [selectedAddons]);
+    return addons.filter(a => selectedAddons.includes(a.id));
+  }, [addons, selectedAddons]);
 
   const totalEstimate = useMemo(() => {
     const addonsTotal = currentAddonsList.reduce((acc, curr) => acc + curr.price, 0);
@@ -108,19 +140,20 @@ export const BudgetCalculator: React.FC = () => {
     const message = `${greeting}. Calculé un presupuesto en su sitio web${biz}:\n\n` +
       `▪ *Plan:* ${currentSolution.name}\n` +
       `▪ *Tiempo de entrega:* ${currentSolution.deliveryDays}\n` +
+      `▪ *Dominio económico elegido:* ${selectedDomainExt} (ej. ${previewDomain})\n` +
       `▪ *Adicionales:* ${addonNames || 'Ninguno'}\n` +
       `▪ *Presupuesto estimado:* $${totalEstimate} USD\n\n` +
-      `¿Podemos conversar por WhatsApp para revisar detalles y comenzar?`;
+      `¿Podemos revisar detalles por WhatsApp para iniciar?`;
 
     return `https://wa.me/50766952340?text=${encodeURIComponent(message)}`;
-  }, [clientName, companyName, currentSolution, currentAddonsList, totalEstimate]);
+  }, [clientName, companyName, currentSolution, selectedDomainExt, previewDomain, currentAddonsList, totalEstimate]);
 
   return (
     <section id="cotizador" className="py-24 sm:py-32 md:py-36 relative bg-[#050608] border-t border-white/[0.05]">
       <div className="max-w-[1240px] mx-auto px-6 sm:px-8">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <div className="flex items-center gap-2.5 mb-3">
               <span className="text-xs font-mono tracking-widest text-zinc-500 uppercase">
@@ -140,8 +173,33 @@ export const BudgetCalculator: React.FC = () => {
               variant="badge"
             />
             <p className="text-zinc-400 text-sm sm:text-base max-w-[400px] leading-relaxed">
-              Precios accesibles, tiempos de entrega garantizados y sin costos ocultos.
+              Precios accesibles, dominios económicos y sin costos ocultos.
             </p>
+          </div>
+        </div>
+
+        {/* Highlight Banner: No Expensive Domains Rule */}
+        <div className="p-4 sm:p-5 rounded-2xl bg-cyan-950/30 border border-cyan-500/20 mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-start gap-3">
+            <Globe className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-white uppercase tracking-wider">
+                  Política de Ahorro: Solo Dominios Económicos
+                </span>
+                <span className="text-[10px] font-mono-tech px-2 py-0.5 rounded-full bg-cyan-400/10 text-cyan-300 border border-cyan-400/20">
+                  CERO SOBREPRECIOS
+                </span>
+              </div>
+              <p className="text-xs text-zinc-300 mt-1 leading-relaxed">
+                <strong className="text-white">No usamos .com, .net ni .org</strong> por sus costos elevados innecesarios. Implementamos dominios modernos y ultra baratos como <strong className="text-cyan-300">.store</strong>, <strong className="text-cyan-300">.site</strong>, <strong className="text-cyan-300">.online</strong>, <strong className="text-cyan-300">.shop</strong>, <strong className="text-cyan-300">.xyz</strong> y más, para que tengas tu propia web con tu nombre exacto al mejor precio.
+              </p>
+            </div>
+          </div>
+
+          <div className="shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/40 border border-white/10 text-[11px] font-mono text-cyan-300">
+            <span>Tu web:</span>
+            <span className="text-white font-bold">{previewDomain}</span>
           </div>
         </div>
 
@@ -200,14 +258,73 @@ export const BudgetCalculator: React.FC = () => {
               </div>
             </div>
 
-            {/* Step 2: Addons */}
+            {/* Step 2: Choose Cheap Domain Extension */}
+            <div className="bg-[#090b10] border border-white/[0.08] rounded-2xl p-5 sm:p-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                <span className="text-[11px] font-mono-tech uppercase tracking-[0.25em] text-cyan-400 block">
+                  02 // SELECCIONA TU DOMINIO BARATO
+                </span>
+                <span className="text-[10px] font-mono-tech text-zinc-400">
+                  Sin .com / .net / .org
+                </span>
+              </div>
+
+              <p className="text-xs text-zinc-400 mb-4 leading-relaxed">
+                Elige la extensión que mejor encaje con tu actividad. Todas son modernas, fáciles de recordar y mucho más económicas:
+              </p>
+
+              {/* Grid of Cheap Domains */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 mb-4">
+                {CHEAP_DOMAINS.map(item => {
+                  const isChosen = selectedDomainExt === item.ext;
+                  return (
+                    <button
+                      key={item.ext}
+                      type="button"
+                      onClick={() => {
+                        playTick();
+                        setSelectedDomainExt(item.ext);
+                      }}
+                      className={`p-2.5 rounded-xl border text-left transition-all duration-200 cursor-pointer ${
+                        isChosen
+                          ? 'bg-cyan-400 text-black border-cyan-400 font-bold shadow-[0_0_15px_rgba(0,229,255,0.3)]'
+                          : 'bg-[#050608] border-white/[0.08] hover:border-white/20 text-white'
+                      }`}
+                    >
+                      <span className={`text-base font-bold font-mono block ${isChosen ? 'text-black' : 'text-cyan-400'}`}>
+                        {item.ext}
+                      </span>
+                      <span className={`text-[10px] block truncate ${isChosen ? 'text-black/80 font-medium' : 'text-zinc-400'}`}>
+                        {item.category}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Selected Domain preview explanation */}
+              <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-between gap-3 text-xs">
+                <div>
+                  <span className="text-zinc-400 text-[11px] block">Extensión seleccionada:</span>
+                  <span className="text-white font-bold font-mono">{selectedDomainExt}</span>
+                  <span className="text-zinc-500 text-[11px] ml-2">— {currentDomainInfo.desc}</span>
+                </div>
+                <div className="text-right shrink-0">
+                  <span className="text-[10px] font-mono-tech text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                    Súper Barato
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Step 3: Addons */}
             <div>
               <span className="text-[11px] font-mono-tech uppercase tracking-[0.25em] text-cyan-400 block mb-4">
-                02 // COMPONENTES OPCIONALES
+                03 // COMPONENTES OPCIONALES
               </span>
 
               <div className="space-y-2.5">
-                {ADDONS.map(addon => {
+                {addons.map(addon => {
                   const isChecked = selectedAddons.includes(addon.id);
                   return (
                     <div
@@ -277,11 +394,18 @@ export const BudgetCalculator: React.FC = () => {
                     type="text"
                     value={companyName}
                     onChange={e => setCompanyName(e.target.value)}
-                    placeholder="Ej. Mi Tienda"
+                    placeholder="Ej. Gorras Alex"
                     className="w-full bg-[#050608] border border-white/[0.1] rounded-xl px-4 py-3 sm:py-2.5 text-base sm:text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-cyan-400 transition-colors"
                   />
                 </div>
               </div>
+
+              {companyName && (
+                <div className="mt-3 text-[11px] font-mono text-cyan-300 flex items-center gap-1.5">
+                  <Check className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>Tu web quedará como: <strong>{previewDomain}</strong></span>
+                </div>
+              )}
             </div>
 
           </div>
@@ -312,6 +436,24 @@ export const BudgetCalculator: React.FC = () => {
                   <Clock className="w-3.5 h-3.5 text-cyan-400" />
                   <span>Plazo de entrega: {currentSolution.deliveryDays}</span>
                 </div>
+              </div>
+
+              {/* Chosen Domain */}
+              <div className="py-5 border-b border-white/[0.06]">
+                <span className="text-[11px] font-mono-tech uppercase tracking-wider text-zinc-500 block mb-1.5">
+                  Dominio económico configurado:
+                </span>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-bold font-mono text-cyan-300">
+                    {previewDomain}
+                  </span>
+                  <span className="text-[10px] font-mono-tech uppercase px-2 py-0.5 rounded bg-white/[0.04] text-zinc-300 border border-white/[0.08]">
+                    {selectedDomainExt}
+                  </span>
+                </div>
+                <span className="text-[10px] text-zinc-500 mt-1 block">
+                  Sin sobrecostos de .com/.net/.org
+                </span>
               </div>
 
               {/* Addons breakdown */}
