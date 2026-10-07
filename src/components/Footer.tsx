@@ -27,11 +27,11 @@ export const Footer: React.FC = () => {
           <div className="md:col-span-5 space-y-4">
             <WeboraLogo size={36} showText={true} textClassName="text-xl tracking-[0.25em]" />
             <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed max-w-sm">
-              Webora convierte ideas de negocios en experiencias digitales. Sitios web, catálogos interactivos y sistemas concebidos para liderar.
+              Novexa diseña páginas web modernas, catálogos interactivos con WhatsApp y herramientas digitales accesibles para negocios.
             </p>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-400/10 border border-cyan-400/20 text-cyan-300 text-[9px] sm:text-[10px] font-mono-tech">
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-              <span>DISPONIBILIDAD // ACEPTANDO NUEVOS PROYECTOS</span>
+              <span>DISPONIBILIDAD // PROYECTOS DISPONIBLES</span>
             </div>
           </div>
 
@@ -52,15 +52,15 @@ export const Footer: React.FC = () => {
               CONTACTO DIRECTO
             </span>
             <p className="text-xs text-zinc-400 leading-relaxed">
-              Atención personalizada para directores, fundadores y equipos de crecimiento.
+              Atención directa por WhatsApp para dudas, presupuestos e inicio de proyectos.
             </p>
             <a
-              href="https://wa.me/50760000000"
+              href="https://wa.me/50766952340"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs font-mono-tech text-cyan-400 hover:text-white transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-mono text-cyan-400 hover:text-white transition-colors"
             >
-              <span>+507 6000-0000 (WhatsApp Business)</span>
+              <span>66952340 (WhatsApp)</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
             </a>
           </div>
@@ -69,7 +69,7 @@ export const Footer: React.FC = () => {
 
         {/* Lower Sub-Footer with Audio Soundscape Toggle */}
         <div className="pt-6 sm:pt-8 flex flex-col md:flex-row items-center justify-between gap-5 text-[10px] sm:text-[11px] font-mono-tech text-zinc-500 text-center sm:text-left">
-          <p>© {currentYear} WEBORA. Todos los derechos reservados.</p>
+          <p>© {currentYear} NOVEXA. Todos los derechos reservados.</p>
           
           {/* Ambient Soundscape Toggle Controller & Shortcuts Button */}
           <div className="flex flex-wrap items-center justify-center gap-2.5">

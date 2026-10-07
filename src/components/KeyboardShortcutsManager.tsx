@@ -247,7 +247,7 @@ export const KeyboardShortcutsManager: React.FC = () => {
               transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
               role="dialog"
               aria-modal="true"
-              aria-label="Atajos de teclado de Webora"
+              aria-label="Atajos de teclado de Novexa"
               className="relative w-full max-w-lg bg-[#090b10] border border-white/[0.12] rounded-3xl p-6 sm:p-8 shadow-2xl z-10 text-white"
             >
               {/* Header */}
@@ -345,7 +345,7 @@ export const KeyboardShortcutsManager: React.FC = () => {
               {/* Footer Note */}
               <div className="pt-4 border-t border-white/[0.08] flex items-center justify-between text-[11px] font-mono-tech text-zinc-500">
                 <span>Presiona ESC para cerrar</span>
-                <span className="text-cyan-400/80">WEBORA // VITE + MOTION</span>
+                <span className="text-cyan-400/80">NOVEXA // WEB STUDIO</span>
               </div>
             </motion.div>
           </div>

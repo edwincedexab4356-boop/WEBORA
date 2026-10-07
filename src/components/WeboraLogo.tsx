@@ -15,14 +15,13 @@ export const WeboraLogo: React.FC<WeboraLogoProps> = ({
 }) => {
   const rawId = useId();
   const uid = rawId.replace(/[^a-zA-Z0-9_-]/g, '');
-  const cyanGradId = `webora-cyan-${uid}`;
-  const shadowGradId = `webora-shadow-${uid}`;
-  const chromeId = `webora-chrome-${uid}`;
-  const glowId = `webora-glow-${uid}`;
+  const cyanGradId = `novexa-cyan-${uid}`;
+  const shadowGradId = `novexa-shadow-${uid}`;
+  const glowId = `novexa-glow-${uid}`;
 
   return (
     <div className={`inline-flex items-center gap-3 select-none ${className}`}>
-      {/* Cinematic Ribbon / Origami Folded 'W' Logo Mark */}
+      {/* Modern Architectural 'N' Monogram */}
       <svg
         width={size}
         height={size}
@@ -32,59 +31,49 @@ export const WeboraLogo: React.FC<WeboraLogoProps> = ({
         className="shrink-0"
       >
         <defs>
-          {/* Cyan to Electric Blue gradient for front ribbon */}
           <linearGradient id={cyanGradId} x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#ffffff" />
-            <stop offset="35%" stopColor="#00e5ff" />
-            <stop offset="100%" stopColor="#0066ff" />
+            <stop offset="40%" stopColor="#00e5ff" />
+            <stop offset="100%" stopColor="#0077ff" />
           </linearGradient>
 
-          {/* Deep cobalt shadow gradient for folded rear plane */}
-          <linearGradient id={shadowGradId} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#0044cc" />
-            <stop offset="100%" stopColor="#031633" />
-          </linearGradient>
-
-          {/* Highlight chrome gradient */}
-          <linearGradient id={chromeId} x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#ffffff" />
-            <stop offset="70%" stopColor="#c7d2fe" />
-            <stop offset="100%" stopColor="#38bdf8" />
+          <linearGradient id={shadowGradId} x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#00b4d8" />
+            <stop offset="100%" stopColor="#023e8a" />
           </linearGradient>
 
           <filter id={glowId} x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feGaussianBlur stdDeviation="2.5" result="blur" />
             <feComposite in="SourceGraphic" in2="blur" operator="over" />
           </filter>
         </defs>
 
-        {/* Back geometric fold */}
+        {/* Left vertical stem */}
         <path
-          d="M12 18L26 46L36 28L28 14L12 18Z"
+          d="M12 12H22V52H12V12Z"
           fill={`url(#${shadowGradId})`}
-          opacity="0.85"
         />
 
-        {/* Main sharp diagonal ribbon facet */}
+        {/* Diagonal dynamic ribbon */}
         <path
-          d="M10 14L28 48L38 48L54 16L40 16L32 34L22 14L10 14Z"
+          d="M16 12L46 48V52H36L12 20V12H16Z"
           fill={`url(#${cyanGradId})`}
           filter={`url(#${glowId})`}
         />
 
-        {/* Top-right sharp chrome facet */}
+        {/* Right vertical stem */}
         <path
-          d="M38 14L54 14L46 32L34 32L38 14Z"
-          fill={`url(#${chromeId})`}
+          d="M42 12H52V52H42V12Z"
+          fill={`url(#${cyanGradId})`}
         />
 
-        {/* Accent specular light point */}
-        <circle cx="28" cy="47" r="1.5" fill="#ffffff" />
+        {/* Specular dot */}
+        <circle cx="47" cy="17" r="2" fill="#ffffff" />
       </svg>
 
       {showText && (
         <span className={`font-black font-display text-white uppercase ${textClassName}`}>
-          WEBORA
+          NOVEXA
         </span>
       )}
     </div>

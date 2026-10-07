@@ -17,6 +17,7 @@ import { CinematicSectionMask } from './components/CinematicSectionMask';
 import { DotNavigationSidebar } from './components/DotNavigationSidebar';
 import { KeyboardShortcutsManager } from './components/KeyboardShortcutsManager';
 import { StickyReadingProgressBar } from './components/StickyReadingProgressBar';
+import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { SoundscapeProvider } from './context/SoundscapeContext';
 
 export default function App() {
@@ -113,6 +114,9 @@ export default function App() {
 
           {/* Footer */}
           <Footer />
+
+          {/* Floating WhatsApp Quick Action Button */}
+          <FloatingWhatsApp />
         </div>
       </CinematicTransitionLayer>
     </SoundscapeProvider>

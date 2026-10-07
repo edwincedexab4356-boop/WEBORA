@@ -150,7 +150,7 @@ export const Navbar: React.FC = () => {
                 Crear Mi Proyecto
               </a>
               <p className="text-[11px] text-zinc-500 text-center tracking-wider font-mono-tech">
-                WEBORA — DIGITAL STUDIO
+                NOVEXA — ESTUDIO WEB & CATÁLOGOS
               </p>
             </div>
           </motion.div>

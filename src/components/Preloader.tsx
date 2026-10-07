@@ -75,10 +75,10 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
           className="mt-5 text-center"
         >
           <span className="font-display font-black text-2xl tracking-[0.35em] text-white uppercase block">
-            WEBORA
+            NOVEXA
           </span>
-          <span className="text-[10px] tracking-[0.4em] uppercase text-cyan-400 font-mono-tech mt-1 block opacity-80">
-            DIGITAL EXPERIENCES
+          <span className="text-[10px] tracking-[0.35em] uppercase text-cyan-400 font-mono-tech mt-1 block opacity-85">
+            ESTUDIO WEB & CATÁLOGOS
           </span>
         </motion.div>
 

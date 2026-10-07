@@ -14,7 +14,7 @@ interface NavSection {
 
 const SECTIONS: NavSection[] = [
   { id: '#hero', number: '01', name: 'Inicio', label: 'Portada Principal', readTime: '~30s' },
-  { id: '#manifiesto', number: '02', name: 'Manifiesto', label: 'Filosofía Webora', readTime: '~1.5m' },
+  { id: '#manifiesto', number: '02', name: 'Manifiesto', label: 'Filosofía Novexa', readTime: '~1.5m' },
   { id: '#servicios', number: '03', name: 'Servicios', label: 'Capacidades Digitales', readTime: '~2m' },
   { id: '#portafolio', number: '04', name: 'Portafolio', label: 'Proyectos Selectos', readTime: '~2.5m' },
   { id: '#impacto', number: '05', name: 'Resultados', label: 'Métricas Reales', readTime: '~1.5m' },

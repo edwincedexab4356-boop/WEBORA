@@ -66,11 +66,11 @@ export const Hero: React.FC = () => {
           initial={{ opacity: 0, y: -16, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-white/[0.08] bg-white/[0.02] backdrop-blur-md mb-8"
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/[0.08] bg-white/[0.02] backdrop-blur-md mb-8"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
           <span className="text-xs text-zinc-300 font-medium tracking-wide">
-            Estudio de Diseño y Desarrollo Web
+            NOVEXA — Diseño Web & Catálogos Digitales
           </span>
         </motion.div>
 
@@ -110,7 +110,7 @@ export const Hero: React.FC = () => {
           transition={{ duration: 0.7, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
           className="text-zinc-400 text-sm sm:text-base md:text-lg lg:text-xl font-normal leading-relaxed max-w-[680px] mb-8 sm:mb-12 text-balance px-2"
         >
-          Diseñamos y desarrollamos sitios web, catálogos interactivos y sistemas a medida para marcas que buscan diferenciarse con diseño de autor y tecnología de alto rendimiento.
+          Creamos páginas web rápidas, catálogos interactivos con pedidos a WhatsApp y tiendas virtuales accesibles para negocios que quieren crecer y proyectar máxima confianza.
         </motion.p>
 
         {/* Magnetic Buttons appearing at the end */}
