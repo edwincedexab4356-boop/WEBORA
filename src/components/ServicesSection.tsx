@@ -4,6 +4,7 @@ import { ArrowUpRight, Globe, Layers, Cpu } from 'lucide-react';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { SectionProgressIndicator } from './SectionProgressIndicator';
 import { TasteButton } from './TasteButton';
+import { useWhatsAppModal } from '../context/WhatsAppModalContext';
 
 interface ServiceData {
   id: string;
@@ -67,6 +68,7 @@ const SERVICES: ServiceData[] = [
 // 3D Tilt Card with Cursor-following and Touch-following Spotlight Illumination
 const SpotlightCard: React.FC<{ service: ServiceData; index: number }> = ({ service, index }) => {
   const shouldReduceMotion = useReducedMotion();
+  const { openConsultation } = useWhatsAppModal();
   const cardRef = useRef<HTMLDivElement>(null);
   const [spotlightPos, setSpotlightPos] = useState({ x: 0, y: 0, opacity: 0 });
 
@@ -204,7 +206,12 @@ const SpotlightCard: React.FC<{ service: ServiceData; index: number }> = ({ serv
           </div>
 
           <TasteButton
-            href="#contacto"
+            onClick={() => {
+              openConsultation({
+                serviceName: service.title,
+                specs: `Quiero consultar sobre el servicio "${service.title}" (${service.tagline}): ${service.description}`,
+              });
+            }}
             variant="ghost"
             size="sm"
             icon={<ArrowUpRight className="w-3.5 h-3.5 text-[#00D2FF]" />}

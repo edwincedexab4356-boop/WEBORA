@@ -18,6 +18,8 @@ import { DotNavigationSidebar } from './components/DotNavigationSidebar';
 import { KeyboardShortcutsManager } from './components/KeyboardShortcutsManager';
 import { StickyReadingProgressBar } from './components/StickyReadingProgressBar';
 import { SoundscapeProvider } from './context/SoundscapeContext';
+import { WhatsAppModalProvider } from './context/WhatsAppModalContext';
+import { WhatsAppConsultModal } from './components/WhatsAppConsultModal';
 
 export default function App() {
   const [preloaderFinished, setPreloaderFinished] = useState(false);
@@ -32,89 +34,94 @@ export default function App() {
 
   return (
     <SoundscapeProvider>
-      <CinematicTransitionLayer>
-        <div className="min-h-screen bg-[#07090E] text-white selection:bg-[#0066FF] selection:text-white font-sans relative overflow-x-hidden">
-          
-          {/* 1. Preloader (max 1.4s, unmounts automatically) */}
-          <AnimatePresence>
-            {!preloaderFinished && (
-              <Preloader onComplete={() => setPreloaderFinished(true)} />
-            )}
-          </AnimatePresence>
+      <WhatsAppModalProvider>
+        <CinematicTransitionLayer>
+          <div className="min-h-screen bg-[#07090E] text-white selection:bg-[#0066FF] selection:text-white font-sans relative overflow-x-hidden">
+            
+            {/* 1. Preloader (max 1.4s, unmounts automatically) */}
+            <AnimatePresence>
+              {!preloaderFinished && (
+                <Preloader onComplete={() => setPreloaderFinished(true)} />
+              )}
+            </AnimatePresence>
 
-          {/* 2. Minimalist Desktop Custom Cursor */}
-          <CustomCursor />
+            {/* 2. Minimalist Desktop Custom Cursor */}
+            <CustomCursor />
 
-          {/* 3. Global Keyboard Shortcuts Manager */}
-          <KeyboardShortcutsManager />
+            {/* 3. Global Keyboard Shortcuts Manager */}
+            <KeyboardShortcutsManager />
 
-          {/* 4. Persistent Minimalist Dot-Navigation Sidebar */}
-          <DotNavigationSidebar />
+            {/* 4. Persistent Minimalist Dot-Navigation Sidebar */}
+            <DotNavigationSidebar />
 
-          {/* 4. Top Scroll Progress Indicator */}
-          <motion.div
-            className="fixed top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#0066FF] via-[#00D2FF] to-[#0052CC] z-[70] origin-left shadow-[0_0_12px_rgba(0,102,255,0.7)]"
-            style={{ scaleX }}
-          />
-
-          {/* 5. Glassmorphic Sticky Navbar */}
-          <Navbar />
-
-          {/* 6. Sticky Reading Progress Indicator Bar in Viewport */}
-          <StickyReadingProgressBar />
-
-          {/* Main Experience */}
-          <main className="relative z-10">
-            {/* Chapter 01: Hero Section */}
-            <Hero />
-
-            {/* Section Transition: 01 -> 02 */}
-            <CinematicSectionMask
-              fromChapter="01"
-              toChapter="02"
-              title="Manifiesto"
+            {/* 5. Top Scroll Progress Indicator */}
+            <motion.div
+              className="fixed top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#0066FF] via-[#00D2FF] to-[#0052CC] z-[70] origin-left shadow-[0_0_12px_rgba(0,102,255,0.7)]"
+              style={{ scaleX }}
             />
 
-            {/* Chapter 02: Big Line-by-Line Kinetic Manifesto */}
-            <AnimatedManifesto />
+            {/* 6. Glassmorphic Sticky Navbar */}
+            <Navbar />
 
-            {/* Chapter 03: Services: 3 Large 3D Tilt Cards with Spotlight */}
-            <ServicesSection />
+            {/* 7. Sticky Reading Progress Indicator Bar in Viewport */}
+            <StickyReadingProgressBar />
 
-            {/* Section Transition: 03 -> 04 */}
-            <CinematicSectionMask
-              fromChapter="03"
-              toChapter="04"
-              title="Portafolio"
-            />
+            {/* Main Experience */}
+            <main className="relative z-10">
+              {/* Chapter 01: Hero Section */}
+              <Hero />
 
-            {/* Chapter 04: Portfolio: Cinematic Large Cards with Hover Zoom & Specs */}
-            <PortfolioSection />
+              {/* Section Transition: 01 -> 02 */}
+              <CinematicSectionMask
+                fromChapter="01"
+                toChapter="02"
+                title="Manifiesto"
+              />
 
-            {/* Chapter 05: Testimonials: Infinite Horizontal Outcome Carousel */}
-            <TestimonialsCarousel />
+              {/* Chapter 02: Big Line-by-Line Kinetic Manifesto */}
+              <AnimatedManifesto />
 
-            {/* Chapter 06: Work Process Methodology */}
-            <WorkProcess />
+              {/* Chapter 03: Services: 3 Large 3D Tilt Cards with Spotlight */}
+              <ServicesSection />
 
-            {/* Section Transition: 06 -> 07 */}
-            <CinematicSectionMask
-              fromChapter="06"
-              toChapter="07"
-              title="Estimación"
-            />
+              {/* Section Transition: 03 -> 04 */}
+              <CinematicSectionMask
+                fromChapter="03"
+                toChapter="04"
+                title="Portafolio"
+              />
 
-            {/* Chapter 07: Real-time Project Budget Calculator */}
-            <BudgetCalculator />
+              {/* Chapter 04: Portfolio: Cinematic Large Cards with Hover Zoom & Specs */}
+              <PortfolioSection />
 
-            {/* Chapter 08: Contact & WhatsApp Connection */}
-            <ContactSection />
-          </main>
+              {/* Chapter 05: Testimonials: Infinite Horizontal Outcome Carousel */}
+              <TestimonialsCarousel />
 
-          {/* Footer */}
-          <Footer />
-        </div>
-      </CinematicTransitionLayer>
+              {/* Chapter 06: Work Process Methodology */}
+              <WorkProcess />
+
+              {/* Section Transition: 06 -> 07 */}
+              <CinematicSectionMask
+                fromChapter="06"
+                toChapter="07"
+                title="Estimación"
+              />
+
+              {/* Chapter 07: Real-time Project Budget Calculator */}
+              <BudgetCalculator />
+
+              {/* Chapter 08: Contact & WhatsApp Connection */}
+              <ContactSection />
+            </main>
+
+            {/* Footer */}
+            <Footer />
+
+            {/* Interactive WhatsApp Consultation Modal with Name, Business Type & Specs */}
+            <WhatsAppConsultModal />
+          </div>
+        </CinematicTransitionLayer>
+      </WhatsAppModalProvider>
     </SoundscapeProvider>
   );
 }

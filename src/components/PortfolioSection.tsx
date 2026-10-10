@@ -5,6 +5,7 @@ import { useSoundscape } from '../context/SoundscapeContext';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { SectionProgressIndicator } from './SectionProgressIndicator';
 import { TasteButton } from './TasteButton';
+import { useWhatsAppModal } from '../context/WhatsAppModalContext';
 
 export interface ProjectItem {
   id: string;
@@ -262,6 +263,7 @@ export const PortfolioSection: React.FC = () => {
   const [filter, setFilter] = useState<string>('Todos');
   const [activeModal, setActiveModal] = useState<ProjectItem | null>(null);
   const { playTick } = useSoundscape();
+  const { openConsultation } = useWhatsAppModal();
 
   const categories = ['Todos', 'Catálogos Digitales', 'Pedidos WhatsApp'];
 
@@ -356,9 +358,11 @@ export const PortfolioSection: React.FC = () => {
           </div>
 
           <TasteButton
-            href="https://wa.me/50766952340?text=Hola%20D.E.K%20NOVACORE,%20vi%20sus%20proyectos%20en%20el%20portafolio%20y%20quiero%20cotizar%20un%20sitio%20para%20mi%20negocio."
-            target="_blank"
-            rel="noopener noreferrer"
+            onClick={() => {
+              openConsultation({
+                specs: 'Vi los proyectos en el portafolio (Dulzuras de Belgis / Gorras de Alex) y quiero cotizar una plataforma web o catálogo interactivo similar para mi negocio.',
+              });
+            }}
             variant="primary"
             size="md"
             icon={<ArrowUpRight className="w-4 h-4" />}
@@ -471,9 +475,13 @@ export const PortfolioSection: React.FC = () => {
 
               <div className="flex flex-col sm:flex-row items-center gap-3">
                 <TasteButton
-                  href={`https://wa.me/50766952340?text=Hola%20D.E.K%20NOVACORE,%20quiero%20un%20proyecto%20similar%20a%20${encodeURIComponent(activeModal.title)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  onClick={() => {
+                    openConsultation({
+                      serviceName: activeModal.title,
+                      specs: `Quiero una página web o catálogo interactivo similar al proyecto ${activeModal.title} (${activeModal.category}): ${activeModal.tagline}.`,
+                    });
+                    setActiveModal(null);
+                  }}
                   variant="primary"
                   size="lg"
                   className="w-full sm:flex-1"

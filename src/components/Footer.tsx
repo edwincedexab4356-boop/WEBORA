@@ -4,10 +4,12 @@ import { ArrowUp, ArrowUpRight, Volume2, VolumeX, Command, Instagram, ShieldChec
 import { WeboraLogo } from './WeboraLogo';
 import { LegalModal } from './LegalModal';
 import { useSoundscape } from '../context/SoundscapeContext';
+import { useWhatsAppModal } from '../context/WhatsAppModalContext';
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
   const { isMuted, isPlaying, toggleMute, activateSoundscape, playTick } = useSoundscape();
+  const { openConsultation } = useWhatsAppModal();
   const [legalOpen, setLegalOpen] = useState(false);
   const [legalTab, setLegalTab] = useState<'privacy' | 'terms'>('privacy');
 
@@ -88,11 +90,14 @@ export const Footer: React.FC = () => {
                 </a>
 
                 {/* WhatsApp */}
-                <a
-                  href="https://wa.me/50766952340"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2.5 text-zinc-300 hover:text-white group transition-colors"
+                <button
+                  type="button"
+                  onClick={() => {
+                    openConsultation({
+                      specs: 'Hola D.E.K NOVACORE, vi el pie de página oficial y quiero información para cotizar un proyecto web o catálogo interactivo.',
+                    });
+                  }}
+                  className="w-full flex items-center gap-2.5 text-zinc-300 hover:text-white group transition-colors text-left cursor-pointer"
                 >
                   <div className="w-7 h-7 rounded-lg bg-white/[0.04] border border-white/10 group-hover:border-[#0066FF] flex items-center justify-center transition-colors">
                     <Phone className="w-3.5 h-3.5 text-[#00D2FF]" />
@@ -102,7 +107,7 @@ export const Footer: React.FC = () => {
                     <span className="text-[10px] text-zinc-500 font-mono">66952340</span>
                   </div>
                   <ArrowUpRight className="w-3 h-3 text-zinc-500 group-hover:text-white ml-auto" />
-                </a>
+                </button>
               </div>
             </div>
 

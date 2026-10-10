@@ -3,8 +3,10 @@ import { ArrowUpRight, MessageSquare, ShieldCheck, Clock, CheckCircle2, Phone, I
 import { MagneticButton } from './MagneticButton';
 import { TasteButton } from './TasteButton';
 import { SectionProgressIndicator } from './SectionProgressIndicator';
+import { useWhatsAppModal } from '../context/WhatsAppModalContext';
 
 export const ContactSection: React.FC = () => {
+  const { openConsultation } = useWhatsAppModal();
   const [name, setName] = useState('');
   const [company, setCompany] = useState('');
   const [service, setService] = useState('Sitio Web para Negocio ($190 USD)');
@@ -13,14 +15,28 @@ export const ContactSection: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const formatted = `Hola D.E.K NOVACORE, mi nombre es ${name || 'Cliente'} de ${company || 'mi negocio'}.\n\n` +
-      `Me interesa cotizar: ${service}.\n` +
-      (details ? `Detalles: ${details}\n\n` : '\n') +
+    if (!name.trim() || !company.trim()) {
+      openConsultation({
+        clientName: name,
+        businessType: company,
+        serviceName: service,
+        specs: details || 'Cotización de servicio digital.',
+      });
+      return;
+    }
+
+    const formatted = `👋 *HOLA D.E.K NOVACORE — DIGITAL SOLUTIONS*\n\n` +
+      `👤 *Nombre:* ${name.trim()}\n` +
+      `🏢 *Tipo de Negocio:* ${company.trim()}\n` +
+      `💰 *Servicio:* ${service}\n\n` +
+      `📋 *Especificaciones:* \n${details.trim() || 'Cotización y asesoría inicial.'}\n\n` +
       `¿Podemos conversar para revisar disponibilidad y cotización accesible?`;
 
     const url = `https://wa.me/50766952340?text=${encodeURIComponent(formatted)}`;
     setSentSuccess(true);
-    window.open(url, '_blank');
+    setTimeout(() => {
+      window.open(url, '_blank');
+    }, 250);
   };
 
   return (
@@ -61,11 +77,14 @@ export const ContactSection: React.FC = () => {
             {/* Direct Channels Cards: WhatsApp & Instagram */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-8">
               {/* WhatsApp Card */}
-              <a
-                href="https://wa.me/50766952340?text=Hola%20D.E.K%20NOVACORE,%20quiero%20información%20y%20precios%20para%20un%20proyecto%20web."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-4 rounded-2xl bg-[#0B0D12] border border-[#0066FF]/30 hover:border-[#0066FF] transition-all group flex items-center justify-between"
+              <button
+                type="button"
+                onClick={() => {
+                  openConsultation({
+                    specs: 'Quiero información sobre cotización y opciones de diseño web / catálogo interactivo para mi negocio.',
+                  });
+                }}
+                className="p-4 rounded-2xl bg-[#0B0D12] border border-[#0066FF]/30 hover:border-[#0066FF] transition-all group flex items-center justify-between text-left cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-[#0066FF]/15 flex items-center justify-center text-[#00D2FF]">
@@ -77,7 +96,7 @@ export const ContactSection: React.FC = () => {
                   </div>
                 </div>
                 <ArrowUpRight className="w-4 h-4 text-zinc-500 group-hover:text-white transition-colors" />
-              </a>
+              </button>
 
               {/* Instagram Card */}
               <a
@@ -146,13 +165,14 @@ export const ContactSection: React.FC = () => {
                 </div>
                 <div>
                   <label className="text-[10px] font-mono-tech uppercase tracking-wider text-zinc-400 block mb-1.5">
-                    Nombre de tu negocio
+                    Tipo o nombre de tu negocio *
                   </label>
                   <input
                     type="text"
+                    required
                     value={company}
                     onChange={e => setCompany(e.target.value)}
-                    placeholder="Ej. Dulces & Sabores"
+                    placeholder="Ej. Pastelería / Ropa Urbana / Servicios"
                     className="w-full bg-[#07090E] border border-white/[0.1] rounded-xl px-4 py-3 sm:py-2.5 text-base sm:text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-[#0066FF] transition-colors"
                   />
                 </div>
@@ -160,7 +180,7 @@ export const ContactSection: React.FC = () => {
 
               <div>
                 <label className="text-[10px] font-mono-tech uppercase tracking-wider text-zinc-400 block mb-1.5">
-                  ¿Qué necesitas para tu negocio?
+                  ¿Qué solución necesitas?
                 </label>
                 <select
                   value={service}
@@ -177,13 +197,14 @@ export const ContactSection: React.FC = () => {
 
               <div>
                 <label className="text-[10px] font-mono-tech uppercase tracking-wider text-zinc-400 block mb-1.5">
-                  Cuéntanos brevemente sobre tu negocio (opcional)
+                  Especificaciones y requerimientos del proyecto *
                 </label>
                 <textarea
                   rows={4}
+                  required
                   value={details}
                   onChange={e => setDetails(e.target.value)}
-                  placeholder="Ej. Vendo postres/ropa/servicios y quiero que mis clientes hagan pedidos directo por WhatsApp al 66952340..."
+                  placeholder="Ej. Vendo postres/ropa/servicios y quiero catálogo interactivo con fotos, botones directos de pedido a WhatsApp al 66952340..."
                   className="w-full bg-[#07090E] border border-white/[0.1] rounded-xl px-4 py-3 sm:py-2.5 text-base sm:text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-[#0066FF] transition-colors resize-none"
                 />
               </div>

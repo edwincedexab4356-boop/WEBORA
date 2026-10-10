@@ -3,6 +3,7 @@ import { ArrowUpRight, Check, Clock, Shield, Globe, Sparkles, AlertCircle, Shopp
 import { MagneticButton } from './MagneticButton';
 import { TasteButton } from './TasteButton';
 import { useSoundscape } from '../context/SoundscapeContext';
+import { useWhatsAppModal } from '../context/WhatsAppModalContext';
 import { SectionProgressIndicator } from './SectionProgressIndicator';
 
 interface SolutionOption {
@@ -70,11 +71,13 @@ interface AddonOption {
 
 export const BudgetCalculator: React.FC = () => {
   const { playTick } = useSoundscape();
+  const { openConsultation } = useWhatsAppModal();
   const [selectedSolution, setSelectedSolution] = useState<string>('website');
   const [selectedDomainExt, setSelectedDomainExt] = useState<string>('.store');
   const [selectedAddons, setSelectedAddons] = useState<string[]>(['cloud_infra']);
   const [clientName, setClientName] = useState('');
   const [companyName, setCompanyName] = useState('');
+  const [customSpecs, setCustomSpecs] = useState('');
 
   const currentDomainInfo = useMemo(() => {
     return CHEAP_DOMAINS.find(d => d.ext === selectedDomainExt) || CHEAP_DOMAINS[0];
@@ -372,27 +375,40 @@ export const BudgetCalculator: React.FC = () => {
             <div className="space-y-3 mb-6 pb-6 border-b border-white/[0.08]">
               <div>
                 <label className="text-[10px] font-mono-tech uppercase tracking-wider text-zinc-400 block mb-1">
-                  Tu nombre (opcional)
+                  Tu nombre *
                 </label>
                 <input
                   type="text"
                   value={clientName}
                   onChange={e => setClientName(e.target.value)}
-                  placeholder="Ej. Andrés Martínez"
+                  placeholder="Ej. Roberto Gómez"
                   className="w-full bg-[#07090E] border border-white/[0.1] rounded-xl px-3.5 py-2 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-[#0066FF]"
                 />
               </div>
 
               <div>
                 <label className="text-[10px] font-mono-tech uppercase tracking-wider text-zinc-400 block mb-1">
-                  Nombre de tu negocio
+                  Tipo o nombre de tu negocio *
                 </label>
                 <input
                   type="text"
                   value={companyName}
                   onChange={e => setCompanyName(e.target.value)}
-                  placeholder="Ej. Ropa & Estilo"
+                  placeholder="Ej. Pastelería, Ropa Streetwear, etc."
                   className="w-full bg-[#07090E] border border-white/[0.1] rounded-xl px-3.5 py-2 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-[#0066FF]"
+                />
+              </div>
+
+              <div>
+                <label className="text-[10px] font-mono-tech uppercase tracking-wider text-zinc-400 block mb-1">
+                  Especificaciones deseadas (opcional)
+                </label>
+                <textarea
+                  rows={2}
+                  value={customSpecs}
+                  onChange={e => setCustomSpecs(e.target.value)}
+                  placeholder="Ej. Catálogo con 20 productos, pedidos directos por WhatsApp, fotos en alta resolución..."
+                  className="w-full bg-[#07090E] border border-white/[0.1] rounded-xl px-3.5 py-2 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-[#0066FF] resize-none"
                 />
               </div>
             </div>
@@ -437,9 +453,23 @@ export const BudgetCalculator: React.FC = () => {
 
             {/* WhatsApp CTA */}
             <TasteButton
-              href={whatsappInquiryUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+              onClick={() => {
+                const combinedSpecs = [
+                  `Solución: ${currentSolution.name} (${currentSolution.deliveryDays})`,
+                  `Dominio seleccionado: ${selectedDomainExt} (${previewDomain})`,
+                  `Adicionales: ${currentAddonsList.map(a => a.label).join(', ') || 'Ninguno'}`,
+                  customSpecs ? `Requerimientos especiales: ${customSpecs}` : '',
+                ].filter(Boolean).join('\n');
+
+                openConsultation({
+                  serviceName: currentSolution.name,
+                  businessType: companyName,
+                  clientName: clientName,
+                  specs: combinedSpecs,
+                  priceEstimate: `$${totalEstimate} USD`,
+                  breakdown: `${currentSolution.name} ($${currentSolution.basePrice}) + ${selectedDomainExt} + ${currentAddonsList.map(a => a.label).join(', ') || 'Base'}`,
+                });
+              }}
               variant="electric"
               size="lg"
               strength={10}
