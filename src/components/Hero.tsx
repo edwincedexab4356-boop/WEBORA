@@ -3,8 +3,10 @@ import { motion, type Variants } from 'framer-motion';
 import { ArrowUpRight, ChevronDown } from 'lucide-react';
 import { HeroBackgroundCanvas } from './HeroBackgroundCanvas';
 import { MagneticButton } from './MagneticButton';
+import { TasteButton } from './TasteButton';
 import { useSoundscape } from '../context/SoundscapeContext';
 import { SectionProgressIndicator } from './SectionProgressIndicator';
+import userLogoSrc from '../assets/dek_nova_core.png';
 
 export const Hero: React.FC = () => {
   const { activateSoundscape, playTick } = useSoundscape();
@@ -53,7 +55,7 @@ export const Hero: React.FC = () => {
       <HeroBackgroundCanvas />
 
       {/* Subtle radial ambient lighting behind typography */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[450px] bg-[radial-gradient(ellipse,rgba(0,229,255,0.06)_0%,rgba(0,102,255,0.02)_40%,transparent_75%)] pointer-events-none blur-[100px] -z-10" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[450px] bg-[radial-gradient(ellipse,rgba(0,102,255,0.08)_0%,rgba(0,210,255,0.03)_40%,transparent_75%)] pointer-events-none blur-[100px] -z-10" />
 
       {/* Empty spacer to balance layout */}
       <div className="h-6" />
@@ -61,16 +63,19 @@ export const Hero: React.FC = () => {
       {/* Main Hero Content */}
       <div className="max-w-[1020px] mx-auto text-center relative z-10 flex flex-col items-center">
         
-        {/* Brand Micro-badge */}
+        {/* Brand Micro-badge with User's Logo */}
         <motion.div
           initial={{ opacity: 0, y: -16, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/[0.08] bg-white/[0.02] backdrop-blur-md mb-8"
+          className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-[#0066FF]/35 bg-[#07090E]/90 shadow-[0_0_20px_rgba(0,102,255,0.2)] backdrop-blur-md mb-8"
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-          <span className="text-xs text-zinc-300 font-medium tracking-wide">
-            NOVEXA — Diseño Web & Catálogos Digitales
+          <div className="w-5 h-5 rounded-md overflow-hidden bg-black border border-[#0066FF]/40 shrink-0 flex items-center justify-center">
+            <img src={userLogoSrc} alt="D.E.K NOVACORE" className="w-full h-full object-contain" />
+          </div>
+          <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF] animate-pulse" />
+          <span className="text-xs text-white font-semibold tracking-wider font-mono-tech">
+            D.E.K NOVACORE — DIGITAL SOLUTIONS
           </span>
         </motion.div>
 
@@ -92,7 +97,7 @@ export const Hero: React.FC = () => {
                   variants={wordVariants}
                   className={`inline-block ${
                     isHighlight
-                      ? 'text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-cyan-400 drop-shadow-[0_0_35px_rgba(0,229,255,0.25)]'
+                      ? 'text-[#0066FF]'
                       : 'text-white'
                   }`}
                 >
@@ -113,45 +118,36 @@ export const Hero: React.FC = () => {
           Creamos páginas web rápidas, catálogos interactivos con pedidos a WhatsApp y tiendas virtuales accesibles para negocios que quieren crecer y proyectar máxima confianza.
         </motion.p>
 
-        {/* Magnetic Buttons appearing at the end */}
+        {/* Emil Kowalski / Taste Motion Kinetic Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.95, ease: [0.16, 1, 0.3, 1] }}
           className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3.5 sm:gap-5 w-full sm:w-auto px-4 sm:px-0"
         >
-          {/* Button 1: Primary Magnetic */}
-          <MagneticButton strength={10} className="w-full sm:w-auto">
-            <a
-              href="#contacto"
-              data-interactive="true"
-              onMouseEnter={playTick}
-              onClick={() => {
-                activateSoundscape();
-                playTick();
-              }}
-              className="relative inline-flex items-center justify-center gap-3 w-full sm:w-auto px-7 sm:px-8 py-3.5 sm:py-4 rounded-full text-xs uppercase tracking-[0.25em] font-extrabold bg-white text-black hover:bg-[#00e5ff] transition-all duration-300 shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:shadow-[0_0_40px_rgba(0,229,255,0.5)] group min-w-[200px]"
-            >
-              <span>Crear mi proyecto</span>
-              <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
-            </a>
-          </MagneticButton>
+          {/* Button 1: Primary Electric TasteButton */}
+          <TasteButton
+            href="#contacto"
+            variant="electric"
+            size="lg"
+            strength={10}
+            icon={<ArrowUpRight className="w-4 h-4" />}
+            iconPosition="right"
+            className="w-full sm:w-auto min-w-[210px]"
+          >
+            Crear mi proyecto
+          </TasteButton>
 
-          {/* Button 2: Secondary Ghost Magnetic */}
-          <MagneticButton strength={8} className="w-full sm:w-auto">
-            <a
-              href="#portafolio"
-              data-interactive="true"
-              onMouseEnter={playTick}
-              onClick={() => {
-                activateSoundscape();
-                playTick();
-              }}
-              className="inline-flex items-center justify-center gap-3 w-full sm:w-auto px-7 sm:px-8 py-3.5 sm:py-4 rounded-full text-xs uppercase tracking-[0.25em] font-semibold text-zinc-300 hover:text-white border border-white/[0.12] hover:border-cyan-400/50 bg-white/[0.02] hover:bg-white/[0.05] transition-all duration-300 backdrop-blur-sm min-w-[200px]"
-            >
-              <span>Ver nuestro trabajo</span>
-            </a>
-          </MagneticButton>
+          {/* Button 2: Secondary Carbon & Blue TasteButton */}
+          <TasteButton
+            href="#portafolio"
+            variant="secondary"
+            size="lg"
+            strength={8}
+            className="w-full sm:w-auto min-w-[210px]"
+          >
+            Ver nuestro trabajo
+          </TasteButton>
         </motion.div>
 
       </div>

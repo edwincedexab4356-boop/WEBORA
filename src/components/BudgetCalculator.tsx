@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
-import { ArrowUpRight, Check, Clock, Shield, Globe, Sparkles, AlertCircle } from 'lucide-react';
+import { ArrowUpRight, Check, Clock, Shield, Globe, Sparkles, AlertCircle, ShoppingCart } from 'lucide-react';
 import { MagneticButton } from './MagneticButton';
+import { TasteButton } from './TasteButton';
 import { useSoundscape } from '../context/SoundscapeContext';
 import { SectionProgressIndicator } from './SectionProgressIndicator';
 
@@ -16,27 +17,27 @@ interface SolutionOption {
 const SOLUTIONS: SolutionOption[] = [
   {
     id: 'website',
-    name: 'Sitio Web para Negocio',
-    badge: 'Presencia & Confianza',
+    name: 'Sitio Web para Negocio / Landing Page',
+    badge: 'Presencia Digital',
     deliveryDays: '5 a 8 días hábiles',
     basePrice: 190,
-    description: 'Diseño limpio y moderno, adaptado a celulares, optimizado para cargar en menos de un segundo y con botón directo a WhatsApp.'
+    description: 'Diseño limpio y moderno, adaptado al 100% a celulares y tablets, con botones directos a tu WhatsApp (66952340) y carga ultra rápida.'
   },
   {
     id: 'catalog',
-    name: 'Catálogo Digital + WhatsApp',
-    badge: 'Más Solicitado',
-    deliveryDays: '7 a 10 días hábiles',
+    name: 'Catálogo Digital + Pedidos WhatsApp',
+    badge: 'El Más Solicitado',
+    deliveryDays: '8 a 12 días hábiles',
     basePrice: 280,
-    description: 'Catálogo visual de tus productos con fotos, categorías, precios y carrito que genera el pedido formateado a tu WhatsApp.'
+    description: 'Catálogo interactivo con fotos de tus productos, categorías, selector de variantes y carrito que envía el pedido listo a tu WhatsApp.'
   },
   {
     id: 'system',
     name: 'Sitio Web Completo / Tienda Online',
     badge: 'Solución Integral',
-    deliveryDays: '12 a 18 días hábiles',
+    deliveryDays: '14 a 20 días hábiles',
     basePrice: 450,
-    description: 'Plataforma con múltiples páginas, reservas o catálogo extendido, panel de administración y optimización para Google.'
+    description: 'Plataforma completa de múltiples secciones, catálogo extendido o reservas, optimizada para buscadores y máxima conversión.'
   }
 ];
 
@@ -54,7 +55,7 @@ export const CHEAP_DOMAINS: CheapDomain[] = [
   { ext: '.shop', category: 'Comercio Directo', badge: 'Compras', desc: 'Orientado 100% a venta de artículos y pedidos' },
   { ext: '.xyz', category: 'Moderna & Urbana', badge: 'Económico', desc: 'Corta, memorable y muy económica para marcas jóvenes' },
   { ext: '.website', category: 'Página Oficial', badge: 'Directo', desc: 'Presentación formal para servicios y profesionales' },
-  { ext: '.space', category: 'Turismo & Espacios', badge: 'Boutique', desc: 'Para hospedajes, cabañas, turismo o fotografía' },
+  { ext: '.space', category: 'Espacios & Creativos', badge: 'Creativo', desc: 'Para marcas creativas, estudios, diseño o fotografía' },
   { ext: '.tech', category: 'Servicios Técnicos', badge: 'Técnico', desc: 'Para talleres, servicios de soporte y tecnología' },
   { ext: '.club', category: 'Membresías', badge: 'Comunidad', desc: 'Para grupos deportivos, fitness o membresías' },
   { ext: '.fun', category: 'Recreación', badge: 'Dinámico', desc: 'Para marcas lúdicas, entretenimiento y eventos' },
@@ -90,13 +91,13 @@ export const BudgetCalculator: React.FC = () => {
     {
       id: 'cloud_infra',
       label: `Dominio Económico (${selectedDomainExt}) + Hosting Rápido (1 año)`,
-      price: 18,
+      price: 35,
       description: `Tu dominio propio con extensión económica, servidores en la nube de alta velocidad y certificado SSL seguro.`
     },
     {
       id: 'corporate_mail',
       label: 'Correo Profesional Oficial',
-      price: 18,
+      price: 25,
       description: `Buzón formal vinculado a tu web (ej. contacto@${previewDomain}).`
     },
     {
@@ -108,7 +109,7 @@ export const BudgetCalculator: React.FC = () => {
     {
       id: 'payments',
       label: 'Pasarela de Pagos con Tarjeta',
-      price: 45,
+      price: 60,
       description: 'Integración para aceptar cobros en línea de forma segura con tarjeta de crédito o débito.'
     }
   ], [selectedDomainExt, previewDomain]);
@@ -134,30 +135,31 @@ export const BudgetCalculator: React.FC = () => {
 
   const whatsappInquiryUrl = useMemo(() => {
     const addonNames = currentAddonsList.map(a => a.label).join(', ');
-    const greeting = clientName ? `Hola Novexa, mi nombre es ${clientName}` : 'Hola Novexa';
+    const greeting = clientName ? `Hola D.E.K NOVACORE, mi nombre es ${clientName}` : 'Hola D.E.K NOVACORE';
     const biz = companyName ? ` para mi negocio ${companyName}` : '';
     
-    const message = `${greeting}. Calculé un presupuesto en su sitio web${biz}:\n\n` +
+    const message = `${greeting}. Calculé un presupuesto accesible en su cotizador${biz}:\n\n` +
       `▪ *Plan:* ${currentSolution.name}\n` +
       `▪ *Tiempo de entrega:* ${currentSolution.deliveryDays}\n` +
-      `▪ *Dominio económico elegido:* ${selectedDomainExt} (ej. ${previewDomain})\n` +
+      `▪ *Dominio económico:* ${selectedDomainExt} (${previewDomain})\n` +
       `▪ *Adicionales:* ${addonNames || 'Ninguno'}\n` +
-      `▪ *Presupuesto estimado:* $${totalEstimate} USD\n\n` +
-      `¿Podemos revisar detalles por WhatsApp para iniciar?`;
+      `▪ *Total estimado:* $${totalEstimate} USD\n\n` +
+      `¿Podemos revisar los detalles para empezar mi proyecto?`;
 
     return `https://wa.me/50766952340?text=${encodeURIComponent(message)}`;
   }, [clientName, companyName, currentSolution, selectedDomainExt, previewDomain, currentAddonsList, totalEstimate]);
 
   return (
-    <section id="cotizador" className="py-24 sm:py-32 md:py-36 relative bg-[#050608] border-t border-white/[0.05]">
-      <div className="max-w-[1240px] mx-auto px-6 sm:px-8">
+    <section id="cotizador" className="py-20 sm:py-28 md:py-32 relative bg-[#07090E] border-t border-white/[0.06]">
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 md:px-8">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
-            <div className="flex items-center gap-2.5 mb-3">
-              <span className="text-xs font-mono tracking-widest text-zinc-500 uppercase">
-                07 / Presupuesto Transparente
+            <div className="flex items-center gap-2.5 mb-2.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />
+              <span className="text-xs font-mono tracking-widest text-[#00D2FF] uppercase font-semibold">
+                07 / Presupuesto Accesible Para Todos
               </span>
             </div>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black font-display tracking-tight text-white leading-tight">
@@ -168,36 +170,36 @@ export const BudgetCalculator: React.FC = () => {
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
             <SectionProgressIndicator
               sectionId="#cotizador"
-              readTime="~1.5 min de lectura"
+              readTime="~1 min"
               label="Cotizador"
               variant="badge"
             />
-            <p className="text-zinc-400 text-sm sm:text-base max-w-[400px] leading-relaxed">
-              Precios accesibles, dominios económicos y sin costos ocultos.
+            <p className="text-zinc-400 text-xs sm:text-sm max-w-[380px] leading-relaxed">
+              Precios sumamente económicos, dominios baratos (.store, .site, .online) y sin tarifas excesivas.
             </p>
           </div>
         </div>
 
-        {/* Highlight Banner: No Expensive Domains Rule */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-cyan-950/30 border border-cyan-500/20 mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        {/* Highlight Banner: No Expensive Domains Rule (.com, .net, .org excluded) */}
+        <div className="p-4 sm:p-5 rounded-2xl bg-[#0066FF]/10 border border-[#0066FF]/30 mb-8 sm:mb-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-start gap-3">
-            <Globe className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />
+            <Globe className="w-5 h-5 text-[#00D2FF] shrink-0 mt-0.5" />
             <div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-white uppercase tracking-wider">
-                  Política de Ahorro: Solo Dominios Económicos
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider">
+                  Política de Dominios Baratos: Máximo Ahorro
                 </span>
-                <span className="text-[10px] font-mono-tech px-2 py-0.5 rounded-full bg-cyan-400/10 text-cyan-300 border border-cyan-400/20">
-                  CERO SOBREPRECIOS
+                <span className="text-[10px] font-mono-tech px-2 py-0.5 rounded-full bg-[#0066FF]/20 text-[#00D2FF] border border-[#0066FF]/40 font-semibold">
+                  SIN SOBRECOSTOS
                 </span>
               </div>
               <p className="text-xs text-zinc-300 mt-1 leading-relaxed">
-                <strong className="text-white">No usamos .com, .net ni .org</strong> por sus costos elevados innecesarios. Implementamos dominios modernos y ultra baratos como <strong className="text-cyan-300">.store</strong>, <strong className="text-cyan-300">.site</strong>, <strong className="text-cyan-300">.online</strong>, <strong className="text-cyan-300">.shop</strong>, <strong className="text-cyan-300">.xyz</strong> y más, para que tengas tu propia web con tu nombre exacto al mejor precio.
+                <strong className="text-white">No utilizamos .com, .net ni .org</strong> por sus precios inflados. Implementamos extensiones modernas y mucho más económicas como <strong className="text-[#00D2FF]">.store</strong>, <strong className="text-[#00D2FF]">.site</strong>, <strong className="text-[#00D2FF]">.online</strong>, <strong className="text-[#00D2FF]">.shop</strong>, <strong className="text-[#00D2FF]">.xyz</strong>, permitiéndote tener tu marca en la web con el menor costo posible.
               </p>
             </div>
           </div>
 
-          <div className="shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/40 border border-white/10 text-[11px] font-mono text-cyan-300">
+          <div className="shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/60 border border-[#0066FF]/30 text-xs font-mono text-[#00D2FF]">
             <span>Tu web:</span>
             <span className="text-white font-bold">{previewDomain}</span>
           </div>
@@ -207,11 +209,11 @@ export const BudgetCalculator: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Options Column */}
-          <div className="lg:col-span-7 space-y-8">
+          <div className="lg:col-span-7 space-y-6 sm:space-y-8">
             
             {/* Step 1: Solution */}
             <div>
-              <span className="text-[11px] font-mono-tech uppercase tracking-[0.25em] text-cyan-400 block mb-4">
+              <span className="text-[11px] font-mono-tech uppercase tracking-[0.25em] text-[#00D2FF] block mb-3 font-semibold">
                 01 // ELIGE EL PLAN PARA TU NEGOCIO
               </span>
 
@@ -226,19 +228,22 @@ export const BudgetCalculator: React.FC = () => {
                         setSelectedSolution(sol.id);
                       }}
                       data-interactive="true"
-                      className={`p-4 sm:p-6 rounded-2xl border cursor-pointer transition-all duration-300 relative touch-pan-y active:scale-[0.985] ${
+                      className={`p-4 sm:p-5 rounded-2xl border cursor-pointer transition-all duration-200 relative touch-pan-y active:scale-[0.985] ${
                         isSelected
-                          ? 'bg-[#0d1017] border-cyan-400 shadow-[0_0_25px_rgba(0,229,255,0.12)]'
-                          : 'bg-[#090b10] border-white/[0.08] hover:border-white/[0.2]'
+                          ? 'bg-[#0E1320] border-[#0066FF] shadow-[0_0_25px_rgba(0,102,255,0.2)]'
+                          : 'bg-[#0B0D12] border-white/[0.08] hover:border-white/[0.2]'
                       }`}
                     >
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-[9px] sm:text-[10px] font-mono-tech uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-cyan-400/10 text-cyan-300 border border-cyan-400/20">
+                        <span className="text-[9px] sm:text-[10px] font-mono-tech uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-[#0066FF]/15 text-[#00D2FF] border border-[#0066FF]/30 font-semibold">
                           {sol.badge}
                         </span>
-                        <span className="text-sm font-mono-tech text-white font-bold">
-                          ${sol.basePrice} <span className="text-zinc-400 text-xs">USD</span>
-                        </span>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-base sm:text-lg font-mono-tech text-white font-black">
+                            ${sol.basePrice}
+                          </span>
+                          <span className="text-zinc-400 text-xs font-mono">USD</span>
+                        </div>
                       </div>
 
                       <h4 className="text-base sm:text-lg font-bold font-display text-white mb-1">
@@ -249,7 +254,7 @@ export const BudgetCalculator: React.FC = () => {
                       </p>
 
                       <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-mono-tech text-zinc-400">
-                        <Clock className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                        <Clock className="w-3.5 h-3.5 text-[#00D2FF] shrink-0" />
                         <span>Entrega lista en: {sol.deliveryDays}</span>
                       </div>
                     </div>
@@ -259,68 +264,59 @@ export const BudgetCalculator: React.FC = () => {
             </div>
 
             {/* Step 2: Choose Cheap Domain Extension */}
-            <div className="bg-[#090b10] border border-white/[0.08] rounded-2xl p-5 sm:p-6">
+            <div className="bg-[#0B0D12] border border-white/[0.08] rounded-2xl p-4 sm:p-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-                <span className="text-[11px] font-mono-tech uppercase tracking-[0.25em] text-cyan-400 block">
+                <span className="text-[11px] font-mono-tech uppercase tracking-[0.25em] text-[#00D2FF] block font-semibold">
                   02 // SELECCIONA TU DOMINIO BARATO
                 </span>
                 <span className="text-[10px] font-mono-tech text-zinc-400">
-                  Sin .com / .net / .org
+                  Excluimos .com / .net / .org por economía
                 </span>
               </div>
 
-              <p className="text-xs text-zinc-400 mb-4 leading-relaxed">
-                Elige la extensión que mejor encaje con tu actividad. Todas son modernas, fáciles de recordar y mucho más económicas:
-              </p>
-
-              {/* Grid of Cheap Domains */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 mb-4">
-                {CHEAP_DOMAINS.map(item => {
-                  const isChosen = selectedDomainExt === item.ext;
+              <div className="grid grid-cols-2 min-[480px]:grid-cols-3 sm:grid-cols-5 gap-2 mb-4">
+                {CHEAP_DOMAINS.map(d => {
+                  const isChosen = selectedDomainExt === d.ext;
                   return (
                     <button
-                      key={item.ext}
+                      key={d.ext}
                       type="button"
                       onClick={() => {
                         playTick();
-                        setSelectedDomainExt(item.ext);
+                        setSelectedDomainExt(d.ext);
                       }}
-                      className={`p-2.5 rounded-xl border text-left transition-all duration-200 cursor-pointer ${
+                      className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
                         isChosen
-                          ? 'bg-cyan-400 text-black border-cyan-400 font-bold shadow-[0_0_15px_rgba(0,229,255,0.3)]'
-                          : 'bg-[#050608] border-white/[0.08] hover:border-white/20 text-white'
+                          ? 'bg-[#0066FF] border-[#0066FF] text-white shadow-[0_0_15px_rgba(0,102,255,0.4)]'
+                          : 'bg-black/40 border-white/[0.08] text-zinc-300 hover:border-white/20'
                       }`}
                     >
-                      <span className={`text-base font-bold font-mono block ${isChosen ? 'text-black' : 'text-cyan-400'}`}>
-                        {item.ext}
-                      </span>
-                      <span className={`text-[10px] block truncate ${isChosen ? 'text-black/80 font-medium' : 'text-zinc-400'}`}>
-                        {item.category}
-                      </span>
+                      <div className="font-mono text-xs font-black tracking-wide">
+                        {d.ext}
+                      </div>
+                      <div className={`text-[9px] truncate ${isChosen ? 'text-white/80' : 'text-zinc-500'}`}>
+                        {d.badge}
+                      </div>
                     </button>
                   );
                 })}
               </div>
 
-              {/* Selected Domain preview explanation */}
-              <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-between gap-3 text-xs">
+              <div className="p-3 rounded-xl bg-black/40 border border-white/[0.06] flex items-center justify-between text-xs">
                 <div>
-                  <span className="text-zinc-400 text-[11px] block">Extensión seleccionada:</span>
-                  <span className="text-white font-bold font-mono">{selectedDomainExt}</span>
-                  <span className="text-zinc-500 text-[11px] ml-2">— {currentDomainInfo.desc}</span>
+                  <span className="font-bold text-white mr-1.5">{currentDomainInfo.ext}:</span>
+                  <span className="text-zinc-400 text-[11px]">{currentDomainInfo.desc}</span>
                 </div>
-                <div className="text-right shrink-0">
-                  <span className="text-[10px] font-mono-tech text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
-                    Súper Barato
-                  </span>
-                </div>
+                <span className="text-[10px] font-mono-tech text-[#00D2FF] uppercase shrink-0 ml-2">
+                  TARIFAS BAJAS
+                </span>
               </div>
             </div>
 
             {/* Step 3: Addons */}
             <div>
-              <span className="text-[11px] font-mono-tech uppercase tracking-[0.25em] text-cyan-400 block mb-4">
-                03 // COMPONENTES OPCIONALES
+              <span className="text-[11px] font-mono-tech uppercase tracking-[0.25em] text-[#00D2FF] block mb-3 font-semibold">
+                03 // OPCIONALES ACCESIBLES
               </span>
 
               <div className="space-y-2.5">
@@ -333,186 +329,130 @@ export const BudgetCalculator: React.FC = () => {
                         playTick();
                         toggleAddon(addon.id);
                       }}
-                      data-interactive="true"
-                      className={`p-3.5 sm:p-4 rounded-xl border cursor-pointer transition-all duration-300 flex items-center justify-between gap-3 sm:gap-4 touch-pan-y active:scale-[0.985] ${
+                      className={`p-3.5 sm:p-4 rounded-xl border cursor-pointer transition-all flex items-center justify-between gap-3 ${
                         isChecked
-                          ? 'bg-[#0d1017] border-cyan-400/60'
-                          : 'bg-[#090b10] border-white/[0.06] hover:border-white/[0.15]'
+                          ? 'bg-[#0E1320] border-[#0066FF]/60 text-white'
+                          : 'bg-[#0B0D12] border-white/[0.06] text-zinc-400 hover:border-white/20'
                       }`}
                     >
-                      <div className="flex items-start gap-2.5 sm:gap-3">
-                        <div
-                          className={`w-4 h-4 rounded mt-0.5 border flex items-center justify-center transition-colors shrink-0 ${
-                            isChecked
-                              ? 'bg-cyan-400 border-cyan-400 text-black'
-                              : 'border-white/20 bg-white/[0.02]'
-                          }`}
-                        >
+                      <div className="flex items-start gap-3">
+                        <div className={`w-4 h-4 rounded mt-0.5 flex items-center justify-center shrink-0 border ${
+                          isChecked ? 'bg-[#0066FF] border-[#0066FF] text-white' : 'border-zinc-600 bg-transparent'
+                        }`}>
                           {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
                         </div>
                         <div>
-                          <span className="text-xs font-semibold text-white block">
+                          <div className="text-xs sm:text-sm font-semibold text-white">
                             {addon.label}
-                          </span>
-                          <span className="text-[10px] sm:text-[11px] text-zinc-400">
+                          </div>
+                          <div className="text-[11px] text-zinc-400">
                             {addon.description}
-                          </span>
+                          </div>
                         </div>
                       </div>
-                      <span className="text-xs font-mono-tech text-cyan-400 font-bold shrink-0">
-                        +${addon.price}
-                      </span>
+
+                      <div className="text-xs font-mono font-bold text-[#00D2FF] shrink-0">
+                        +${addon.price} USD
+                      </div>
                     </div>
                   );
                 })}
               </div>
             </div>
 
-            {/* Quick Contact inputs for the WhatsApp message */}
-            <div className="bg-[#090b10] border border-white/[0.08] rounded-2xl p-5 sm:p-6">
-              <span className="text-xs font-mono-tech uppercase tracking-wider text-zinc-300 block mb-3">
-                TUS DATOS PARA EL MENSAJE DE WHATSAPP (OPCIONAL)
-              </span>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-[10px] font-mono-tech uppercase tracking-wider text-zinc-500 block mb-1">
-                    Tu nombre
-                  </label>
-                  <input
-                    type="text"
-                    value={clientName}
-                    onChange={e => setClientName(e.target.value)}
-                    placeholder="Ej. Carlos"
-                    className="w-full bg-[#050608] border border-white/[0.1] rounded-xl px-4 py-3 sm:py-2.5 text-base sm:text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-cyan-400 transition-colors"
-                  />
-                </div>
-                <div>
-                  <label className="text-[10px] font-mono-tech uppercase tracking-wider text-zinc-500 block mb-1">
-                    Nombre de tu negocio
-                  </label>
-                  <input
-                    type="text"
-                    value={companyName}
-                    onChange={e => setCompanyName(e.target.value)}
-                    placeholder="Ej. Gorras Alex"
-                    className="w-full bg-[#050608] border border-white/[0.1] rounded-xl px-4 py-3 sm:py-2.5 text-base sm:text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-cyan-400 transition-colors"
-                  />
-                </div>
-              </div>
-
-              {companyName && (
-                <div className="mt-3 text-[11px] font-mono text-cyan-300 flex items-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-cyan-400" />
-                  <span>Tu web quedará como: <strong>{previewDomain}</strong></span>
-                </div>
-              )}
-            </div>
-
           </div>
 
-          {/* Sticky Summary Card */}
-          <div className="lg:col-span-5 lg:sticky top-28">
-            <div className="p-6 sm:p-8 rounded-3xl bg-[#090b10] border border-white/[0.1] shadow-2xl relative overflow-hidden">
-              <div className="flex items-center justify-between pb-6 border-b border-white/[0.06] mb-6">
-                <span className="text-xs font-mono-tech uppercase tracking-[0.2em] text-zinc-300">
-                  RESUMEN DE ESTIMACIÓN
-                </span>
-                <span className="text-[10px] font-mono-tech uppercase px-2.5 py-0.5 rounded-full bg-cyan-400/10 text-cyan-300 border border-cyan-400/20">
-                  PRECIO CLARO
-                </span>
+          {/* Right Summary Column */}
+          <div className="lg:col-span-5 bg-[#0B0D12] border border-[#0066FF]/30 rounded-3xl p-5 sm:p-7 shadow-2xl sticky top-28">
+            <span className="text-[10px] font-mono-tech uppercase tracking-[0.25em] text-[#00D2FF] block mb-4 font-semibold">
+              RESUMEN DE ESTIMACIÓN
+            </span>
+
+            {/* Client Inputs for personalized WhatsApp link */}
+            <div className="space-y-3 mb-6 pb-6 border-b border-white/[0.08]">
+              <div>
+                <label className="text-[10px] font-mono-tech uppercase tracking-wider text-zinc-400 block mb-1">
+                  Tu nombre (opcional)
+                </label>
+                <input
+                  type="text"
+                  value={clientName}
+                  onChange={e => setClientName(e.target.value)}
+                  placeholder="Ej. Andrés Martínez"
+                  className="w-full bg-[#07090E] border border-white/[0.1] rounded-xl px-3.5 py-2 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-[#0066FF]"
+                />
               </div>
 
-              {/* Selected plan */}
-              <div className="space-y-4 pb-6 border-b border-white/[0.06]">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-bold text-white font-display">
-                    {currentSolution.name}
-                  </span>
-                  <span className="text-sm font-mono-tech text-white font-bold">
-                    ${currentSolution.basePrice} USD
-                  </span>
-                </div>
-                <div className="text-xs text-zinc-400 font-mono-tech flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-cyan-400" />
-                  <span>Plazo de entrega: {currentSolution.deliveryDays}</span>
-                </div>
+              <div>
+                <label className="text-[10px] font-mono-tech uppercase tracking-wider text-zinc-400 block mb-1">
+                  Nombre de tu negocio
+                </label>
+                <input
+                  type="text"
+                  value={companyName}
+                  onChange={e => setCompanyName(e.target.value)}
+                  placeholder="Ej. Ropa & Estilo"
+                  className="w-full bg-[#07090E] border border-white/[0.1] rounded-xl px-3.5 py-2 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-[#0066FF]"
+                />
               </div>
-
-              {/* Chosen Domain */}
-              <div className="py-5 border-b border-white/[0.06]">
-                <span className="text-[11px] font-mono-tech uppercase tracking-wider text-zinc-500 block mb-1.5">
-                  Dominio económico configurado:
-                </span>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-bold font-mono text-cyan-300">
-                    {previewDomain}
-                  </span>
-                  <span className="text-[10px] font-mono-tech uppercase px-2 py-0.5 rounded bg-white/[0.04] text-zinc-300 border border-white/[0.08]">
-                    {selectedDomainExt}
-                  </span>
-                </div>
-                <span className="text-[10px] text-zinc-500 mt-1 block">
-                  Sin sobrecostos de .com/.net/.org
-                </span>
-              </div>
-
-              {/* Addons breakdown */}
-              <div className="py-6 border-b border-white/[0.06] space-y-2.5">
-                <span className="text-[11px] font-mono-tech uppercase tracking-wider text-zinc-500 block mb-2">
-                  Adicionales seleccionados ({currentAddonsList.length}):
-                </span>
-                {currentAddonsList.length === 0 ? (
-                  <span className="text-xs text-zinc-600 italic">Sin adicionales seleccionados</span>
-                ) : (
-                  currentAddonsList.map(a => (
-                    <div key={a.id} className="flex items-center justify-between text-xs">
-                      <span className="text-zinc-400 truncate pr-2">{a.label}</span>
-                      <span className="text-zinc-300 font-mono-tech shrink-0 font-medium">+${a.price}</span>
-                    </div>
-                  ))
-                )}
-              </div>
-
-              {/* Total display */}
-              <div className="pt-6 pb-8">
-                <div className="flex items-baseline justify-between mb-2">
-                  <span className="text-xs uppercase tracking-widest text-zinc-400 font-mono-tech">
-                    Inversión estimada:
-                  </span>
-                  <div className="text-right">
-                    <span className="text-4xl sm:text-5xl font-black font-display text-white tracking-tight">
-                      ${totalEstimate}
-                    </span>
-                    <span className="text-xs font-mono-tech text-cyan-400 block font-bold">USD</span>
-                  </div>
-                </div>
-
-                <div className="mt-4 p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-start gap-2.5 text-xs text-zinc-400">
-                  <Shield className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
-                  <span>
-                    Sitio 100% de tu propiedad, soporte directo y entrega puntual garantizada.
-                  </span>
-                </div>
-              </div>
-
-              {/* Magnetic Action */}
-              <MagneticButton strength={8} className="w-full">
-                <a
-                  href={whatsappInquiryUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-interactive="true"
-                  className="w-full py-4 rounded-full text-center text-xs uppercase tracking-widest font-black bg-white text-black hover:bg-cyan-400 transition-colors shadow-[0_0_25px_rgba(255,255,255,0.2)] flex items-center justify-center gap-2 group"
-                >
-                  <span>Enviar Presupuesto a WhatsApp (66952340)</span>
-                  <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </a>
-              </MagneticButton>
-
-              <span className="text-[10px] font-mono-tech text-zinc-500 block text-center mt-3">
-                WhatsApp directo: 66952340 • Atención inmediata
-              </span>
             </div>
+
+            {/* Selected Plan breakdown */}
+            <div className="space-y-2 mb-6 text-xs text-zinc-300">
+              <div className="flex justify-between items-center py-1">
+                <span>{currentSolution.name}</span>
+                <span className="font-mono font-bold text-white">${currentSolution.basePrice}</span>
+              </div>
+
+              <div className="flex justify-between items-center py-1 text-zinc-400">
+                <span>Dominio económico ({selectedDomainExt})</span>
+                <span className="font-mono text-[#00D2FF]">Incluido / Tarifa baja</span>
+              </div>
+
+              {currentAddonsList.map(a => (
+                <div key={a.id} className="flex justify-between items-center py-1 text-zinc-400">
+                  <span className="truncate pr-2">{a.label}</span>
+                  <span className="font-mono font-semibold text-white">+${a.price}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Total Price */}
+            <div className="p-4 rounded-2xl bg-black/60 border border-white/[0.08] mb-6 flex items-center justify-between">
+              <div>
+                <span className="text-[10px] font-mono-tech uppercase tracking-widest text-zinc-400 block">
+                  PRECIO TOTAL ESTIMADO
+                </span>
+                <span className="text-2xl sm:text-3xl font-black font-display text-white">
+                  ${totalEstimate} <span className="text-xs font-mono font-normal text-zinc-400">USD</span>
+                </span>
+              </div>
+
+              <div className="text-right">
+                <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-[#0066FF]/15 text-[#00D2FF] border border-[#0066FF]/35 font-semibold">
+                  PRECIO ACCESIBLE
+                </span>
+              </div>
+            </div>
+
+            {/* WhatsApp CTA */}
+            <TasteButton
+              href={whatsappInquiryUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="electric"
+              size="lg"
+              strength={10}
+              icon={<ArrowUpRight className="w-4 h-4" />}
+              iconPosition="right"
+              className="w-full"
+            >
+              Consultar por WhatsApp (66952340)
+            </TasteButton>
+
+            <p className="text-[10px] text-zinc-500 text-center font-mono-tech mt-3">
+              Sin compromisos • Contacto directo con D.E.K NOVACORE
+            </p>
           </div>
 
         </div>

@@ -68,8 +68,8 @@ export const AnimatedManifesto: React.FC = () => {
                 }}
                 className={`text-2xl min-[360px]:text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black font-display tracking-tight leading-[1.08] ${
                   line.highlight
-                    ? 'text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-[#00e5ff]'
-                    : 'text-zinc-200'
+                    ? 'text-[#0066FF]'
+                    : 'text-white'
                 }`}
               >
                 {line.text}
@@ -91,7 +91,7 @@ export const AnimatedManifesto: React.FC = () => {
 
           <div className="md:col-span-8 space-y-4 text-zinc-400 text-sm sm:text-base leading-relaxed">
             <p>
-              La mayoría de los sitios web se sienten iguales porque siguen las mismas fórmulas repetitivas. En <strong className="text-white font-medium">Novexa</strong> diseñamos cada proyecto como una pieza única adaptada a la realidad de tu negocio.
+              La mayoría de los sitios web se sienten iguales porque siguen las mismas fórmulas repetitivas. En <strong className="text-white font-medium">D.E.K NOVACORE</strong> diseñamos cada proyecto como una pieza única adaptada a la realidad de tu negocio.
             </p>
             <p>
               Combinamos estética contemporánea, fluidez en cada interacción y velocidad de carga real para que tu marca proyecte el nivel y la seriedad que tiene tu trabajo.

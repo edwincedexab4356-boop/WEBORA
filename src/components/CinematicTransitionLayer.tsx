@@ -102,7 +102,7 @@ export const CinematicTransitionLayer: React.FC<CinematicTransitionLayerProps> =
             >
               <WeboraLogo size={42} showText={false} />
               <div className="text-center">
-                <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest block mb-1">
+                <span className="text-xs font-mono text-[#00D2FF] uppercase tracking-widest block mb-1">
                   Navegando a
                 </span>
                 <span className="text-2xl font-bold font-display text-white tracking-tight">

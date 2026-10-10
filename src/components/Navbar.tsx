@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Instagram } from 'lucide-react';
 import { WeboraLogo } from './WeboraLogo';
 import { MagneticButton } from './MagneticButton';
+import { TasteButton } from './TasteButton';
 import { useSoundscape } from '../context/SoundscapeContext';
 
 export const Navbar: React.FC = () => {
@@ -13,7 +14,7 @@ export const Navbar: React.FC = () => {
   useEffect(() => {
     let prev = false;
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 40;
+      const isScrolled = window.scrollY > 30;
       if (isScrolled !== prev) {
         prev = isScrolled;
         setScrolled(isScrolled);
@@ -35,27 +36,26 @@ export const Navbar: React.FC = () => {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? 'bg-[#050608]/80 backdrop-blur-xl border-b border-white/[0.07] py-3.5 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8)]'
-            : 'bg-transparent border-b border-transparent py-6'
+            ? 'bg-[#07090E]/90 backdrop-blur-xl border-b border-[#0066FF]/20 py-3 shadow-[0_10px_35px_-10px_rgba(0,0,0,0.9)]'
+            : 'bg-transparent border-b border-transparent py-5 sm:py-6'
         }`}
       >
-        <div className="max-w-[1280px] mx-auto px-6 sm:px-8 flex items-center justify-between">
-          {/* Logo */}
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 flex items-center justify-between">
+          {/* Logo Monograma D.E.K con NOVACORE debajo */}
           <a
             href="#hero"
             className="group flex items-center transition-opacity hover:opacity-90"
             data-interactive="true"
           >
             <WeboraLogo
-              size={34}
+              size={42}
               showText={true}
-              textClassName="text-lg sm:text-xl tracking-[0.25em] text-white"
             />
           </a>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
             {navLinks.map((link) => (
               <a
@@ -70,87 +70,140 @@ export const Navbar: React.FC = () => {
                 className="text-[11px] xl:text-xs uppercase tracking-[0.2em] font-medium text-zinc-400 hover:text-white transition-colors duration-200 relative group py-1"
               >
                 <span>{link.name}</span>
-                <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#00e5ff] transition-all duration-300 group-hover:w-full opacity-80" />
+                <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#0066FF] transition-all duration-300 group-hover:w-full shadow-[0_0_8px_#0066FF]" />
               </a>
             ))}
           </nav>
 
-          {/* Desktop CTA Button with Magnetic Pull */}
-          <div className="hidden lg:flex items-center gap-4">
-            <MagneticButton strength={8}>
-              <a
-                href="#contacto"
-                data-interactive="true"
-                onMouseEnter={playTick}
-                onClick={() => {
-                  activateSoundscape();
-                  playTick();
-                }}
-                className="relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs uppercase tracking-widest font-bold bg-white text-black hover:bg-cyan-300 transition-colors duration-300 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_25px_rgba(0,229,255,0.5)] group"
-              >
-                <span>Crear Proyecto</span>
-                <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </a>
-            </MagneticButton>
+          {/* Desktop Actions: Instagram & CTA */}
+          <div className="hidden lg:flex items-center gap-3 xl:gap-4">
+            {/* Instagram Link */}
+            <a
+              href="https://www.instagram.com/d.e.k.novacore/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram de D.E.K NOVACORE"
+              className="p-2 rounded-full border border-white/10 bg-white/[0.03] hover:border-[#0066FF] hover:text-[#00D2FF] text-zinc-400 transition-colors"
+              title="Instagram @d.e.k.novacore"
+            >
+              <Instagram className="w-4 h-4" />
+            </a>
+
+            {/* TasteButton CTA */}
+            <TasteButton
+              href="#cotizador"
+              variant="electric"
+              size="sm"
+              strength={6}
+              icon={<ArrowUpRight className="w-3.5 h-3.5" />}
+              iconPosition="right"
+            >
+              Cotizar Proyecto
+            </TasteButton>
           </div>
 
-          {/* Mobile & Tablet Menu Toggle Button */}
-          <button
-            onClick={() => {
-              activateSoundscape();
-              playTick();
-              setMobileMenuOpen(!mobileMenuOpen);
-            }}
-            aria-label={mobileMenuOpen ? 'Cerrar navegación' : 'Abrir navegación'}
-            className="lg:hidden p-2 text-zinc-300 hover:text-white focus:outline-none rounded-lg border border-white/10 bg-white/[0.03] cursor-pointer"
-          >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
+          {/* Mobile & Tablet Hamburger Toggle */}
+          <div className="flex items-center gap-2 lg:hidden">
+            <a
+              href="https://www.instagram.com/d.e.k.novacore/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram @d.e.k.novacore"
+              className="p-2 text-zinc-400 hover:text-white rounded-lg border border-white/10 bg-white/[0.03] active:scale-95 transition-transform"
+            >
+              <Instagram className="w-4 h-4 text-[#00D2FF]" />
+            </a>
+
+            <motion.button
+              whileTap={{ scale: 0.92 }}
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: 'spring', stiffness: 500, damping: 25 }}
+              onClick={() => {
+                activateSoundscape();
+                playTick();
+                setMobileMenuOpen(!mobileMenuOpen);
+              }}
+              aria-label={mobileMenuOpen ? 'Cerrar navegación' : 'Abrir navegación'}
+              className="p-2.5 text-zinc-300 hover:text-white focus:outline-none rounded-xl border border-[#0066FF]/40 bg-[#0B0D12] cursor-pointer"
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </motion.button>
+          </div>
         </div>
       </header>
 
-      {/* Fullscreen Mobile & Tablet Drawer */}
+      {/* Fullscreen Mobile & Tablet Navigation Drawer */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-[#050608]/95 backdrop-blur-2xl lg:hidden flex flex-col justify-between p-6 sm:p-10 pt-28 max-h-[100dvh] overflow-y-auto"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-40 bg-[#07090E]/98 backdrop-blur-2xl lg:hidden flex flex-col justify-between p-6 sm:p-8 pt-24 max-h-[100dvh] overflow-y-auto"
           >
-            <div className="space-y-6">
-              <span className="text-[10px] tracking-[0.3em] uppercase text-cyan-400 font-mono-tech block mb-4">
-                NAVEGACIÓN
-              </span>
+            <div className="space-y-4 sm:space-y-6">
+              <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+                <span className="text-[10px] tracking-[0.3em] uppercase text-[#00D2FF] font-mono-tech block">
+                  MENÚ PRINCIPAL
+                </span>
+                <span className="text-[10px] font-mono-tech text-zinc-500">
+                  D.E.K NOVACORE
+                </span>
+              </div>
+
               {navLinks.map((link, idx) => (
                 <motion.div
                   key={link.name}
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -16 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.08, duration: 0.3 }}
+                  transition={{ delay: idx * 0.05, duration: 0.25 }}
                 >
                   <a
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="text-2xl font-bold font-display tracking-tight text-white hover:text-cyan-400 block py-1 border-b border-white/[0.06]"
+                    className="text-2xl sm:text-3xl font-bold font-display tracking-tight text-white hover:text-[#00D2FF] active:text-[#0066FF] block py-2 border-b border-white/[0.05] transition-colors"
                   >
                     {link.name}
                   </a>
                 </motion.div>
               ))}
+
+              {/* Instagram direct in mobile drawer */}
+              <motion.div
+                initial={{ opacity: 0, x: -16 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.35, duration: 0.25 }}
+                className="pt-2"
+              >
+                <a
+                  href="https://www.instagram.com/d.e.k.novacore/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:border-[#0066FF] text-zinc-300 hover:text-white"
+                >
+                  <Instagram className="w-5 h-5 text-[#00D2FF]" />
+                  <div className="text-left">
+                    <span className="block text-xs font-semibold">Instagram Oficial</span>
+                    <span className="text-[10px] text-zinc-500 font-mono">@d.e.k.novacore</span>
+                  </div>
+                  <ArrowUpRight className="w-4 h-4 ml-auto text-zinc-400" />
+                </a>
+              </motion.div>
             </div>
 
-            <div className="pt-8 border-t border-white/[0.08]">
-              <a
-                href="#contacto"
+            <div className="pt-6 border-t border-white/[0.08] space-y-3">
+              <TasteButton
+                href="#cotizador"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full py-4 rounded-xl text-center text-xs uppercase tracking-widest font-black bg-cyan-400 text-black block mb-3 shadow-[0_0_20px_rgba(0,229,255,0.3)]"
+                variant="electric"
+                size="lg"
+                className="w-full"
               >
-                Crear Mi Proyecto
-              </a>
-              <p className="text-[11px] text-zinc-500 text-center tracking-wider font-mono-tech">
-                NOVEXA — ESTUDIO WEB & CATÁLOGOS
+                Calcular Mi Presupuesto
+              </TasteButton>
+              <p className="text-[10px] text-zinc-500 text-center tracking-wider font-mono">
+                D.E.K NOVACORE — DIGITAL SOLUTIONS
               </p>
             </div>
           </motion.div>

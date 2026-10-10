@@ -17,7 +17,6 @@ import { CinematicSectionMask } from './components/CinematicSectionMask';
 import { DotNavigationSidebar } from './components/DotNavigationSidebar';
 import { KeyboardShortcutsManager } from './components/KeyboardShortcutsManager';
 import { StickyReadingProgressBar } from './components/StickyReadingProgressBar';
-import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { SoundscapeProvider } from './context/SoundscapeContext';
 
 export default function App() {
@@ -34,7 +33,7 @@ export default function App() {
   return (
     <SoundscapeProvider>
       <CinematicTransitionLayer>
-        <div className="min-h-screen bg-[#050608] text-[#f8fafc] selection:bg-[#00e5ff] selection:text-[#050608] font-sans relative overflow-x-hidden">
+        <div className="min-h-screen bg-[#07090E] text-white selection:bg-[#0066FF] selection:text-white font-sans relative overflow-x-hidden">
           
           {/* 1. Preloader (max 1.4s, unmounts automatically) */}
           <AnimatePresence>
@@ -54,7 +53,7 @@ export default function App() {
 
           {/* 4. Top Scroll Progress Indicator */}
           <motion.div
-            className="fixed top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#00e5ff] via-[#38bdf8] to-[#0088ff] z-[70] origin-left shadow-[0_0_12px_rgba(0,229,255,0.6)]"
+            className="fixed top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#0066FF] via-[#00D2FF] to-[#0052CC] z-[70] origin-left shadow-[0_0_12px_rgba(0,102,255,0.7)]"
             style={{ scaleX }}
           />
 
@@ -114,9 +113,6 @@ export default function App() {
 
           {/* Footer */}
           <Footer />
-
-          {/* Floating WhatsApp Quick Action Button */}
-          <FloatingWhatsApp />
         </div>
       </CinematicTransitionLayer>
     </SoundscapeProvider>

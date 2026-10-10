@@ -25,8 +25,8 @@ export const WorkProcess: React.FC = () => {
   ];
 
   return (
-    <section id="proceso" className="py-20 sm:py-28 md:py-36 relative bg-[#050608] border-t border-white/[0.05]">
-      <div className="max-w-[1240px] mx-auto px-6 sm:px-8">
+    <section id="proceso" className="py-20 sm:py-28 md:py-36 relative bg-[#07090E] border-t border-white/[0.05]">
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 md:px-8">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16 md:mb-20">
@@ -59,17 +59,17 @@ export const WorkProcess: React.FC = () => {
                 delay: idx * 0.18,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="relative p-6 sm:p-8 rounded-3xl bg-[#090b10] border border-white/[0.08] hover:border-cyan-400/40 active:border-cyan-400/50 active:scale-[0.985] transition-all duration-300 flex flex-col justify-between min-h-[300px] sm:min-h-[340px] group touch-pan-y cursor-pointer"
+              className="relative p-6 sm:p-8 rounded-3xl bg-[#0B0D12] border border-white/[0.08] hover:border-[#0066FF]/60 active:border-[#0066FF] active:scale-[0.985] transition-all duration-300 flex flex-col justify-between min-h-[300px] sm:min-h-[340px] group touch-pan-y cursor-pointer"
             >
               <div>
                 <div className="flex items-center justify-between pb-6 border-b border-white/[0.06] mb-6">
-                  <span className="font-mono-tech text-xs tracking-widest text-cyan-400 font-bold">
+                  <span className="font-mono-tech text-xs tracking-widest text-[#00D2FF] font-bold">
                     FASE // {step.num}
                   </span>
-                  <span className="w-2 h-2 rounded-full bg-white/20 group-hover:bg-cyan-400 transition-colors" />
+                  <span className="w-2 h-2 rounded-full bg-white/20 group-hover:bg-[#0066FF] transition-colors" />
                 </div>
 
-                <h3 className="text-lg sm:text-xl font-bold font-display tracking-tight text-white mb-3 group-hover:text-cyan-300 transition-colors">
+                <h3 className="text-lg sm:text-xl font-bold font-display tracking-tight text-white mb-3 group-hover:text-[#00D2FF] transition-colors">
                   {step.title}
                 </h3>
 

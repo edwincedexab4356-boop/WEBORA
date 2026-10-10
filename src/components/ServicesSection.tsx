@@ -3,6 +3,7 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ArrowUpRight, Globe, Layers, Cpu } from 'lucide-react';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { SectionProgressIndicator } from './SectionProgressIndicator';
+import { TasteButton } from './TasteButton';
 
 interface ServiceData {
   id: string;
@@ -29,7 +30,7 @@ const SERVICES: ServiceData[] = [
       'Integración con dominio económico (.store, .site, .online) y analítica'
     ],
     techTags: ['React / Vite', 'Tailwind', 'Next-Gen SEO', 'Microinteracciones'],
-    icon: <Globe className="w-6 h-6 text-cyan-400" />
+    icon: <Globe className="w-6 h-6 text-[#00D2FF]" />
   },
   {
     id: 'catalogos-digitales',
@@ -44,7 +45,7 @@ const SERVICES: ServiceData[] = [
       'Panel ágil para actualización de inventario sin fricción'
     ],
     techTags: ['WhatsApp Checkout', 'Buscador Instantáneo', 'Galería HD', 'Stock Dinámico'],
-    icon: <Layers className="w-6 h-6 text-cyan-400" />
+    icon: <Layers className="w-6 h-6 text-[#00D2FF]" />
   },
   {
     id: 'sistemas-negocios',
@@ -59,7 +60,7 @@ const SERVICES: ServiceData[] = [
       'Base de datos segura en la nube con copias de respaldo'
     ],
     techTags: ['Dashboard Seguro', 'Gestión de Clientes', 'Base de Datos Cloud', 'Roles & Permisos'],
-    icon: <Cpu className="w-6 h-6 text-cyan-400" />
+    icon: <Cpu className="w-6 h-6 text-[#00D2FF]" />
   }
 ];
 
@@ -139,7 +140,7 @@ const SpotlightCard: React.FC<{ service: ServiceData; index: number }> = ({ serv
           rotateX: shouldReduceMotion ? 0 : rotateX,
           rotateY: shouldReduceMotion ? 0 : rotateY,
         }}
-        className={`relative rounded-3xl bg-[#090b10] border border-white/[0.08] hover:border-cyan-400/40 p-6 sm:p-8 lg:p-10 transition-all duration-300 overflow-hidden flex flex-col justify-between min-h-[460px] sm:min-h-[500px] group shadow-[0_20px_50px_-20px_rgba(0,0,0,0.8)] touch-pan-y ${
+        className={`relative rounded-3xl bg-[#0B0D12] border border-white/[0.08] hover:border-[#0066FF]/60 p-6 sm:p-8 lg:p-10 transition-all duration-300 overflow-hidden flex flex-col justify-between min-h-[460px] sm:min-h-[500px] group shadow-[0_20px_50px_-20px_rgba(0,0,0,0.8)] touch-pan-y ${
           shouldReduceMotion ? 'hover:-translate-y-2' : ''
         }`}
       >
@@ -148,7 +149,7 @@ const SpotlightCard: React.FC<{ service: ServiceData; index: number }> = ({ serv
           className="pointer-events-none absolute inset-0 transition-opacity duration-300 -z-0"
           style={{
             opacity: spotlightPos.opacity,
-            background: `radial-gradient(450px circle at ${spotlightPos.x}px ${spotlightPos.y}px, rgba(0, 229, 255, 0.12), transparent 70%)`,
+            background: `radial-gradient(450px circle at ${spotlightPos.x}px ${spotlightPos.y}px, rgba(0, 102, 255, 0.16), transparent 70%)`,
           }}
         />
 
@@ -202,14 +203,15 @@ const SpotlightCard: React.FC<{ service: ServiceData; index: number }> = ({ serv
             ))}
           </div>
 
-          <a
+          <TasteButton
             href="#contacto"
-            data-interactive="true"
-            className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest font-bold text-white hover:text-cyan-400 transition-colors group-hover:translate-x-1 duration-300"
+            variant="ghost"
+            size="sm"
+            icon={<ArrowUpRight className="w-3.5 h-3.5 text-[#00D2FF]" />}
+            iconPosition="right"
           >
-            <span>Consultar</span>
-            <ArrowUpRight className="w-3.5 h-3.5 text-cyan-400" />
-          </a>
+            Consultar
+          </TasteButton>
         </div>
       </motion.div>
     </motion.div>
@@ -218,8 +220,8 @@ const SpotlightCard: React.FC<{ service: ServiceData; index: number }> = ({ serv
 
 export const ServicesSection: React.FC = () => {
   return (
-    <section id="servicios" className="py-28 md:py-36 relative bg-[#050608] border-t border-white/[0.05]">
-      <div className="max-w-[1240px] mx-auto px-6 sm:px-8">
+    <section id="servicios" className="py-24 sm:py-28 md:py-36 relative bg-[#07090E] border-t border-white/[0.05]">
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 md:px-8">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">

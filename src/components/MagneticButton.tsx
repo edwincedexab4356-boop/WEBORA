@@ -56,6 +56,9 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
+      whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}
+      transition={{ type: 'spring', stiffness: 450, damping: 25 }}
       style={{ x, y }}
       className={`inline-block ${className}`}
     >

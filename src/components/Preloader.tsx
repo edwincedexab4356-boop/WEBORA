@@ -45,12 +45,12 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
         
         {/* The Mark itself */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.75, filter: 'blur(8px)' }}
-          animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+          initial={{ opacity: 0, scale: 0.85 }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
           className="relative"
         >
-          <WeboraLogo size={68} showText={false} />
+          <WeboraLogo size={80} showText={false} />
 
           {/* Sweeping Light Ray Beam */}
           {stage === 'beam' && (
@@ -58,27 +58,29 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
               initial={{ x: '-120%', opacity: 0 }}
               animate={{ x: '180%', opacity: [0, 1, 1, 0] }}
               transition={{ duration: 0.55, ease: 'easeInOut' }}
-              className="absolute inset-y-0 w-24 -skew-x-12 bg-gradient-to-r from-transparent via-cyan-300/80 to-transparent pointer-events-none mix-blend-overlay blur-[2px]"
+              className="absolute inset-y-0 w-24 -skew-x-12 bg-gradient-to-r from-transparent via-[#0066FF]/60 to-transparent pointer-events-none mix-blend-overlay"
             />
           )}
         </motion.div>
 
         {/* Wordmark typography reveal */}
         <motion.div
-          initial={{ opacity: 0, y: 12, filter: 'blur(6px)' }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{
             opacity: stage !== 'mark' ? 1 : 0,
             y: stage !== 'mark' ? 0 : 12,
-            filter: stage !== 'mark' ? 'blur(0px)' : 'blur(6px)',
           }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="mt-5 text-center"
         >
-          <span className="font-display font-black text-2xl tracking-[0.35em] text-white uppercase block">
-            NOVEXA
+          <span className="font-display font-extrabold text-2xl tracking-[0.3em] text-white uppercase block">
+            D.E.K
           </span>
-          <span className="text-[10px] tracking-[0.35em] uppercase text-cyan-400 font-mono-tech mt-1 block opacity-85">
-            ESTUDIO WEB & CATÁLOGOS
+          <span className="font-display font-black text-lg tracking-[0.35em] text-white/90 uppercase block mt-0.5">
+            NOVACORE
+          </span>
+          <span className="text-[10px] tracking-[0.35em] uppercase text-[#00D2FF] font-mono-tech mt-1.5 block font-semibold">
+            DIGITAL SOLUTIONS
           </span>
         </motion.div>
 

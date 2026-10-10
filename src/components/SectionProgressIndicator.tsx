@@ -80,11 +80,11 @@ export const SectionProgressIndicator: React.FC<SectionProgressIndicatorProps> =
         aria-label={`${label}: ${progress}% completado`}
         className={`inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] text-[10px] font-mono-tech ${className}`}
       >
-        <Clock className="w-3 h-3 text-cyan-400" />
+        <Clock className="w-3 h-3 text-[#00D2FF]" />
         <span className="text-zinc-300 font-medium">{readTime}</span>
         <div className="w-8 h-1 rounded-full bg-white/[0.08] overflow-hidden ml-1">
           <div
-            className="h-full bg-cyan-400 transition-all duration-100 ease-out shadow-[0_0_6px_#00e5ff]"
+            className="h-full bg-[#0066FF] transition-all duration-100 ease-out shadow-[0_0_6px_#0066FF]"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -100,14 +100,14 @@ export const SectionProgressIndicator: React.FC<SectionProgressIndicatorProps> =
         aria-valuemin={0}
         aria-valuemax={100}
         aria-label={`${label}: ${progress}% completado, ${readTime}`}
-        className={`relative overflow-hidden rounded-xl bg-[#090c14]/90 border border-white/[0.08] backdrop-blur-md p-4 sm:p-5 shadow-[0_4px_24px_rgba(0,0,0,0.4)] ${className}`}
+        className={`relative overflow-hidden rounded-xl bg-[#0B0D12]/95 border border-[#0066FF]/30 backdrop-blur-md p-4 sm:p-5 shadow-[0_4px_24px_rgba(0,0,0,0.5)] ${className}`}
       >
         {/* Subtle accent corner glow */}
-        <div className="absolute top-0 right-0 w-28 h-28 bg-cyan-500/[0.04] rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-28 h-28 bg-[#0066FF]/[0.08] rounded-full blur-2xl pointer-events-none" />
 
         <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
           <div className="flex items-center gap-2">
-            <span className="p-1.5 rounded-lg bg-cyan-400/10 text-cyan-400 border border-cyan-400/20">
+            <span className="p-1.5 rounded-lg bg-[#0066FF]/15 text-[#00D2FF] border border-[#0066FF]/30">
               <BookOpen className="w-3.5 h-3.5" />
             </span>
             <div>
@@ -139,9 +139,9 @@ export const SectionProgressIndicator: React.FC<SectionProgressIndicatorProps> =
               </span>
             ) : (
               <span className="flex items-center gap-1.5 text-zinc-400">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF] animate-pulse" />
                 <span>LEYENDO //</span>
-                <strong className="text-cyan-400 font-bold">{progress}%</strong>
+                <strong className="text-[#00D2FF] font-bold">{progress}%</strong>
               </span>
             )}
           </div>
@@ -150,7 +150,7 @@ export const SectionProgressIndicator: React.FC<SectionProgressIndicatorProps> =
         {/* Micro progress track */}
         <div className="w-full bg-white/[0.06] h-1.5 rounded-full overflow-hidden relative">
           <div
-            className={`h-full bg-gradient-to-r from-cyan-400 via-[#00e5ff] to-cyan-300 rounded-full transition-all duration-150 ease-out shadow-[0_0_10px_rgba(0,229,255,0.7)] ${
+            className={`h-full bg-gradient-to-r from-[#0066FF] via-[#00D2FF] to-[#0052CC] rounded-full transition-all duration-150 ease-out shadow-[0_0_10px_rgba(0,102,255,0.7)] ${
               shouldReduceMotion ? '' : 'will-change-transform'
             }`}
             style={{ width: `${progress}%` }}
@@ -170,12 +170,12 @@ export const SectionProgressIndicator: React.FC<SectionProgressIndicatorProps> =
       aria-label={`${label}: ${progress}% completado`}
       className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] text-xs font-mono text-zinc-400 select-none ${className}`}
     >
-      <Clock className="w-3 h-3 text-zinc-500" />
+      <Clock className="w-3 h-3 text-[#00D2FF]" />
       <span>{readTime}</span>
       <span className="text-zinc-600">·</span>
       <div className="w-10 h-1 rounded-full bg-white/[0.08] overflow-hidden">
         <div
-          className="h-full bg-cyan-400 transition-all duration-150 ease-out"
+          className="h-full bg-[#0066FF] shadow-[0_0_6px_#0066FF] transition-all duration-150 ease-out"
           style={{ width: `${progress}%` }}
         />
       </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, ShieldCheck, Pause, Play, CheckCircle2, ArrowUpRight, MoveHorizontal } from 'lucide-react';
 import { SectionProgressIndicator } from './SectionProgressIndicator';
 
@@ -22,19 +23,8 @@ const OUTCOMES: TestimonialOutcome[] = [
     company: 'Dulzuras de Belgis',
     metric: '+70%',
     metricLabel: 'Más pedidos directos por WhatsApp',
-    quote: 'El catálogo interactivo que Novexa creó nos solucionó todo. Los clientes ven las fotos de los pasteles, eligen sabores y mandan el pedido directo a nuestro WhatsApp.',
+    quote: 'El catálogo interactivo que D.E.K NOVACORE creó nos solucionó todo. Los clientes ven las fotos de los pasteles, eligen sabores y mandan el pedido directo a nuestro WhatsApp.',
     serviceType: 'Catálogo Dulce + Pedidos WhatsApp',
-    verifiedYear: '2026'
-  },
-  {
-    id: 'costa-atlantica',
-    client: 'Carlos M.',
-    role: 'Administrador de Hospedaje',
-    company: 'Costa Atlántica',
-    metric: '100%',
-    metricLabel: 'Reservas directas sin comisiones',
-    quote: 'El sitio web transmite la vibra del Caribe tal como queríamos. Las cabañas se ven increíbles, la gente consulta fechas al instante y la página carga al segundo en cualquier celular.',
-    serviceType: 'Sitio Web de Turismo & Reservas',
     verifiedYear: '2026'
   },
   {
@@ -44,8 +34,19 @@ const OUTCOMES: TestimonialOutcome[] = [
     company: 'Gorras de Alex',
     metric: '24/7',
     metricLabel: 'Catálogo activo con pedidos ágiles',
-    quote: 'Novexa nos armó una tienda catálogo excelente. Los clientes exploran los modelos de gorras, ven las fotos y me mandan el pedido exacto a WhatsApp para despachar de inmediato.',
+    quote: 'D.E.K NOVACORE nos armó una tienda catálogo excelente. Los clientes exploran los modelos de gorras, ven las fotos y me mandan el pedido exacto a WhatsApp para despachar de inmediato.',
     serviceType: 'Catálogo Streetwear & WhatsApp',
+    verifiedYear: '2026'
+  },
+  {
+    id: 'luis-retail',
+    client: 'Luis R.',
+    role: 'Director Comercial',
+    company: 'Comercio & Retail',
+    metric: '< 1.2s',
+    metricLabel: 'Velocidad de carga en teléfonos',
+    quote: 'La web desarrollada por D.E.K NOVACORE carga al instante en cualquier teléfono y transmite un nivel tecnológico superior. El proceso fue transparente y con precios justos.',
+    serviceType: 'Presencia Digital & Carga Rápida',
     verifiedYear: '2026'
   }
 ];
@@ -320,39 +321,48 @@ export const TestimonialsCarousel: React.FC = () => {
           {/* Interactive Navigation and Playback Controls */}
           <div className="flex flex-wrap items-center gap-3">
             <div className="hidden lg:flex items-center gap-2 text-xs text-zinc-500 font-mono mr-2">
-              <MoveHorizontal className="w-3.5 h-3.5 text-cyan-400/80" />
+              <MoveHorizontal className="w-3.5 h-3.5 text-[#00D2FF]" />
               <span>Arrastra para navegar</span>
             </div>
 
             {/* Prev Button */}
-            <button
+            <motion.button
+              whileHover={{ scale: 1.08, y: -1 }}
+              whileTap={{ scale: 0.93 }}
+              transition={{ type: 'spring', stiffness: 500, damping: 25 }}
               onClick={handlePrev}
               aria-label="Testimonio anterior"
-              className="p-3 rounded-full border border-white/[0.1] bg-[#0c0e14] hover:bg-white/[0.08] hover:border-cyan-400/40 text-zinc-300 hover:text-white transition-all active:scale-95"
+              className="p-3 rounded-full border border-[#0066FF]/30 bg-[#090D16] hover:bg-[#0E1524] hover:border-[#00D2FF] text-zinc-300 hover:text-white transition-colors cursor-pointer shadow-[0_0_12px_rgba(0,102,255,0.15)]"
               title="Anterior"
             >
               <ArrowLeft className="w-4 h-4" />
-            </button>
+            </motion.button>
 
             {/* Next Button */}
-            <button
+            <motion.button
+              whileHover={{ scale: 1.08, y: -1 }}
+              whileTap={{ scale: 0.93 }}
+              transition={{ type: 'spring', stiffness: 500, damping: 25 }}
               onClick={handleNext}
               aria-label="Siguiente testimonio"
-              className="p-3 rounded-full border border-white/[0.1] bg-[#0c0e14] hover:bg-white/[0.08] hover:border-cyan-400/40 text-zinc-300 hover:text-white transition-all active:scale-95"
+              className="p-3 rounded-full border border-[#0066FF]/30 bg-[#090D16] hover:bg-[#0E1524] hover:border-[#00D2FF] text-zinc-300 hover:text-white transition-colors cursor-pointer shadow-[0_0_12px_rgba(0,102,255,0.15)]"
               title="Siguiente"
             >
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </motion.button>
 
             {/* Play/Pause Toggle */}
-            <button
+            <motion.button
+              whileHover={{ scale: 1.08, y: -1 }}
+              whileTap={{ scale: 0.93 }}
+              transition={{ type: 'spring', stiffness: 500, damping: 25 }}
               onClick={togglePause}
               aria-label={isPaused ? 'Reanudar movimiento automático' : 'Pausar movimiento automático'}
-              className="p-3 rounded-full border border-white/[0.1] bg-[#0c0e14] hover:bg-white/[0.08] hover:border-cyan-400/40 text-zinc-300 hover:text-white transition-all active:scale-95"
+              className="p-3 rounded-full border border-[#0066FF]/30 bg-[#090D16] hover:bg-[#0E1524] hover:border-[#00D2FF] text-zinc-300 hover:text-white transition-colors cursor-pointer shadow-[0_0_12px_rgba(0,102,255,0.15)]"
               title={isPaused ? 'Reanudar' : 'Pausar'}
             >
-              {isPaused ? <Play className="w-4 h-4 text-cyan-400" /> : <Pause className="w-4 h-4" />}
-            </button>
+              {isPaused ? <Play className="w-4 h-4 text-[#00D2FF]" /> : <Pause className="w-4 h-4" />}
+            </motion.button>
           </div>
         </div>
       </div>
@@ -380,31 +390,31 @@ export const TestimonialsCarousel: React.FC = () => {
           {DISPLAY_OUTCOMES.map((item, index) => (
             <div
               key={`${item.id}-${index}`}
-              className={`w-[290px] min-[420px]:w-[350px] sm:w-[420px] shrink-0 p-5 sm:p-7 rounded-3xl bg-[#090b10] border ${
-                isDragging ? 'border-white/[0.1]' : 'border-white/[0.08] hover:border-cyan-400/50'
-              } transition-colors duration-200 flex flex-col justify-between group select-none`}
+              className={`w-[290px] min-[420px]:w-[350px] sm:w-[420px] shrink-0 p-5 sm:p-7 rounded-3xl bg-[#0B0F17] border ${
+                isDragging ? 'border-[#0066FF]/30' : 'border-white/[0.08] hover:border-[#0066FF]/50'
+              } transition-colors duration-200 flex flex-col justify-between group select-none shadow-[0_4px_20px_rgba(0,0,0,0.5)]`}
             >
               <div>
                 {/* Metric Hero Block */}
                 <div className="flex items-start justify-between pb-4 sm:pb-5 border-b border-white/[0.06] mb-4 pointer-events-none">
                   <div>
-                    <span className="text-2xl sm:text-4xl font-black font-display text-white tracking-tight group-hover:text-cyan-300 transition-colors block">
+                    <span className="text-2xl sm:text-4xl font-black font-display text-white tracking-tight group-hover:text-[#00D2FF] transition-colors block">
                       {item.metric}
                     </span>
-                    <span className="text-[10px] sm:text-[11px] font-mono-tech text-cyan-400 tracking-wide mt-1 block">
+                    <span className="text-[10px] sm:text-[11px] font-mono text-[#00D2FF] tracking-wide mt-1 block font-semibold">
                       {item.metricLabel}
                     </span>
                   </div>
 
-                  <span className="text-[9px] sm:text-[10px] font-mono-tech uppercase tracking-widest px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-white/[0.04] text-zinc-400 border border-white/[0.08]">
+                  <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-[#0066FF]/10 text-white border border-[#0066FF]/25">
                     {item.verifiedYear}
                   </span>
                 </div>
 
                 {/* Service Tag */}
                 <div className="flex items-center gap-2 mb-3 pointer-events-none">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400/80" />
-                  <span className="text-[9px] sm:text-[10px] font-mono-tech uppercase tracking-widest text-zinc-400">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />
+                  <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-zinc-400">
                     {item.serviceType}
                   </span>
                 </div>
@@ -418,7 +428,7 @@ export const TestimonialsCarousel: React.FC = () => {
               {/* Author & Company */}
               <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between pointer-events-none">
                 <div>
-                  <h4 className="text-xs sm:text-sm font-bold font-display text-white group-hover:text-cyan-200 transition-colors">
+                  <h4 className="text-xs sm:text-sm font-bold font-display text-white group-hover:text-[#00D2FF] transition-colors">
                     {item.client}
                   </h4>
                   <p className="text-[10px] sm:text-[11px] text-zinc-400 mt-0.5">
@@ -426,7 +436,7 @@ export const TestimonialsCarousel: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-cyan-400/[0.06] border border-cyan-400/20 flex items-center justify-center text-cyan-400 group-hover:scale-105 transition-transform">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#0066FF]/15 border border-[#0066FF]/30 flex items-center justify-center text-[#00D2FF] group-hover:scale-105 transition-transform">
                   <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
               </div>

@@ -106,30 +106,30 @@ export const StickyReadingProgressBar: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 15 }}
           transition={{ duration: 0.25 }}
-          className="fixed bottom-6 left-6 z-40 hidden sm:flex items-center gap-3 px-3.5 py-1.5 rounded-full bg-[#090b10]/90 backdrop-blur-md border border-white/[0.08] shadow-[0_4px_20px_rgba(0,0,0,0.5)] select-none pointer-events-auto"
+          className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-40 flex items-center gap-2 sm:gap-3 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-[#0B0D12]/95 backdrop-blur-md border border-[#0066FF]/30 shadow-[0_8px_25px_rgba(0,0,0,0.6)] select-none pointer-events-auto"
         >
-          <span className="text-[11px] font-mono text-zinc-400">
+          <span className="text-[10px] sm:text-[11px] font-mono text-zinc-300">
             {activeSection.number} · {activeSection.name}
           </span>
 
-          <span className="w-1 h-1 rounded-full bg-zinc-700" />
+          <span className="w-1 h-1 rounded-full bg-zinc-600" />
 
           {/* Clean Micro Progress Bar */}
-          <div className="w-14 h-1 rounded-full bg-white/[0.08] overflow-hidden">
+          <div className="w-10 sm:w-14 h-1 rounded-full bg-white/[0.08] overflow-hidden">
             <div
-              className="h-full bg-cyan-400 transition-all duration-150 ease-out"
+              className="h-full bg-[#0066FF] shadow-[0_0_8px_#0066FF] transition-all duration-150 ease-out"
               style={{ width: `${sectionProgress}%` }}
             />
           </div>
 
-          <span className="text-[11px] font-mono font-medium text-cyan-400 min-w-[26px] text-right">
+          <span className="text-[10px] sm:text-[11px] font-mono font-bold text-[#00D2FF] min-w-[24px] text-right">
             {sectionProgress >= 98 ? <Check className="w-3 h-3 text-emerald-400 inline" /> : `${sectionProgress}%`}
           </span>
 
-          <span className="w-1 h-1 rounded-full bg-zinc-700" />
+          <span className="hidden min-[400px]:inline-block w-1 h-1 rounded-full bg-zinc-600" />
 
-          <div className="flex items-center gap-1 text-[10px] font-mono text-zinc-500">
-            <Clock className="w-2.5 h-2.5 text-zinc-400" />
+          <div className="hidden min-[400px]:flex items-center gap-1 text-[9px] sm:text-[10px] font-mono text-zinc-400">
+            <Clock className="w-2.5 h-2.5 text-[#00D2FF]" />
             <span>{activeSection.readTime}</span>
           </div>
         </motion.div>

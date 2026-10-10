@@ -4,11 +4,12 @@ import { ArrowUpRight, ExternalLink, Globe, Sparkles, X, CheckCircle2 } from 'lu
 import { useSoundscape } from '../context/SoundscapeContext';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { SectionProgressIndicator } from './SectionProgressIndicator';
+import { TasteButton } from './TasteButton';
 
 export interface ProjectItem {
   id: string;
   title: string;
-  category: 'Catálogos Digitales' | 'Sitios Web';
+  category: 'Catálogos Digitales' | 'Pedidos WhatsApp';
   client: string;
   tagline: string;
   description: string;
@@ -27,41 +28,27 @@ const PROJECTS: ProjectItem[] = [
     category: 'Catálogos Digitales',
     client: 'Pastelería & Repostería Artesanal',
     tagline: 'Catálogo dulce interactivo con pedidos directos a WhatsApp',
-    description: 'Plataforma digital para pastelería y repostería artesanal. Diseñada con una estética cálida y apetitosa para mostrar tortas personalizadas, postres para eventos y permitir a los clientes armar su pedido y enviarlo directo por WhatsApp con todos los detalles.',
+    description: 'Plataforma digital para pastelería y repostería artesanal. Diseñada con una estética limpia, apetitosa y tecnológica para mostrar tortas personalizadas, postres para eventos y permitir a los clientes armar su pedido y enviarlo directo por WhatsApp con todos los detalles.',
     impact: 'Catálogo 100% interactivo • Pedidos rápidos por WhatsApp',
     tech: ['Catálogo Dulce', 'Pedidos WhatsApp', 'Diseño Responsivo', 'Vercel Fast'],
-    gradient: 'from-[#2b101f] via-[#1a0a14] to-[#050608]',
+    gradient: 'from-[#070A12] via-[#0A101D] to-[#07090E]',
     liveUrl: 'https://dulzuras-de-belgis.vercel.app/',
     displayUrl: 'dulzuras-de-belgis.vercel.app',
-    accentColor: '#f472b6'
-  },
-  {
-    id: 'costa-atlantica',
-    title: 'Costa Atlántica',
-    category: 'Sitios Web',
-    client: 'Turismo & Hospedaje en el Caribe',
-    tagline: 'Experiencia visual inmersiva para turismo y reservas directas frente al mar',
-    description: 'Sitio web moderno y envolvente diseñado para capturar la belleza natural de la costa caribeña. Presenta cabañas boutique, paquetes turísticos, galería fotográfica y canal directo para consultar disponibilidad y realizar reservas sin pagar comisiones a plataformas intermediarias.',
-    impact: 'Carga instantánea en móviles • Reservas directas sin intermediarios',
-    tech: ['Galería Inmersiva', 'Reservas Directas', 'Velocidad Rápida', 'Vercel Fast'],
-    gradient: 'from-[#06242e] via-[#04161c] to-[#050608]',
-    liveUrl: 'https://ejemplo-numero-2-de-costa-atlantica.vercel.app/',
-    displayUrl: 'costa-atlantica.vercel.app',
-    accentColor: '#00e5ff'
+    accentColor: '#0066FF'
   },
   {
     id: 'gorras-de-alex',
     title: 'Gorras de Alex',
-    category: 'Catálogos Digitales',
+    category: 'Pedidos WhatsApp',
     client: 'Streetwear & Gorras Exclusivas',
     tagline: 'Catálogo digital de moda urbana con compra directa por WhatsApp',
     description: 'Showcase digital y vitrina interactiva para tienda de gorras y accesorios urbanos streetwear. Permite a los compradores explorar modelos exclusivos, ver fotos de alta calidad y realizar compras de forma inmediata enviando la referencia seleccionada al WhatsApp del negocio.',
     impact: 'Navegación visual dinámica • Proceso de compra sin fricción',
     tech: ['Catálogo Streetwear', 'Checkout WhatsApp', 'Filtros Dinámicos', 'Vercel Fast'],
-    gradient: 'from-[#191c28] via-[#0f1118] to-[#050608]',
+    gradient: 'from-[#060B14] via-[#091122] to-[#07090E]',
     liveUrl: 'https://gorras-de-alex.vercel.app/#',
     displayUrl: 'gorras-de-alex.vercel.app',
-    accentColor: '#38bdf8'
+    accentColor: '#00D2FF'
   }
 ];
 
@@ -245,24 +232,26 @@ const InteractiveProjectCard: React.FC<{
 
         {/* Action row with direct link and details */}
         <div className="pt-5 border-t border-white/[0.06] flex items-center justify-between gap-3">
-          <a
+          <TasteButton
             href={project.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-black hover:bg-cyan-400 text-xs font-bold tracking-wider uppercase transition-colors duration-200 shadow-sm"
+            variant="electric"
+            size="sm"
+            icon={<ExternalLink className="w-3.5 h-3.5" />}
+            iconPosition="right"
           >
-            <span>Ver Sitio en Vivo</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </a>
+            Ver Sitio en Vivo
+          </TasteButton>
 
-          <button
-            type="button"
+          <TasteButton
+            variant="ghost"
+            size="sm"
             onClick={() => onSelect(project)}
-            className="text-xs uppercase tracking-wider font-semibold text-zinc-400 hover:text-white transition-colors cursor-pointer py-2"
+            className="text-zinc-400 hover:text-white"
           >
             Detalles
-          </button>
+          </TasteButton>
         </div>
       </div>
     </motion.article>
@@ -274,7 +263,7 @@ export const PortfolioSection: React.FC = () => {
   const [activeModal, setActiveModal] = useState<ProjectItem | null>(null);
   const { playTick } = useSoundscape();
 
-  const categories = ['Todos', 'Catálogos Digitales', 'Sitios Web'];
+  const categories = ['Todos', 'Catálogos Digitales', 'Pedidos WhatsApp'];
 
   const filteredProjects = filter === 'Todos'
     ? PROJECTS
@@ -291,14 +280,15 @@ export const PortfolioSection: React.FC = () => {
   };
 
   return (
-    <section id="portafolio" className="py-24 sm:py-32 md:py-36 relative bg-[#050608] border-t border-white/[0.05]">
+    <section id="portafolio" className="py-24 sm:py-32 md:py-36 relative bg-[#07090E] border-t border-white/[0.05]">
       <div className="max-w-[1240px] mx-auto px-6 sm:px-8">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
           <div>
             <div className="flex items-center gap-2.5 mb-3">
-              <span className="text-xs font-mono tracking-widest text-zinc-500 uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />
+              <span className="text-xs font-mono tracking-widest text-[#00D2FF] uppercase font-semibold">
                 04 / Portafolio Real
               </span>
             </div>
@@ -306,7 +296,7 @@ export const PortfolioSection: React.FC = () => {
               Proyectos reales.
             </h2>
             <p className="text-zinc-400 text-sm sm:text-base mt-3 max-w-xl">
-              Explora sitios web y catálogos en producción desarrollados por Novexa para marcas reales. Puedes visitarlos directamente en vivo.
+              Explora sitios web y catálogos en producción desarrollados por D.E.K NOVACORE para marcas reales. Puedes visitarlos directamente en vivo.
             </p>
           </div>
 
@@ -318,28 +308,25 @@ export const PortfolioSection: React.FC = () => {
               variant="badge"
             />
 
-            {/* Filter Pills */}
-            <div className="flex flex-wrap gap-1.5 sm:gap-2">
+            {/* Filter Pills with Emil Kowalski / Taste Motion physics */}
+            <div className="flex flex-wrap gap-2">
               {categories.map((cat) => (
-                <button
+                <TasteButton
                   key={cat}
+                  variant="pill"
+                  size="sm"
+                  active={filter === cat}
                   onClick={() => handleFilterClick(cat)}
-                  data-interactive="true"
-                  className={`text-xs uppercase tracking-wider font-medium px-3.5 py-1.5 rounded-full transition-all duration-200 cursor-pointer ${
-                    filter === cat
-                      ? 'bg-white text-black font-semibold shadow-sm'
-                      : 'bg-white/[0.04] hover:bg-white/[0.08] text-zinc-400 hover:text-white border border-white/[0.06]'
-                  }`}
                 >
                   {cat}
-                </button>
+                </TasteButton>
               ))}
             </div>
           </div>
         </div>
 
-        {/* 3 Real Projects Grid */}
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {/* Real Projects Grid */}
+        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-6 sm:gap-8">
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project, index) => (
               <InteractiveProjectCard
@@ -353,30 +340,31 @@ export const PortfolioSection: React.FC = () => {
         </motion.div>
 
         {/* Real Live Links Quick Access Banner */}
-        <div className="mt-14 p-6 sm:p-8 rounded-3xl bg-[#090b10] border border-white/[0.08] flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="mt-14 p-6 sm:p-8 rounded-3xl bg-[#0B0F17] border border-[#0066FF]/25 flex flex-col md:flex-row items-center justify-between gap-6 shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-cyan-400/10 border border-cyan-400/20 flex items-center justify-center shrink-0">
-              <Globe className="w-6 h-6 text-cyan-400" />
+            <div className="w-12 h-12 rounded-2xl bg-[#0066FF]/15 border border-[#0066FF]/30 flex items-center justify-center shrink-0">
+              <Globe className="w-6 h-6 text-[#00D2FF]" />
             </div>
             <div>
               <h4 className="text-base sm:text-lg font-bold font-display text-white">
                 Todos nuestros proyectos están desplegados en producción
               </h4>
               <p className="text-xs sm:text-sm text-zinc-400 mt-0.5">
-                Rápidos, optimizados para celulares y listos para recibir pedidos de clientes.
+                Rápidos, optimizados para teléfonos y listos para recibir pedidos de clientes.
               </p>
             </div>
           </div>
 
-          <a
-            href="https://wa.me/50766952340?text=Hola%20Novexa,%20vi%20sus%20proyectos%20en%20el%20portafolio%20y%20quiero%20cotizar%20un%20sitio%20para%20mi%20negocio."
+          <TasteButton
+            href="https://wa.me/50766952340?text=Hola%20D.E.K%20NOVACORE,%20vi%20sus%20proyectos%20en%20el%20portafolio%20y%20quiero%20cotizar%20un%20sitio%20para%20mi%20negocio."
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest bg-cyan-400 text-black hover:bg-white transition-colors shrink-0 shadow-[0_0_20px_rgba(0,229,255,0.25)]"
+            variant="primary"
+            size="md"
+            icon={<ArrowUpRight className="w-4 h-4" />}
           >
-            <span>Cotizar mi web por WhatsApp</span>
-            <ArrowUpRight className="w-4 h-4" />
-          </a>
+            Cotizar mi web por WhatsApp
+          </TasteButton>
         </div>
 
       </div>
@@ -397,21 +385,21 @@ export const PortfolioSection: React.FC = () => {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-2xl bg-[#090b10] border border-white/10 rounded-3xl p-6 sm:p-10 shadow-2xl z-10 max-h-[90vh] overflow-y-auto"
+              className="relative w-full max-w-2xl bg-[#090D16] border border-[#0066FF]/30 rounded-3xl p-6 sm:p-10 shadow-2xl z-10 max-h-[90vh] overflow-y-auto"
             >
               <button
                 onClick={() => setActiveModal(null)}
                 aria-label="Cerrar modal"
-                className="absolute top-6 right-6 p-2 rounded-full bg-white/5 border border-white/10 text-zinc-400 hover:text-white cursor-pointer"
+                className="absolute top-6 right-6 p-2 rounded-full bg-white/5 border border-white/10 text-zinc-400 hover:text-white cursor-pointer transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
 
               <div className="flex items-center gap-2 mb-4">
-                <span className="text-[10px] font-mono-tech uppercase tracking-widest px-3 py-1 rounded-full bg-cyan-400/10 border border-cyan-400/20 text-cyan-300">
+                <span className="text-[10px] font-mono uppercase tracking-widest px-3 py-1 rounded-full bg-[#0066FF]/15 border border-[#0066FF]/30 text-[#00D2FF]">
                   {activeModal.category}
                 </span>
-                <span className="text-xs font-mono-tech text-zinc-400">
+                <span className="text-xs font-mono text-zinc-400">
                   // {activeModal.client}
                 </span>
               </div>
@@ -419,7 +407,7 @@ export const PortfolioSection: React.FC = () => {
               <h3 className="text-2xl sm:text-3xl font-black font-display text-white mb-2">
                 {activeModal.title}
               </h3>
-              <p className="text-cyan-400 text-sm font-medium mb-6">
+              <p className="text-[#00D2FF] text-sm font-medium mb-6">
                 “{activeModal.tagline}”
               </p>
 
@@ -430,33 +418,34 @@ export const PortfolioSection: React.FC = () => {
               {/* Live URL Link highlight banner */}
               <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <span className="text-[10px] font-mono-tech uppercase tracking-widest text-zinc-500 block mb-1">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 block mb-1">
                     ENLACE EN PRODUCCIÓN
                   </span>
                   <a
                     href={activeModal.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-cyan-400 hover:underline font-mono text-sm break-all flex items-center gap-1.5"
+                    className="text-[#00D2FF] hover:underline font-mono text-sm break-all flex items-center gap-1.5"
                   >
                     <span>{activeModal.liveUrl}</span>
                     <ExternalLink className="w-3.5 h-3.5 shrink-0" />
                   </a>
                 </div>
 
-                <a
+                <TasteButton
                   href={activeModal.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-white text-black hover:bg-cyan-400 text-xs font-bold uppercase tracking-wider transition-colors shrink-0"
+                  variant="electric"
+                  size="sm"
+                  icon={<ExternalLink className="w-3.5 h-3.5" />}
                 >
-                  <span>Abrir en vivo</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
+                  Abrir en vivo
+                </TasteButton>
               </div>
 
-              <div className="p-4 rounded-2xl bg-cyan-400/5 border border-cyan-400/15 mb-6">
-                <span className="text-[10px] font-mono-tech uppercase tracking-widest text-cyan-300 block mb-1">
+              <div className="p-4 rounded-2xl bg-[#0066FF]/10 border border-[#0066FF]/25 mb-6">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#00D2FF] block mb-1">
                   RESULTADO DEL PROYECTO
                 </span>
                 <span className="text-base font-semibold text-white">
@@ -465,14 +454,14 @@ export const PortfolioSection: React.FC = () => {
               </div>
 
               <div className="mb-8">
-                <span className="text-[10px] font-mono-tech uppercase tracking-widest text-zinc-400 block mb-3">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 block mb-3">
                   CARACTERÍSTICAS
                 </span>
                 <div className="flex flex-wrap gap-2">
                   {activeModal.tech.map((t, idx) => (
                     <span
                       key={idx}
-                      className="text-xs font-mono-tech px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.08] text-zinc-300"
+                      className="text-xs font-mono px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.08] text-zinc-300"
                     >
                       {t}
                     </span>
@@ -481,22 +470,25 @@ export const PortfolioSection: React.FC = () => {
               </div>
 
               <div className="flex flex-col sm:flex-row items-center gap-3">
-                <a
-                  href={`https://wa.me/50766952340?text=Hola%20Novexa,%20quiero%20un%20proyecto%20similar%20a%20${encodeURIComponent(activeModal.title)}`}
+                <TasteButton
+                  href={`https://wa.me/50766952340?text=Hola%20D.E.K%20NOVACORE,%20quiero%20un%20proyecto%20similar%20a%20${encodeURIComponent(activeModal.title)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-4 rounded-2xl text-center text-xs uppercase tracking-widest font-black bg-cyan-400 text-black hover:bg-white transition-colors block shadow-[0_0_20px_rgba(0,229,255,0.3)]"
+                  variant="primary"
+                  size="lg"
+                  className="w-full sm:flex-1"
                 >
                   Solicitar una web como esta por WhatsApp
-                </a>
+                </TasteButton>
 
-                <button
-                  type="button"
+                <TasteButton
+                  variant="ghost"
+                  size="lg"
                   onClick={() => setActiveModal(null)}
-                  className="w-full sm:w-auto px-6 py-4 rounded-2xl text-center text-xs uppercase tracking-wider font-semibold text-zinc-400 hover:text-white bg-white/[0.04] border border-white/[0.08] transition-colors cursor-pointer"
+                  className="w-full sm:w-auto"
                 >
                   Cerrar
-                </button>
+                </TasteButton>
               </div>
             </motion.div>
           </div>

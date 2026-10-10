@@ -2,22 +2,22 @@
 
 @layer base {
   :root {
-    --bg: #050608;
-    --panel: #090b10;
-    --panel-subtle: #0f121a;
-    --text: #f8fafc;
-    --muted: #8892a4;
-    --accent: #00e5ff;
-    --accent-electric: #0088ff;
-    --border: #161b26;
-    --border-highlight: rgba(0, 229, 255, 0.25);
+    --bg: #07090E;
+    --panel: #0B0D12;
+    --panel-subtle: #121622;
+    --text: #ffffff;
+    --muted: #8c96a8;
+    --accent: #0066FF;
+    --accent-electric: #00D2FF;
+    --border: #181E2C;
+    --border-highlight: rgba(0, 102, 255, 0.4);
   }
 
   html {
     scroll-behavior: smooth;
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #050608;
-    color: #f8fafc;
+    background-color: #07090E;
+    color: #ffffff;
     -webkit-tap-highlight-color: transparent;
     text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
@@ -28,7 +28,7 @@
     overflow-x: hidden;
     width: 100%;
     max-width: 100vw;
-    background-color: #050608;
+    background-color: #07090E;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     touch-action: pan-y;
@@ -39,14 +39,14 @@
     width: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #050608;
+    background: #07090E;
   }
   ::-webkit-scrollbar-thumb {
-    background: #19202e;
+    background: #141A28;
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #2a3449;
+    background: #0066FF;
   }
 
   /* Font utility aliases */
@@ -60,12 +60,12 @@
 
 /* Subtle glow effects */
 .glow-cyan-subtle {
-  box-shadow: 0 0 50px -10px rgba(0, 229, 255, 0.15);
+  box-shadow: 0 0 50px -10px rgba(0, 102, 255, 0.25);
 }
 
 .glow-border {
-  border-color: rgba(0, 229, 255, 0.3);
-  box-shadow: 0 0 25px -5px rgba(0, 229, 255, 0.12);
+  border-color: rgba(0, 102, 255, 0.4);
+  box-shadow: 0 0 25px -5px rgba(0, 102, 255, 0.2);
 }
 
 /* GPU hardware acceleration helper */
