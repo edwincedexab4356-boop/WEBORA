@@ -5,9 +5,11 @@ import { WeboraLogo } from './WeboraLogo';
 import { MagneticButton } from './MagneticButton';
 import { TasteButton } from './TasteButton';
 import { useSoundscape } from '../context/SoundscapeContext';
+import { useSiteMode, SITE_MODES } from '../context/SiteModeContext';
 
 export const Navbar: React.FC = () => {
   const { activateSoundscape, playTick } = useSoundscape();
+  const { activeMode, openPortal, selectMode } = useSiteMode();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -25,10 +27,9 @@ export const Navbar: React.FC = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Manifiesto', href: '#manifiesto' },
-    { name: 'Servicios', href: '#servicios' },
-    { name: 'Portafolio', href: '#portafolio' },
-    { name: 'Resultados', href: '#impacto' },
+    { name: '1. Sistemas', href: '#sistemas', mode: 'sistemas' as const },
+    { name: '2. Webs', href: '#servicios', mode: 'webs' as const },
+    { name: '3. Catálogos', href: '#portafolio', mode: 'catalogos' as const },
     { name: 'Cotizador', href: '#cotizador' },
     { name: 'Contacto', href: '#contacto' },
   ];
@@ -75,8 +76,24 @@ export const Navbar: React.FC = () => {
             ))}
           </nav>
 
-          {/* Desktop Actions: Instagram & CTA */}
+          {/* Desktop Actions: Mode Switcher, Instagram & CTA */}
           <div className="hidden lg:flex items-center gap-3 xl:gap-4">
+            {/* Mode Switcher Pill */}
+            <button
+              type="button"
+              onClick={() => {
+                activateSoundscape();
+                playTick();
+                openPortal();
+              }}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.1] hover:border-[#0066FF] text-[10px] font-mono-tech text-zinc-300 hover:text-white transition-all cursor-pointer group"
+              title="Cambiar categoría de soluciones"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00D2FF] group-hover:scale-125 transition-transform" />
+              <span>Modo: <strong className="text-white">{SITE_MODES[activeMode]?.shortLabel || 'Todo'}</strong></span>
+              <span className="text-[9px] px-1.5 py-0.5 rounded bg-white/[0.06] text-zinc-400 group-hover:text-[#00D2FF]">CAMBIAR</span>
+            </button>
+
             {/* Instagram Link */}
             <a
               href="https://www.instagram.com/d.e.k.novacore/"
@@ -169,12 +186,37 @@ export const Navbar: React.FC = () => {
                 </motion.div>
               ))}
 
+              {/* Change Category Mode button in mobile drawer */}
+              <motion.div
+                initial={{ opacity: 0, x: -16 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3, duration: 0.25 }}
+                className="pt-2"
+              >
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    openPortal();
+                  }}
+                  className="w-full flex items-center justify-between p-3 rounded-xl bg-[#0066FF]/15 border border-[#0066FF]/40 text-white"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#00D2FF]" />
+                    <span className="text-xs font-mono-tech font-bold uppercase">
+                      Cambiar Categoría ({SITE_MODES[activeMode]?.shortLabel || 'Todo'})
+                    </span>
+                  </div>
+                  <span className="text-xs text-[#00D2FF] font-mono-tech">CAMBIAR →</span>
+                </button>
+              </motion.div>
+
               {/* Instagram direct in mobile drawer */}
               <motion.div
                 initial={{ opacity: 0, x: -16 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.35, duration: 0.25 }}
-                className="pt-2"
+                className="pt-1"
               >
                 <a
                   href="https://www.instagram.com/d.e.k.novacore/"

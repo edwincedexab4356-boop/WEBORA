@@ -15,12 +15,13 @@ interface NavSection {
 const SECTIONS: NavSection[] = [
   { id: '#hero', number: '01', name: 'Inicio', label: 'Portada Principal', readTime: '~30s' },
   { id: '#manifiesto', number: '02', name: 'Manifiesto', label: 'Filosofía D.E.K NOVACORE', readTime: '~1.5m' },
-  { id: '#servicios', number: '03', name: 'Servicios', label: 'Capacidades Digitales', readTime: '~2m' },
-  { id: '#portafolio', number: '04', name: 'Portafolio', label: 'Proyectos Selectos', readTime: '~2.5m' },
-  { id: '#impacto', number: '05', name: 'Resultados', label: 'Métricas Reales', readTime: '~1.5m' },
-  { id: '#proceso', number: '06', name: 'Proceso', label: 'Metodología Ágil', readTime: '~1.5m' },
-  { id: '#cotizador', number: '07', name: 'Cotizador', label: 'Simulador de Costos', readTime: '~1.5m' },
-  { id: '#contacto', number: '08', name: 'Contacto', label: 'Iniciar Proyecto', readTime: '~45s' },
+  { id: '#sistemas', number: '03', name: '1. Sistemas', label: 'Inventario & POS', readTime: '~2m' },
+  { id: '#servicios', number: '04', name: '2. Webs', label: 'Páginas Web para Negocios', readTime: '~2m' },
+  { id: '#portafolio', number: '05', name: '3. Catálogos', label: 'Catálogos WhatsApp', readTime: '~2.5m' },
+  { id: '#impacto', number: '06', name: 'Resultados', label: 'Métricas Reales', readTime: '~1.5m' },
+  { id: '#proceso', number: '07', name: 'Proceso', label: 'Metodología Ágil', readTime: '~1.5m' },
+  { id: '#cotizador', number: '08', name: 'Cotizador', label: 'Simulador de Costos', readTime: '~1.5m' },
+  { id: '#contacto', number: '09', name: 'Contacto', label: 'Iniciar Proyecto', readTime: '~45s' },
 ];
 
 export const DotNavigationSidebar: React.FC = () => {

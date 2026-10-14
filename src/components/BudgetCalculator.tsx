@@ -4,11 +4,13 @@ import { MagneticButton } from './MagneticButton';
 import { TasteButton } from './TasteButton';
 import { useSoundscape } from '../context/SoundscapeContext';
 import { useWhatsAppModal } from '../context/WhatsAppModalContext';
+import { useSiteMode } from '../context/SiteModeContext';
 import { SectionProgressIndicator } from './SectionProgressIndicator';
 
 interface SolutionOption {
   id: string;
   name: string;
+  category: 'sistemas' | 'webs' | 'catalogos';
   badge: string;
   deliveryDays: string;
   basePrice: number;
@@ -18,27 +20,48 @@ interface SolutionOption {
 const SOLUTIONS: SolutionOption[] = [
   {
     id: 'website',
+    category: 'webs',
     name: 'Sitio Web para Negocio / Landing Page',
-    badge: 'Presencia Digital',
+    badge: 'Páginas Web',
     deliveryDays: '5 a 8 días hábiles',
     basePrice: 190,
     description: 'Diseño limpio y moderno, adaptado al 100% a celulares y tablets, con botones directos a tu WhatsApp (66952340) y carga ultra rápida.'
   },
   {
     id: 'catalog',
+    category: 'catalogos',
     name: 'Catálogo Digital + Pedidos WhatsApp',
-    badge: 'El Más Solicitado',
+    badge: 'Catálogos Digitales',
     deliveryDays: '8 a 12 días hábiles',
     basePrice: 280,
     description: 'Catálogo interactivo con fotos de tus productos, categorías, selector de variantes y carrito que envía el pedido listo a tu WhatsApp.'
   },
   {
-    id: 'system',
-    name: 'Sitio Web Completo / Tienda Online',
-    badge: 'Solución Integral',
-    deliveryDays: '14 a 20 días hábiles',
-    basePrice: 450,
-    description: 'Plataforma completa de múltiples secciones, catálogo extendido o reservas, optimizada para buscadores y máxima conversión.'
+    id: 'inventory_system',
+    category: 'sistemas',
+    name: 'Sistema de Inventario & Control Esencial',
+    badge: 'Sistemas a Medida',
+    deliveryDays: '8 a 12 días hábiles',
+    basePrice: 390,
+    description: 'Software en la nube para controlar stock en tiempo real, entradas, salidas, alertas de bajo stock y 2 usuarios.'
+  },
+  {
+    id: 'pos_system',
+    category: 'sistemas',
+    name: 'Sistema POS & Gestión Comercial Pro',
+    badge: 'Sistemas a Medida',
+    deliveryDays: '12 a 16 días hábiles',
+    basePrice: 580,
+    description: 'Punto de venta rápido, corte de caja diario, emisión de recibos digitales por WhatsApp, clientes y reportes de ganancias.'
+  },
+  {
+    id: 'enterprise_system',
+    category: 'sistemas',
+    name: 'Sistema ERP Multi-Sucursal Avanzado',
+    badge: 'Sistemas a Medida',
+    deliveryDays: '18 a 25 días hábiles',
+    basePrice: 850,
+    description: 'Gestión de múltiples tiendas o bodegas sincronizadas, transferencias de mercancía, roles avanzados y analíticas.'
   }
 ];
 
@@ -72,12 +95,30 @@ interface AddonOption {
 export const BudgetCalculator: React.FC = () => {
   const { playTick } = useSoundscape();
   const { openConsultation } = useWhatsAppModal();
+  const { activeMode } = useSiteMode();
   const [selectedSolution, setSelectedSolution] = useState<string>('website');
+  const [solutionCategoryFilter, setSolutionCategoryFilter] = useState<string>('all');
   const [selectedDomainExt, setSelectedDomainExt] = useState<string>('.store');
   const [selectedAddons, setSelectedAddons] = useState<string[]>(['cloud_infra']);
   const [clientName, setClientName] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [customSpecs, setCustomSpecs] = useState('');
+
+  // Sync with activeMode when user selected a category from initial loading portal
+  React.useEffect(() => {
+    if (activeMode === 'sistemas') {
+      setSelectedSolution('inventory_system');
+      setSolutionCategoryFilter('sistemas');
+    } else if (activeMode === 'catalogos') {
+      setSelectedSolution('catalog');
+      setSolutionCategoryFilter('catalogos');
+    } else if (activeMode === 'webs') {
+      setSelectedSolution('website');
+      setSolutionCategoryFilter('webs');
+    } else {
+      setSolutionCategoryFilter('all');
+    }
+  }, [activeMode]);
 
   const currentDomainInfo = useMemo(() => {
     return CHEAP_DOMAINS.find(d => d.ext === selectedDomainExt) || CHEAP_DOMAINS[0];
@@ -216,12 +257,45 @@ export const BudgetCalculator: React.FC = () => {
             
             {/* Step 1: Solution */}
             <div>
-              <span className="text-[11px] font-mono-tech uppercase tracking-[0.25em] text-[#00D2FF] block mb-3 font-semibold">
-                01 // ELIGE EL PLAN PARA TU NEGOCIO
-              </span>
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="text-[11px] font-mono-tech uppercase tracking-[0.25em] text-[#00D2FF] font-semibold">
+                  01 // ELIGE EL PLAN PARA TU NEGOCIO
+                </span>
+
+                {/* Solution Category Filter Tabs */}
+                <div className="flex items-center gap-1 p-1 bg-black/60 rounded-xl border border-white/[0.08] text-[10px] font-mono-tech">
+                  {[
+                    { id: 'all', label: 'Todos' },
+                    { id: 'sistemas', label: '1. Sistemas' },
+                    { id: 'webs', label: '2. Webs' },
+                    { id: 'catalogos', label: '3. Catálogos' },
+                  ].map(tab => (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => {
+                        playTick();
+                        setSolutionCategoryFilter(tab.id);
+                        // If selecting a category and current solution is not in it, switch to first item
+                        if (tab.id !== 'all') {
+                          const firstMatch = SOLUTIONS.find(s => s.category === tab.id);
+                          if (firstMatch) setSelectedSolution(firstMatch.id);
+                        }
+                      }}
+                      className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                        solutionCategoryFilter === tab.id
+                          ? 'bg-[#0066FF] text-white font-bold shadow-[0_0_8px_rgba(0,102,255,0.4)]'
+                          : 'text-zinc-400 hover:text-white'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
               <div className="space-y-3">
-                {SOLUTIONS.map(sol => {
+                {SOLUTIONS.filter(sol => solutionCategoryFilter === 'all' || sol.category === solutionCategoryFilter).map(sol => {
                   const isSelected = selectedSolution === sol.id;
                   return (
                     <div

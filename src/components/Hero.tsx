@@ -113,10 +113,45 @@ export const Hero: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
-          className="text-zinc-400 text-sm sm:text-base md:text-lg lg:text-xl font-normal leading-relaxed max-w-[680px] mb-8 sm:mb-12 text-balance px-2"
+          className="text-zinc-400 text-sm sm:text-base md:text-lg lg:text-xl font-normal leading-relaxed max-w-[720px] mb-8 text-balance px-2"
         >
-          Creamos páginas web rápidas, catálogos interactivos con pedidos a WhatsApp y tiendas virtuales accesibles para negocios que quieren crecer y proyectar máxima confianza.
+          Desarrollamos <strong className="text-white font-medium">sistemas de administración e inventario para negocios</strong>, <strong className="text-white font-medium">páginas web</strong> de alta conversión y <strong className="text-white font-medium">catálogos digitales</strong> interactivos con pedidos directos a WhatsApp. Precios accesibles y transparentes.
         </motion.p>
+
+        {/* 3 Main Division Quick-Jump Interactive Badges */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.85 }}
+          className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-8"
+        >
+          <a
+            href="#sistemas"
+            className="px-3.5 py-1.5 rounded-full bg-[#0B0F17] border border-[#0066FF]/40 hover:border-[#00D2FF] text-xs font-mono-tech text-white flex items-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-[0_0_12px_rgba(0,102,255,0.2)]"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-[#00D2FF]" />
+            <span>1. Sistemas a Medida (Inventario & POS)</span>
+            <span className="text-[#00D2FF] font-bold">Desde $390</span>
+          </a>
+
+          <a
+            href="#servicios"
+            className="px-3.5 py-1.5 rounded-full bg-[#0B0F17] border border-white/[0.1] hover:border-[#0066FF] text-xs font-mono-tech text-zinc-300 hover:text-white flex items-center gap-2 hover:scale-105 active:scale-95 transition-all"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />
+            <span>2. Páginas Web</span>
+            <span className="text-white font-bold">Desde $190</span>
+          </a>
+
+          <a
+            href="#portafolio"
+            className="px-3.5 py-1.5 rounded-full bg-[#0B0F17] border border-white/[0.1] hover:border-[#00D2FF] text-xs font-mono-tech text-zinc-300 hover:text-white flex items-center gap-2 hover:scale-105 active:scale-95 transition-all"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-[#00D2FF]" />
+            <span>3. Catálogos WhatsApp</span>
+            <span className="text-[#00D2FF] font-bold">Desde $280</span>
+          </a>
+        </motion.div>
 
         {/* Emil Kowalski / Taste Motion Kinetic Buttons */}
         <motion.div

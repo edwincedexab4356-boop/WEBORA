@@ -20,10 +20,11 @@ import { StickyReadingProgressBar } from './components/StickyReadingProgressBar'
 import { SoundscapeProvider } from './context/SoundscapeContext';
 import { WhatsAppModalProvider } from './context/WhatsAppModalContext';
 import { WhatsAppConsultModal } from './components/WhatsAppConsultModal';
+import { SiteModeProvider } from './context/SiteModeContext';
+import { InitialPortalLoader } from './components/InitialPortalLoader';
+import { CustomSystemsSection } from './components/CustomSystemsSection';
 
 export default function App() {
-  const [preloaderFinished, setPreloaderFinished] = useState(false);
-
   // Top Scroll Progress Line in electric cyan
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -33,17 +34,14 @@ export default function App() {
   });
 
   return (
-    <SoundscapeProvider>
-      <WhatsAppModalProvider>
-        <CinematicTransitionLayer>
-          <div className="min-h-screen bg-[#07090E] text-white selection:bg-[#0066FF] selection:text-white font-sans relative overflow-x-hidden">
-            
-            {/* 1. Preloader (max 1.4s, unmounts automatically) */}
-            <AnimatePresence>
-              {!preloaderFinished && (
-                <Preloader onComplete={() => setPreloaderFinished(true)} />
-              )}
-            </AnimatePresence>
+    <SiteModeProvider>
+      <SoundscapeProvider>
+        <WhatsAppModalProvider>
+          <CinematicTransitionLayer>
+            <div className="min-h-screen bg-[#07090E] text-white selection:bg-[#0066FF] selection:text-white font-sans relative overflow-x-hidden">
+              
+              {/* 1. Initial Interactive Portal Loader (1 Sistemas, 2 Webs, 3 Catálogos, 4 Todo) */}
+              <InitialPortalLoader />
 
             {/* 2. Minimalist Desktop Custom Cursor */}
             <CustomCursor />
@@ -81,36 +79,53 @@ export default function App() {
               {/* Chapter 02: Big Line-by-Line Kinetic Manifesto */}
               <AnimatedManifesto />
 
-              {/* Chapter 03: Services: 3 Large 3D Tilt Cards with Spotlight */}
-              <ServicesSection />
+              {/* Section Transition: 02 -> 03: 1. Sistemas a Medida */}
+              <CinematicSectionMask
+                fromChapter="02"
+                toChapter="03"
+                title="1. Sistemas a Medida"
+              />
 
-              {/* Section Transition: 03 -> 04 */}
+              {/* Chapter 03: Sistemas a Medida (Administración, Inventario & POS) */}
+              <CustomSystemsSection />
+
+              {/* Section Transition: 03 -> 04: 2. Páginas Web */}
               <CinematicSectionMask
                 fromChapter="03"
                 toChapter="04"
-                title="Portafolio"
+                title="2. Páginas Web"
               />
 
-              {/* Chapter 04: Portfolio: Cinematic Large Cards with Hover Zoom & Specs */}
+              {/* Chapter 04: Services: 2. Páginas Web & Soluciones Digitales */}
+              <ServicesSection />
+
+              {/* Section Transition: 04 -> 05: 3. Catálogos Digitales */}
+              <CinematicSectionMask
+                fromChapter="04"
+                toChapter="05"
+                title="3. Catálogos"
+              />
+
+              {/* Chapter 05: Portfolio: 3. Catálogos Digitales con Pedidos WhatsApp */}
               <PortfolioSection />
 
-              {/* Chapter 05: Testimonials: Infinite Horizontal Outcome Carousel */}
+              {/* Chapter 06: Testimonials: Infinite Horizontal Outcome Carousel */}
               <TestimonialsCarousel />
 
-              {/* Chapter 06: Work Process Methodology */}
+              {/* Chapter 07: Work Process Methodology */}
               <WorkProcess />
 
-              {/* Section Transition: 06 -> 07 */}
+              {/* Section Transition: 07 -> 08 */}
               <CinematicSectionMask
-                fromChapter="06"
-                toChapter="07"
+                fromChapter="07"
+                toChapter="08"
                 title="Estimación"
               />
 
-              {/* Chapter 07: Real-time Project Budget Calculator */}
+              {/* Chapter 08: Real-time Project Budget Calculator */}
               <BudgetCalculator />
 
-              {/* Chapter 08: Contact & WhatsApp Connection */}
+              {/* Chapter 09: Contact & WhatsApp Connection */}
               <ContactSection />
             </main>
 
@@ -123,5 +138,6 @@ export default function App() {
         </CinematicTransitionLayer>
       </WhatsAppModalProvider>
     </SoundscapeProvider>
+  </SiteModeProvider>
   );
 }
