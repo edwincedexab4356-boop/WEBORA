@@ -42,7 +42,7 @@ const SYSTEM_PLANS: SystemPlan[] = [
     name: 'Sistema de Inventario & Control Esencial',
     subtitle: 'Para pequeños comercios y bodegas',
     badge: 'Inventario Rápido',
-    price: 390,
+    price: 220,
     deliveryTime: '8 a 12 días hábiles',
     description: 'Control exacto de existencias para saber siempre qué tienes en stock, qué se está agotando y qué debes reponer.',
     features: [
@@ -53,7 +53,7 @@ const SYSTEM_PLANS: SystemPlan[] = [
       'Acceso en la nube para 2 usuarios (dueño y encargado)',
       'Base de datos segura con respaldo diario automático'
     ],
-    specsForQuote: 'Sistema de Inventario Esencial ($390 USD): Control de stock en tiempo real, alertas de bajo inventario, 2 usuarios en la nube.'
+    specsForQuote: 'Sistema de Inventario Esencial ($220 USD): Control de stock en tiempo real, alertas de bajo inventario, 2 usuarios en la nube.'
   },
   {
     id: 'pro_pos',
@@ -61,8 +61,8 @@ const SYSTEM_PLANS: SystemPlan[] = [
     subtitle: 'El más solicitado para negocios activos',
     badge: 'El Más Recomendado',
     highlight: true,
-    price: 580,
-    deliveryTime: '12 a 16 días hábiles',
+    price: 340,
+    deliveryTime: '10 a 14 días hábiles',
     description: 'Todo el control de inventario más punto de venta rápido para cobrar en mostrador, corte de caja diario y recibos a WhatsApp.',
     features: [
       'Todo lo del plan Esencial incluido',
@@ -73,15 +73,15 @@ const SYSTEM_PLANS: SystemPlan[] = [
       'Reportes automáticos de ventas y ganancias netas del día, semana y mes',
       '5 cuentas de usuario con roles de cajero y administrador'
     ],
-    specsForQuote: 'Sistema POS & Gestión Comercial Pro ($580 USD): Punto de venta, corte de caja diario, inventario en vivo, recibos digitales a WhatsApp, 5 usuarios.'
+    specsForQuote: 'Sistema POS & Gestión Comercial Pro ($340 USD): Punto de venta, corte de caja diario, inventario en vivo, recibos digitales a WhatsApp, 5 usuarios.'
   },
   {
     id: 'enterprise_multistore',
     name: 'Sistema ERP & Multi-Sucursal Avanzado',
     subtitle: 'Para empresas en crecimiento con múltiples tiendas',
     badge: 'Solución Integral',
-    price: 850,
-    deliveryTime: '18 a 25 días hábiles',
+    price: 490,
+    deliveryTime: '15 a 20 días hábiles',
     description: 'Gestión centralizada para controlar varias tiendas o bodegas, transferencias de mercancía, analíticas avanzadas y roles.',
     features: [
       'Todo lo del plan Pro incluido',
@@ -92,7 +92,7 @@ const SYSTEM_PLANS: SystemPlan[] = [
       'Exportación completa de reportes contables a Excel y PDF',
       'Capacitación inicial y soporte técnico prioritario'
     ],
-    specsForQuote: 'Sistema ERP & Multi-Sucursal ($850 USD): Múltiples tiendas sincronizadas, transferencias de stock, roles avanzados, analíticas completas.'
+    specsForQuote: 'Sistema ERP & Multi-Sucursal ($490 USD): Múltiples tiendas sincronizadas, transferencias de stock, roles avanzados, analíticas completas.'
   }
 ];
 

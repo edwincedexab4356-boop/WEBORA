@@ -23,8 +23,8 @@ const SOLUTIONS: SolutionOption[] = [
     category: 'webs',
     name: 'Sitio Web para Negocio / Landing Page',
     badge: 'Páginas Web',
-    deliveryDays: '5 a 8 días hábiles',
-    basePrice: 190,
+    deliveryDays: '4 a 7 días hábiles',
+    basePrice: 95,
     description: 'Diseño limpio y moderno, adaptado al 100% a celulares y tablets, con botones directos a tu WhatsApp (66952340) y carga ultra rápida.'
   },
   {
@@ -32,8 +32,8 @@ const SOLUTIONS: SolutionOption[] = [
     category: 'catalogos',
     name: 'Catálogo Digital + Pedidos WhatsApp',
     badge: 'Catálogos Digitales',
-    deliveryDays: '8 a 12 días hábiles',
-    basePrice: 280,
+    deliveryDays: '7 a 10 días hábiles',
+    basePrice: 160,
     description: 'Catálogo interactivo con fotos de tus productos, categorías, selector de variantes y carrito que envía el pedido listo a tu WhatsApp.'
   },
   {
@@ -42,7 +42,7 @@ const SOLUTIONS: SolutionOption[] = [
     name: 'Sistema de Inventario & Control Esencial',
     badge: 'Sistemas a Medida',
     deliveryDays: '8 a 12 días hábiles',
-    basePrice: 390,
+    basePrice: 220,
     description: 'Software en la nube para controlar stock en tiempo real, entradas, salidas, alertas de bajo stock y 2 usuarios.'
   },
   {
@@ -50,8 +50,8 @@ const SOLUTIONS: SolutionOption[] = [
     category: 'sistemas',
     name: 'Sistema POS & Gestión Comercial Pro',
     badge: 'Sistemas a Medida',
-    deliveryDays: '12 a 16 días hábiles',
-    basePrice: 580,
+    deliveryDays: '10 a 14 días hábiles',
+    basePrice: 340,
     description: 'Punto de venta rápido, corte de caja diario, emisión de recibos digitales por WhatsApp, clientes y reportes de ganancias.'
   },
   {
@@ -59,8 +59,8 @@ const SOLUTIONS: SolutionOption[] = [
     category: 'sistemas',
     name: 'Sistema ERP Multi-Sucursal Avanzado',
     badge: 'Sistemas a Medida',
-    deliveryDays: '18 a 25 días hábiles',
-    basePrice: 850,
+    deliveryDays: '15 a 20 días hábiles',
+    basePrice: 490,
     description: 'Gestión de múltiples tiendas o bodegas sincronizadas, transferencias de mercancía, roles avanzados y analíticas.'
   }
 ];
@@ -135,25 +135,25 @@ export const BudgetCalculator: React.FC = () => {
     {
       id: 'cloud_infra',
       label: `Dominio Económico (${selectedDomainExt}) + Hosting Rápido (1 año)`,
-      price: 35,
+      price: 20,
       description: `Tu dominio propio con extensión económica, servidores en la nube de alta velocidad y certificado SSL seguro.`
     },
     {
       id: 'corporate_mail',
       label: 'Correo Profesional Oficial',
-      price: 25,
+      price: 15,
       description: `Buzón formal vinculado a tu web (ej. contacto@${previewDomain}).`
     },
     {
       id: 'seo_engine',
       label: 'Posicionamiento en Google Maps & Búsquedas',
-      price: 35,
+      price: 20,
       description: 'Configuración para que clientes locales encuentren tu negocio fácilmente en Google.'
     },
     {
       id: 'payments',
       label: 'Pasarela de Pagos con Tarjeta',
-      price: 60,
+      price: 35,
       description: 'Integración para aceptar cobros en línea de forma segura con tarjeta de crédito o débito.'
     }
   ], [selectedDomainExt, previewDomain]);

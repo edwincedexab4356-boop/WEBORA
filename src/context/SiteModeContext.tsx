@@ -23,8 +23,8 @@ export const SITE_MODES: Record<SiteMode, ModeMeta> = {
     shortLabel: 'Sistemas',
     tagline: 'Administración de Negocios, Inventario, Punto de Venta & Control',
     description: 'Software en la nube para gestionar tu stock de productos, caja diaria, clientes y reportes de ganancias.',
-    priceFrom: '$390 USD',
-    priceNote: 'Planes desde $390 hasta $850 USD',
+    priceFrom: '$220 USD',
+    priceNote: 'Planes desde $220 hasta $490 USD',
     targetAnchor: '#sistemas',
     keywords: ['Inventario en vivo', 'Punto de Venta POS', 'Control de Stock', 'Reportes de Ventas']
   },
@@ -35,8 +35,8 @@ export const SITE_MODES: Record<SiteMode, ModeMeta> = {
     shortLabel: 'Webs',
     tagline: 'Sitios Web para Negocios, Landing Pages & Presencia Digital',
     description: 'Páginas ultra rápidas, adaptadas al 100% a celulares con botones de contacto directo y SEO para Google.',
-    priceFrom: '$190 USD',
-    priceNote: 'Planes desde $190 hasta $320 USD',
+    priceFrom: '$95 USD',
+    priceNote: 'Planes desde $95 hasta $190 USD',
     targetAnchor: '#servicios',
     keywords: ['Landing Pages', 'Sitios Corporativos', 'Carga Ultra Rápida', 'Dominio Incluido']
   },
@@ -47,8 +47,8 @@ export const SITE_MODES: Record<SiteMode, ModeMeta> = {
     shortLabel: 'Catálogos',
     tagline: 'Catálogos Interactivos con Fotos HD & Checkout a WhatsApp',
     description: 'Vitrina digital para pastelerías, tiendas de ropa, productos y comida con envío de pedido directo a WhatsApp.',
-    priceFrom: '$280 USD',
-    priceNote: 'Planes desde $280 hasta $360 USD',
+    priceFrom: '$160 USD',
+    priceNote: 'Planes desde $160 hasta $260 USD',
     targetAnchor: '#portafolio',
     keywords: ['Pedidos WhatsApp', 'Buscador Instantáneo', 'Galería HD', 'Carrito Móvil']
   },

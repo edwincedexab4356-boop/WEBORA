@@ -9,7 +9,7 @@ export const ContactSection: React.FC = () => {
   const { openConsultation } = useWhatsAppModal();
   const [name, setName] = useState('');
   const [company, setCompany] = useState('');
-  const [service, setService] = useState('Sitio Web para Negocio ($190 USD)');
+  const [service, setService] = useState('Sitio Web para Negocio ($95 USD)');
   const [details, setDetails] = useState('');
   const [sentSuccess, setSentSuccess] = useState(false);
 
@@ -187,9 +187,10 @@ export const ContactSection: React.FC = () => {
                   onChange={e => setService(e.target.value)}
                   className="w-full bg-[#07090E] border border-white/[0.1] rounded-xl px-4 py-3 sm:py-2.5 text-base sm:text-xs text-white focus:outline-none focus:border-[#0066FF] transition-colors cursor-pointer"
                 >
-                  <option value="Sitio Web para Negocio ($190 USD)">Sitio Web para Negocio / Landing Page ($190 USD)</option>
-                  <option value="Catálogo Digital WhatsApp ($280 USD)">Catálogo Digital con Pedidos WhatsApp ($280 USD)</option>
-                  <option value="Sitio Completo / Tienda Online ($450 USD)">Sitio Web Completo / Tienda Online ($450 USD)</option>
+                  <option value="Sitio Web para Negocio ($95 USD)">Sitio Web para Negocio / Landing Page ($95 USD)</option>
+                  <option value="Catálogo Digital WhatsApp ($160 USD)">Catálogo Digital con Pedidos WhatsApp ($160 USD)</option>
+                  <option value="Sistema de Inventario & POS ($220 USD)">Sistema de Inventario & Punto de Venta ($220 USD)</option>
+                  <option value="Sistema ERP Multi-Sucursal ($490 USD)">Sistema ERP Multi-Sucursal ($490 USD)</option>
                   <option value="Rediseño de Web Actual">Modernización de mi página actual</option>
                   <option value="Consulta Especial">Otra consulta o proyecto a medida</option>
                 </select>

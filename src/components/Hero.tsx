@@ -131,7 +131,7 @@ export const Hero: React.FC = () => {
           >
             <span className="w-1.5 h-1.5 rounded-full bg-[#00D2FF]" />
             <span>1. Sistemas a Medida (Inventario & POS)</span>
-            <span className="text-[#00D2FF] font-bold">Desde $390</span>
+            <span className="text-[#00D2FF] font-bold">Desde $220</span>
           </a>
 
           <a
@@ -140,7 +140,7 @@ export const Hero: React.FC = () => {
           >
             <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />
             <span>2. Páginas Web</span>
-            <span className="text-white font-bold">Desde $190</span>
+            <span className="text-white font-bold">Desde $95</span>
           </a>
 
           <a
@@ -149,7 +149,7 @@ export const Hero: React.FC = () => {
           >
             <span className="w-1.5 h-1.5 rounded-full bg-[#00D2FF]" />
             <span>3. Catálogos WhatsApp</span>
-            <span className="text-[#00D2FF] font-bold">Desde $280</span>
+            <span className="text-[#00D2FF] font-bold">Desde $160</span>
           </a>
         </motion.div>
 
